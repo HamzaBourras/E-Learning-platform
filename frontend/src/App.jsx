@@ -1,18 +1,42 @@
-// import LayoutPage from "./layout/LayoutPage";
-import Background from './assets/images/lines.png';
-import { MyRoutes } from './router/routes';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import GuestLayout from './layouts/GuestLayout';
+import AuthLayout from './layouts/AuthLayout';
 
-function App() {
+import StudentLayout from './layouts/User/StudentLayout';
+import ProfessorLayout from './layouts/User/ProfessorLayout';
+import DirectorLayout from './layouts/User/DirectorLayout';
+import NotFound from './layouts/User/NotFound';
+import DirectorDashboard from './pages/director/DirectorDashboard';
+import ManageTeachers from './pages/director/ManageTeachers';
+
+const App = () => {
   return (
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<GuestLayout />} />
 
-    <div className={`relative min-h-screen min-w-screen bg-slate-200 transition-all delay-100`}>
-      <img src={Background} className="invert opacity- absolute z-0 w-full h-full object-cover" alt="" />
-        <MyRoutes />
-      {/* <LayoutPage>
-      </LayoutPage> */}
-    </div>
+          <Route path="/auth" element={<AuthLayout />}>
+            {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
+            <Route path="student" element={<StudentLayout />} />
+            
+            {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
+            <Route path="professor" element={<ProfessorLayout />} />
 
-  )
-}
+            {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
 
-export default App
+            <Route path="director" element={<DirectorLayout />} >
+              <Route path='dashboard' index element={<DirectorDashboard/>} />
+              <Route path='teachers' element={<ManageTeachers/>} />
+            </Route>
+          </Route>
+
+          <Route path='*' element={<NotFound/>} />
+
+        </Routes>
+      </Router>
+    </>
+  );
+};
+
+export default App;

@@ -1,11 +1,8 @@
 import { Input, Divider, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar } from "@nextui-org/react";
-import { useDispatch } from 'react-redux'
-import { logout } from "../../state/features/auth/authSlice";
 
 
 const Navigationbar = () => {
 
-    const dispatch = useDispatch();
     
     return (
         <div className="lg:ml-3">
@@ -44,7 +41,6 @@ const Navigationbar = () => {
                             <DropdownItem key="configurations">Configurations</DropdownItem>
                             <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
                             <DropdownItem 
-                                onClick={()=>{dispatch(logout())}} 
                                 key="logout" 
                                 color="danger">
                                 Log Out
