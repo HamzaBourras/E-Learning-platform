@@ -9,7 +9,7 @@ const AuthLayout = () => {
     }
 
     return (
-        <div>
+        <div className=''>
             <main>
                 <Outlet />
             </main>

@@ -1,40 +1,50 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
+// layouts
+
 import GuestLayout from './layouts/GuestLayout';
 import AuthLayout from './layouts/AuthLayout';
 
 import StudentLayout from './layouts/User/StudentLayout';
 import ProfessorLayout from './layouts/User/ProfessorLayout';
 import DirectorLayout from './layouts/User/DirectorLayout';
+
+// Not found page
 import NotFound from './layouts/User/NotFound';
+
+// Director pages
 import DirectorDashboard from './pages/director/DirectorDashboard';
-import ManageTeachers from './pages/director/ManageTeachers';
+import ManageProfessors from './pages/director/ManageProfessors';
+import ManageDepartments from './pages/director/ManageDepartments';
+import EditData from './pages/director/EditData';
+
 
 const App = () => {
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<GuestLayout />} />
+          <Routes>
+            <Route path="/" index element={<GuestLayout />} />
 
-          <Route path="/auth" element={<AuthLayout />}>
-            {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
-            <Route path="student" element={<StudentLayout />} />
-            
-            {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
-            <Route path="professor" element={<ProfessorLayout />} />
+            <Route path="/auth" element={<AuthLayout />}>
+              {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
+              <Route path="student" element={<StudentLayout />} />
 
-            {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
+              {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
+              <Route path="professor" element={<ProfessorLayout />} />
 
-            <Route path="director" element={<DirectorLayout />} >
-              <Route path='dashboard' index element={<DirectorDashboard/>} />
-              <Route path='teachers' element={<ManageTeachers/>} />
+              {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
+
+              <Route path="director" element={<DirectorLayout />} >
+                <Route index element={<Navigate to="dashboard" replace />} />
+                <Route path='dashboard' element={<DirectorDashboard />} />
+                <Route path='professors' element={<ManageProfessors />} />
+                <Route path='departments' element={<ManageDepartments />} />
+                <Route path='edit' element={<EditData />} />
+              </Route>
             </Route>
-          </Route>
 
-          <Route path='*' element={<NotFound/>} />
+            <Route path='*' element={<NotFound />} />
 
-        </Routes>
-      </Router>
+          </Routes>
     </>
   );
 };

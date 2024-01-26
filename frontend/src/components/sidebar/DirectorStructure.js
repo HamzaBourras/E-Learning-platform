@@ -1,7 +1,9 @@
 import home from '../../assets/icons/home.svg';
-import profile from '../../assets/icons/profile.svg';
-import settings from '../../assets/icons/settings.svg';
+import department  from '../../assets/icons/department.svg';
+import classes from '../../assets/icons/class.svg';
 import teachers from '../../assets/icons/teachers.svg';
+import sector from '../../assets/icons/sector.svg';
+import accounts from '../../assets/icons/accounts.svg';
 
 const Tabs = [
     {
@@ -11,26 +13,38 @@ const Tabs = [
         path: "/auth/director/dashboard"
     },
     {
-        id: 5,
-        name: "Teachers",
-        icon: teachers,
-        path: "/auth/director/teachers"
-    },
-    {
         id: 2,
-        name: "Profile",
-        icon: profile,
-        path: "/auth/director/profile"
+        name: "Professors",
+        icon: teachers,
+        path: "/auth/director/professors"
     },
     {
         id: 3,
-        name: "Settings",
-        icon: settings,
-        path: "/auth/director/settings"
+        name: "Departments",
+        icon: department,
+        path: "/auth/director/departments"
+    },
+    {
+        id: 4,
+        name: "Sectors",
+        icon: sector,
+        path: "/auth/director/sectors"
+    },
+    {
+        id: 5,
+        name: "Classes",
+        icon: classes,
+        path: "/auth/director/classes",
+    },
+    {
+        id: 6,
+        name: "Accounts",
+        icon: accounts,
+        path: "/auth/director/accounts",
     },
     
-    
-    
 ];
+
+
 
 export default Tabs;

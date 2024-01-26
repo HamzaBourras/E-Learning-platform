@@ -3,9 +3,9 @@ import { Navigate } from 'react-router-dom'
 
 
 const GuestLayout = () => {
-    const user = true;
+    const user = false;
     if (user) {
-        return <Navigate to="/auth" replace/>;
+        return <Navigate to="/auth" replace/>
     }
 
     return (
@@ -49,9 +49,9 @@ const GuestLayout = () => {
                     >
                         Sign in
                     </button>
-                    {/* <div className="text-center">
+                    <div className="text-center">
                         <a href="javascript:void(0)" className="hover:text-indigo-600">Forgot password?</a>
-                    </div> */}
+                    </div>
                 </form>
             </div>
         </main>
