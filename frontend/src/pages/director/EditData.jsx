@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom'
-import EditProfessor from './components/ProfessorForm';
-import EditDepatment from './components/DepatmentForm';
+import ProfessorForm from './components/ProfessorForm';
+import DepatmentForm from './components/DepatmentForm';
+import StudentForm from './components/StudentForm';
 
 
 const EditData = () => {
@@ -11,13 +12,19 @@ const EditData = () => {
         case "professor":
             return (
                 <>
-                    <EditProfessor userId={userId}/>
+                    <ProfessorForm userId={userId}/>
                 </>
             );
         case "department":
             return (
                 <>
-                    <EditDepatment userId={userId}/>
+                    <DepatmentForm userId={userId}/>
+                </>
+            );
+        case "student":
+            return (
+                <>
+                    <StudentForm userId={userId}/>
                 </>
             );
         default:

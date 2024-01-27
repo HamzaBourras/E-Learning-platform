@@ -2,16 +2,16 @@ import { Modal, ModalContent, ModalBody, ModalFooter, Button, useDisclosure } fr
 import { PlusIcon } from '../../components/PlusIcon';
 import TableComponentWithFilter from '../../components/Table/TableComponentWithFilter';
 
-import { teachers, columns } from '../../json/data'
-import EditProfessor from "./components/ProfessorForm";
+import { students, studentColumns } from '../../json/data'
+import ProfessorForm from "./components/ProfessorForm";
 
-const ManageProfessors = () => {
+const ManageStudents = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     return (
         <div className='space-y-4'>
             <div className="flex justify-between items-center">
                 <div>
-                    <h1 className='text-2xl font-bold'>Professors</h1>
+                    <h1 className='text-2xl font-bold'>Students</h1>
                     <p className='text-gray-600'>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, alias.
                     </p>
@@ -29,7 +29,7 @@ const ManageProfessors = () => {
                             {(onClose) => (
                                 <>
                                     <ModalBody>
-                                        <EditProfessor />
+                                        <ProfessorForm />
                                     </ModalBody>
                                     <ModalFooter>
                                         <Button color="danger" variant="light" onPress={onClose}>
@@ -44,11 +44,11 @@ const ManageProfessors = () => {
             </div>
 
             <div>
-                <TableComponentWithFilter data={teachers} columns={columns} user="professor" />
+                <TableComponentWithFilter data={students} columns={studentColumns} user="student" />
             </div>
 
         </div>
     )
 }
 
-export default ManageProfessors
+export default ManageStudents

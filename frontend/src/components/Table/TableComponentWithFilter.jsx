@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
 import { useState, useMemo, useCallback } from "react";
 import { useNavigate } from 'react-router-dom'
 import {
@@ -27,8 +26,6 @@ import { capitalize } from "../../utils/utils";
 
 
 const TableComponentWithFilter = ({ data, columns, user}) => {
-
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const navigate = useNavigate();
 
@@ -211,7 +208,7 @@ const TableComponentWithFilter = ({ data, columns, user}) => {
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span className="text-default-400 text-small">Total {data.length} data</span>
+                    <span className="text-default-400 text-small">Total {data.length} {user}s</span>
                     <label className="flex items-center text-default-400 text-small">
                         Rows per page:
                         <select
@@ -228,6 +225,7 @@ const TableComponentWithFilter = ({ data, columns, user}) => {
         );
     }, [filterValue, visibleColumns, onSearchChange, onRowsPerPageChange, data.length, hasSearchFilter]);
 
+    // -----------------------------for pagination -----------------------------------------
     const bottomContent = useMemo(() => {
         return (
             <div className="py-2 px-2 flex justify-between items-center">
@@ -246,6 +244,8 @@ const TableComponentWithFilter = ({ data, columns, user}) => {
             </div>
         );
     }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
+
+    //-----------------------------------------------------------------------------------------
 
     const classNames = useMemo(() => ({
         wrapper: ["max-h-[382px]", "max-w-3xl"],

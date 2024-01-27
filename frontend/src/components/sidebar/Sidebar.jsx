@@ -3,11 +3,13 @@ import { Link, NavLink } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png'
 import { Divider, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@nextui-org/react";
 
-const Sidebar = ({ tabs }) => {
+const Sidebar = ({ tabs, user }) => {
     return (
         <nav className='fixed flex flex-col gap-3 items-center h-dvh xs:sm:w-20 md:lg:w-48 border-r-1'>
             <div className="h-[10vh] grow-0 flex items-center justify-center px-8">
-                <Link className="flex-none">
+                <Link 
+                    to={`/auth/${user}`}
+                    className="flex-none">
                     <img
                         src={Logo}
                         width={65}

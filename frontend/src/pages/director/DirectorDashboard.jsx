@@ -1,9 +1,9 @@
 const DirectorDashboard = () => {
     return (
         <div>
-            Director Dashboard
+            
         </div>
-    )
+    );
 }
 
-export default DirectorDashboard
+export default DirectorDashboard;

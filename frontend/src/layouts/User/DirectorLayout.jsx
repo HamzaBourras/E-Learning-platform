@@ -7,7 +7,7 @@ const DirectorLayout = () => {
         <div>
             <div className='flex'>
                 <div className='grow-0'>
-                    <Sidebar tabs={DirectorStructre}/>
+                    <Sidebar tabs={DirectorStructre} user="director"/>
                 </div>
                 <div className='grow shrink xs:sm:ml-24 mr-3 md:lg:ml-52 py-3 overflow-hidden'>
                     <Outlet />

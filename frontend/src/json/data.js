@@ -88,6 +88,13 @@ const departments = [
     },
 ];
 
+const depatmentsColumns = [
+
+    { name: "ID", uid: "id", sortable: true },
+    { name: "DEPARTMENT", uid: "department", sortable: true },
+    { name: "ACTIONS", uid: "actions" },
+]
+
 const sectors = [
     {
         id: 1,
@@ -111,11 +118,99 @@ const sectors = [
     },
 ];
 
-const depatmentsColumns = [
 
+const students = [
+    {
+        id: 1,
+        FirstName: "John",
+        LastName: "Doe",
+        department: "Physics",
+        sector: "Astrophysics",
+        email: "johndoe@example.com"
+    },
+    {
+        id: 2,
+        FirstName: "Jane",
+        LastName: "Smith",
+        department: "Chemistry",
+        sector: "Organic Chemistry",
+        email: "janesmith@example.com"
+    },
+    {
+        id: 3,
+        FirstName: "David",
+        LastName: "Johnson",
+        department: "Biology",
+        sector: "Genetics",
+        email: "davidjohnson@example.com"
+    },
+    {
+        id: 4,
+        FirstName: "Sarah",
+        LastName: "Williams",
+        department: "Computer Science",
+        sector: "Artificial Intelligence",
+        email: "sarahwilliams@example.com"
+    },
+    {
+        id: 5,
+        FirstName: "Michael",
+        LastName: "Brown",
+        department: "Engineering",
+        sector: "Mechanical Engineering",
+        email: "michaelbrown@example.com"
+    },
+    {
+        id: 6,
+        FirstName: "Emily",
+        LastName: "Davis",
+        department: "Mathematics",
+        sector: "Statistics",
+        email: "emilydavis@example.com"
+    },
+    {
+        id: 7,
+        FirstName: "Daniel",
+        LastName: "Miller",
+        department: "Physics",
+        sector: "Quantum Physics",
+        email: "danielmiller@example.com"
+    },
+    {
+        id: 8,
+        FirstName: "Olivia",
+        LastName: "Wilson",
+        department: "Chemistry",
+        sector: "Inorganic Chemistry",
+        email: "oliviawilson@example.com"
+    },
+    {
+        id: 9,
+        FirstName: "Andrew",
+        LastName: "Taylor",
+        department: "Biology",
+        sector: "Microbiology",
+        email: "andrewtaylor@example.com"
+    },
+    {
+        id: 10,
+        FirstName: "Sophia",
+        LastName: "Anderson",
+        department: "Computer Science",
+        sector: "Cybersecurity",
+        email: "sophiaanderson@example.com"
+    }
+];
+
+const studentColumns = [
     { name: "ID", uid: "id", sortable: true },
-    { name: "DEPARTMENT", uid: "department", sortable: true },
-    { name: "ACTIONS", uid: "actions" },
-]
+    { name: "First Name", uid: "FirstName", sortable: true },
+    { name: "Last Name", uid: "LastName", sortable: true },
+    { name: "Department", uid: "department", sortable: true },
+    { name: "Sector", uid: "sector", sortable: true },
+    { name: "Email", uid: "email" },
+    { name: "Actions", uid: "actions" },
+];
 
-export { departments, sectors, teachers, columns, depatmentsColumns };
+
+export { departments, sectors, teachers, columns, depatmentsColumns, students, studentColumns };

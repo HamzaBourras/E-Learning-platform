@@ -1,19 +1,16 @@
 import home from '../../assets/icons/home.svg';
-import profile from '../../assets/icons/profile.svg';
-import settings from '../../assets/icons/settings.svg';
 import tasks from '../../assets/icons/tasks.svg';
-import teachers from '../../assets/icons/teachers.svg';
 import books from '../../assets/icons/books.svg';
 
 const Tabs = [
     {
         id: 1,
-        name: "Home",
+        name: "Dashboard",
         icon: home,
     },
     {
         id: 4,
-        name: "Tasks",
+        name: "Sectors",
         icon: tasks,
     },
     {
@@ -22,22 +19,21 @@ const Tabs = [
         icon: books,
     },
     {
-        id: 5,
-        name: "Teachers",
-        icon: teachers,
+        id: 7,
+        name: "Announcments",
+        icon: books,
     },
     {
-        id: 2,
-        name: "Profile",
-        icon: profile,
+        id: 8,
+        name: "Quizzes",
+        icon: books,
     },
     {
-        id: 3,
-        name: "Settings",
-        icon: settings,
+        id: 9,
+        name: "Submissions",
+        icon: books,
     },
-    
-    
+
     
 ];
 
