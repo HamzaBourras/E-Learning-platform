@@ -1,8 +1,9 @@
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import { Modal, ModalContent, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import Btn from "../../components/Button";
 import TableComponentWithFilter from '../../components/Table/TableComponentWithFilter';
 
 import { departments, depatmentsColumns } from '../../json/data'
+import DepartmentForm from './components/DepartmentForm'
 
 
 
@@ -29,20 +30,12 @@ export default function App() {
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <ModalHeader className="flex flex-col gap-1">Add New Professor</ModalHeader>
                                     <ModalBody>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Nullam pulvinar risus non risus hendrerit venenatis.
-                                            Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                                        </p>
+                                        <DepartmentForm/>
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button color="danger" variant="light" onPress={onClose}>
+                                    <Button color="danger" variant="solid" onPress={onClose}>
                                             Close
-                                        </Button>
-                                        <Button color="primary" onPress={onClose}>
-                                            Action
                                         </Button>
                                     </ModalFooter>
                                 </>

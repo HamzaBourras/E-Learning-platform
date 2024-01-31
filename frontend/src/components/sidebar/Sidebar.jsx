@@ -2,12 +2,42 @@
 import { Link, NavLink } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png'
 import { Divider, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@nextui-org/react";
+import classNames from 'classnames';
+
 
 const Sidebar = ({ tabs, user }) => {
+    let color = ''
+    let main = null
+
+    switch (user) {
+        case 'director':
+            color = 'secondary'
+            main = classNames({
+                'hover:bg-purple-400': true
+            })
+            break;
+
+        case 'professor':
+            color = 'warning'
+            main = classNames({
+                'hover:bg-orange-300': true
+            })
+            break;
+
+        case 'student':
+            color = 'danger'
+            main = classNames({
+                'hover:bg-red-400': true
+            })
+            break;
+    }
+
+
+
     return (
         <nav className='fixed flex flex-col gap-3 items-center h-dvh xs:sm:w-20 md:lg:w-52 border-r-1'>
             <div className="h-[10vh] grow-0 flex items-center justify-center px-8">
-                <Link 
+                <Link
                     to={`/auth/${user}`}
                     className="flex-none">
                     <img
@@ -22,7 +52,8 @@ const Sidebar = ({ tabs, user }) => {
                         <NavLink
                             to={i.path}
                             key={i.id}
-                            className={`cursor-pointer mx-2 mb-2 hover:bg-purple-400 group transition-all rounded-lg p-2 flex items-center justify-center space-x-2 `}
+                            className={`cursor-pointer mx-2 mb-2 ${main} group transition-all rounded-lg p-2 flex items-center justify-center space-x-2 `}
+                            
                         >
                             <div className='w-full inline-flex space-x-3'>
                                 <img
@@ -52,7 +83,7 @@ const Sidebar = ({ tabs, user }) => {
                                 isBordered
                                 as="button"
                                 className="transition-transform"
-                                color="secondary"
+                                color={color}
                                 name="Jason Hughes"
                                 size="sm"
                                 src="https://i.pravatar.cc/150?u=a04258114e29026302d"
