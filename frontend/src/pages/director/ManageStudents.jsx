@@ -1,9 +1,9 @@
 import { Modal, ModalContent, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-import { PlusIcon } from '../../components/PlusIcon';
 import TableComponentWithFilter from '../../components/Table/TableComponentWithFilter';
 
 import { students, studentColumns } from '../../json/data'
-import ProfessorForm from "./components/ProfessorForm";
+import StudentForm from "./components/StudentForm";
+import Btn from "../../components/Button";
 
 const ManageStudents = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -17,9 +17,9 @@ const ManageStudents = () => {
                     </p>
                 </div>
                 <div>
-                    <Button onPress={onOpen} className="bg-foreground text-background" endContent={<PlusIcon />} size="sm">
+                    <Btn onOpen={onOpen}>
                         Add New
-                    </Button>
+                    </Btn>
 
                     <Modal
                         size="2xl"
@@ -29,7 +29,7 @@ const ManageStudents = () => {
                             {(onClose) => (
                                 <>
                                     <ModalBody>
-                                        <ProfessorForm />
+                                        <StudentForm />
                                     </ModalBody>
                                     <ModalFooter>
                                         <Button color="danger" variant="light" onPress={onClose}>

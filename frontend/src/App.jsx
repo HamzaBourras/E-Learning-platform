@@ -17,6 +17,8 @@ import ManageProfessors from './pages/director/ManageProfessors';
 import ManageDepartments from './pages/director/ManageDepartments';
 import EditData from './pages/director/EditData';
 import ManageStudents from './pages/director/ManageStudents';
+import ManageSectors from './pages/director/ManageSectors';
+import ManagerProfile from './pages/director/Profile';
 
 
 const App = () => {
@@ -39,8 +41,10 @@ const App = () => {
                 <Route path='dashboard' element={<DirectorDashboard />} />
                 <Route path='professors' element={<ManageProfessors />} />
                 <Route path='departments' element={<ManageDepartments />} />
+                <Route path='sectors' element={<ManageSectors />} />
                 <Route path='students' element={<ManageStudents />} />
                 <Route path='edit' element={<EditData />} />
+                <Route path='profile' element={<ManagerProfile />} />
               </Route>
             </Route>
 

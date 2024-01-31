@@ -1,6 +1,5 @@
 import home from '../../assets/icons/home.svg';
 import department  from '../../assets/icons/department.svg';
-import classes from '../../assets/icons/class.svg';
 import teachers from '../../assets/icons/teachers.svg';
 import sector from '../../assets/icons/sector.svg';
 import accounts from '../../assets/icons/accounts.svg';
@@ -37,18 +36,12 @@ const Tabs = [
         icon: sector,
         path: "/auth/director/sectors"
     },
-    {
-        id: 7,
-        name: "Classes",
-        icon: classes,
-        path: "/auth/director/classes",
-    },
-    {
-        id: 6,
-        name: "Accounts",
-        icon: accounts,
-        path: "/auth/director/accounts",
-    },
+    // {
+    //     id: 6,
+    //     name: "Accounts",
+    //     icon: accounts,
+    //     path: "/auth/director/accounts",
+    // },
     
 ];
 

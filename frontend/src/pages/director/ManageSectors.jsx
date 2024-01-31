@@ -1,18 +1,18 @@
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-import Btn from "../../components/Button";
 import TableComponentWithFilter from '../../components/Table/TableComponentWithFilter';
 
-import { departments, depatmentsColumns } from '../../json/data'
+import Btn from "../../components/Button";
+import { sectors, sectorsColumns } from '../../json/data'
 
 
 
-export default function App() {
+export default function ManageSectors() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     return (
         <div className='space-y-4'>
             <div className="flex justify-between items-center">
                 <div>
-                    <h1 className='text-2xl font-bold'>Departments</h1>
+                    <h1 className='text-2xl font-bold'>Sectors</h1>
                     <p className='text-gray-600'>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, alias.
                     </p>
@@ -29,7 +29,7 @@ export default function App() {
                         <ModalContent>
                             {(onClose) => (
                                 <>
-                                    <ModalHeader className="flex flex-col gap-1">Add New Professor</ModalHeader>
+                                    <ModalHeader className="flex flex-col gap-1">Add New Sector</ModalHeader>
                                     <ModalBody>
                                         <p>
                                             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -53,7 +53,7 @@ export default function App() {
             </div>
 
             <div>
-                <TableComponentWithFilter data={departments} columns={depatmentsColumns} user="department" />
+                <TableComponentWithFilter data={sectors} columns={sectorsColumns}  user="sector"/>
             </div>
 
         </div>

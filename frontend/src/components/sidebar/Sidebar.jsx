@@ -5,7 +5,7 @@ import { Divider, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar 
 
 const Sidebar = ({ tabs, user }) => {
     return (
-        <nav className='fixed flex flex-col gap-3 items-center h-dvh xs:sm:w-20 md:lg:w-48 border-r-1'>
+        <nav className='fixed flex flex-col gap-3 items-center h-dvh xs:sm:w-20 md:lg:w-52 border-r-1'>
             <div className="h-[10vh] grow-0 flex items-center justify-center px-8">
                 <Link 
                     to={`/auth/${user}`}
@@ -55,7 +55,7 @@ const Sidebar = ({ tabs, user }) => {
                                 color="secondary"
                                 name="Jason Hughes"
                                 size="sm"
-                                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                                src="https://i.pravatar.cc/150?u=a04258114e29026302d"
                             />
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -63,12 +63,9 @@ const Sidebar = ({ tabs, user }) => {
                                 <p className="font-semibold">Signed in as</p>
                                 <p className="font-semibold">zoey@example.com</p>
                             </DropdownItem>
-                            <DropdownItem key="settings">My Settings</DropdownItem>
-                            <DropdownItem key="team_settings">Team Settings</DropdownItem>
-                            <DropdownItem key="analytics">Analytics</DropdownItem>
-                            <DropdownItem key="system">System</DropdownItem>
-                            <DropdownItem key="configurations">Configurations</DropdownItem>
-                            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+                            <DropdownItem key="settings">
+                                <Link to={`../${user}/profile`} replace>My Profile</Link>
+                            </DropdownItem>
                             <DropdownItem
                                 key="logout"
                                 color="danger">

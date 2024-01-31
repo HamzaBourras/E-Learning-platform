@@ -273,7 +273,7 @@ const TableComponentWithFilter = ({ data, columns, user}) => {
             }}
             classNames={classNames}
             selectedKeys={selectedKeys}
-            selectionMode="multiple"
+            selectionMode="single"
             sortDescriptor={sortDescriptor}
             topContent={topContent}
             topContentPlacement="outside"

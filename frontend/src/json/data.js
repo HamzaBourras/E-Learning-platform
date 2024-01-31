@@ -1,17 +1,27 @@
+const director = {
+    id: 1,
+    firstname: "Ton",
+    lastname: "Michel",
+    role: "director",
+    email: 'TonyMichel@gmail.com',
+    bio: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor delectus odit numquam laborum necessitatibus. A fugiat excepturi quam,',
+    image: 'https://i.pravatar.cc/150?u=a04258114e29026302d'
+}
+
 const teachers = [
     {
         id: 1,
-        name: "Tony Reichert",
+        firstname: "Tony",
+        lastname: "Reichert",
         sector: "CEO",
         department: "Management",
-        status: "active",
-        age: "29",
         avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
         email: "tony.reichert@example.com",
     },
     {
         id: 2,
-        name: "Zoey Lang",
+        firstname: "Zoey",
+        lastname: "Lang",
         sector: "Tech Lead",
         department: "Development",
         status: "paused",
@@ -21,8 +31,9 @@ const teachers = [
     },
     {
         id: 3,
-        name: "Jane Fisher",
-        sector: "Sr. Dev",
+        firstname: "Jane",
+        lastname: "Fisher",
+        sector: "Computer Science",
         department: "Development",
         status: "active",
         age: "22",
@@ -31,7 +42,8 @@ const teachers = [
     },
     {
         id: 4,
-        name: "William Howard",
+        firstname: "William",
+        lastname: "Howard",
         sector: "C.M.",
         department: "Marketing",
         status: "vacation",
@@ -41,8 +53,9 @@ const teachers = [
     },
     {
         id: 5,
-        name: "Kristen Copper",
-        sector: "S. Manager",
+        firstname: "Kristen",
+        lastname: "Copper",
+        sector: "TM",
         department: "Sales",
         status: "active",
         age: "24",
@@ -51,15 +64,17 @@ const teachers = [
     },
     {
         id: 6,
-        name: "Brian Kim",
+        firstname: "Brian",
+        lastname: "Kim",
         sector: "P. Manager",
         department: "Management",
         age: "29",
         avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
         email: "brian.kim@example.com",
         status: "Active",
-    }
-]
+    },
+];
+
 
 const columns = [
     { name: "ID", uid: "id", sortable: true },
@@ -76,15 +91,19 @@ const columns = [
 const departments = [
     {
         id: 1,
-        department: "Math informatique"
+        department: "Marketing"
     },
     {
         id: 2,
-        department: "Envirment"
+        department: "Management"
     },
     {
         id: 3,
-        department: "Toristique"
+        department: "Sales"
+    },
+    {
+        id: 4,
+        department: "Development"
     },
 ];
 
@@ -98,104 +117,112 @@ const depatmentsColumns = [
 const sectors = [
     {
         id: 1,
-        department_id: 1,
+        department: 'Development',
         sector: "Computer Science"
     },
     {
         id: 2,
-        department_id: 1,
+        department: 'Development',
         sector: "Data Science"
     },
     {
         id: 3,
-        department_id: 3,
+        department: 'Marketing',
         sector: "TM"
     },
     {
         id: 4,
-        department_id: 2,
+        department: 'Management',
         sector: "ER"
     },
 ];
+
+const sectorsColumns = [
+
+    { name: "ID", uid: "id", sortable: true },
+    { name: "SECTOR", uid: "sector", sortable: true },
+    { name: "DEPARTMENT", uid: "department", sortable: true },
+    { name: "ACTIONS", uid: "actions" },
+]
 
 
 const students = [
     {
         id: 1,
-        FirstName: "John",
-        LastName: "Doe",
+        firstname: "John",
+        lastname: "Doe",
         department: "Physics",
         sector: "Astrophysics",
         email: "johndoe@example.com"
     },
     {
         id: 2,
-        FirstName: "Jane",
-        LastName: "Smith",
+        firstname: "Jane",
+        lastname: "Smith",
         department: "Chemistry",
         sector: "Organic Chemistry",
         email: "janesmith@example.com"
     },
     {
         id: 3,
-        FirstName: "David",
-        LastName: "Johnson",
+        firstname: "David",
+        lastname: "Johnson",
         department: "Biology",
         sector: "Genetics",
         email: "davidjohnson@example.com"
     },
     {
         id: 4,
-        FirstName: "Sarah",
-        LastName: "Williams",
+        firstname: "Sarah",
+        lastname: "Williams",
         department: "Computer Science",
         sector: "Artificial Intelligence",
         email: "sarahwilliams@example.com"
     },
     {
         id: 5,
-        FirstName: "Michael",
-        LastName: "Brown",
+        firstname: "Michael",
+        lastname: "Brown",
         department: "Engineering",
         sector: "Mechanical Engineering",
         email: "michaelbrown@example.com"
     },
     {
         id: 6,
-        FirstName: "Emily",
-        LastName: "Davis",
+        firstname: "Emily",
+        lastname: "Davis",
         department: "Mathematics",
         sector: "Statistics",
         email: "emilydavis@example.com"
     },
     {
         id: 7,
-        FirstName: "Daniel",
-        LastName: "Miller",
+        firstname: "Daniel",
+        lastname: "Miller",
         department: "Physics",
         sector: "Quantum Physics",
         email: "danielmiller@example.com"
     },
     {
         id: 8,
-        FirstName: "Olivia",
-        LastName: "Wilson",
+        firstname: "Olivia",
+        lastname: "Wilson",
         department: "Chemistry",
         sector: "Inorganic Chemistry",
         email: "oliviawilson@example.com"
     },
     {
         id: 9,
-        FirstName: "Andrew",
-        LastName: "Taylor",
+        firstname: "Andrew",
+        lastname: "Taylor",
         department: "Biology",
         sector: "Microbiology",
         email: "andrewtaylor@example.com"
     },
     {
         id: 10,
-        FirstName: "Sophia",
-        LastName: "Anderson",
+        firstname: "Sophia",
+        lastname: "Anderson",
         department: "Computer Science",
         sector: "Cybersecurity",
         email: "sophiaanderson@example.com"
@@ -204,8 +231,8 @@ const students = [
 
 const studentColumns = [
     { name: "ID", uid: "id", sortable: true },
-    { name: "First Name", uid: "FirstName", sortable: true },
-    { name: "Last Name", uid: "LastName", sortable: true },
+    { name: "First Name", uid: "firstname", sortable: true },
+    { name: "Last Name", uid: "lastname", sortable: true },
     { name: "Department", uid: "department", sortable: true },
     { name: "Sector", uid: "sector", sortable: true },
     { name: "Email", uid: "email" },
@@ -213,4 +240,4 @@ const studentColumns = [
 ];
 
 
-export { departments, sectors, teachers, columns, depatmentsColumns, students, studentColumns };
+export {director, departments, teachers, columns, depatmentsColumns, students, studentColumns,sectors,sectorsColumns };
