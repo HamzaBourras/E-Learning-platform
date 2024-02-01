@@ -250,7 +250,7 @@ const courses = [
     },
     {
         id: 2,
-        lessonName: 'React.js Fundamentals',
+        lessonName: 'React.js',
         description: 'A comprehensive guide to the fundamentals of React.js for building modern user interfaces.',
         tags: ['web', 'react', 'frontend'],
         filePath: '',

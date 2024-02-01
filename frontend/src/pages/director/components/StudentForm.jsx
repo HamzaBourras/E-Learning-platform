@@ -5,7 +5,7 @@ import { Input, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
 import Back from '../../../assets/icons/back.svg'
 import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
-import { getArrayById } from '../../../utils/utils'
+import { generateUsername, getArrayById } from '../../../utils/utils'
 import { students, departments, sectors } from '../../../json/data'
 
 const ProfessorForm = ({ userId }) => {
@@ -16,10 +16,14 @@ const ProfessorForm = ({ userId }) => {
         'firstname': userId ? student[0]['firstname'] : '',
         'lastname': userId ? student[0]['lastname'] : '',
         'email': userId ? student[0]['email'] : '',
+        'username': userId ? student[0]['username'] : '',
+        'department': userId ? student[0]['department'] : '',
+        'sector': userId ? student[0]['sector'] : '',
     }
 
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey)
 
+    const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department'] );
 
     return (
         <div className='px-1 space-y-2'>
@@ -31,13 +35,11 @@ const ProfessorForm = ({ userId }) => {
             ) : ''
             }
 
-
             {message && <Alert color="success" message={message} />}
 
             <h1 className='text-2xl font-medium'>{userId ? 'Update Student' : 'Create New Student'}</h1>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-1">
-
                     <Input variant="bordered"
                         label="FirstName"
                         value={inputs['firstname']}
@@ -53,29 +55,41 @@ const ProfessorForm = ({ userId }) => {
                     />
 
                     <Input variant="bordered"
-                        className='col-span-2'
+                        // className='col-span-2'
                         label="Email"
                         value={inputs['email']}
                         errorMessage={errors['email']}
                         onChange={(e) => handleChange('email', e.target.value)}
                     />
 
+                    <Input variant="bordered"
+                        label="Username"
+                        readOnly
+                        value={userId ? inputs['username'] : generateUsername(inputs['firstname'], inputs['lastname'])}
+                        errorMessage={errors['username']}
+                        onChange={(e) => handleChange('username', e.target.value)}
+                    />
+
                     <Select
                         items={departments}
                         label="Departments"
                         variant='bordered'
-
+                        value={inputs['department']}
+                        errorMessage={errors['department']}
+                        onChange={(e) => handleChange('department', e.target.value)}
                     >
-                        {(department) => <SelectItem  key={department.id} >{department.department}</SelectItem>}
+                        {(department) => <SelectItem key={department.department} >{department.department}</SelectItem>}
                     </Select>
 
                     <Select
-                        items={sectors}
+                        items={sectorsBelongToDepartment}
                         label="Sectors"
                         variant='bordered'
-
+                        value={inputs['sector']}
+                        errorMessage={errors['sector']}
+                        onChange={(e) => handleChange('sector', e.target.value)}
                     >
-                        {(sector) => <SelectItem key={sector.id}>{sector.sector}</SelectItem>}
+                        {(sector) => <SelectItem key={sector.sector}>{sector.sector}</SelectItem>}
                     </Select>
                 </div>
                 <Button

@@ -4,6 +4,7 @@ import books from '../../assets/icons/books.svg';
 import students from '../../assets/icons/student.svg';
 import announcements from '../../assets/icons/announcements.svg';
 import quizzes from '../../assets/icons/quizzes.svg';
+import meeting from '../../assets/icons/meeting.svg';
 
 const Tabs = [
     {
@@ -13,34 +14,40 @@ const Tabs = [
         path: "/auth/professor/dashboard"
     },
     {
-        id: 6,
+        id: 2,
         name: "Courses",
         icon: books,
         path: "/auth/professor/courses"
     },
     {
-        id: 6,
+        id: 3,
         name: "My Students",
         icon: students,
         path: "/auth/professor/my-students"
     },
     {
-        id: 7,
+        id: 4,
         name: "Announcments",
         icon: announcements,
         path: "/auth/professor/announcements"
     },
     {
-        id: 8,
+        id: 5,
         name: "Quizzes",
         icon: quizzes,
         path: "/auth/professor/quizzes"
     },
     {
-        id: 9,
+        id: 6,
         name: "Submissions",
         icon: tasks,
         path: "/auth/professor/submissions"
+    },
+    {
+        id: 7,
+        name: "Meetings",
+        icon: meeting,
+        path: "/auth/professor/meetings"
     },
 
     

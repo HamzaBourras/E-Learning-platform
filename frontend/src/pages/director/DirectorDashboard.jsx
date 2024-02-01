@@ -2,6 +2,8 @@
 import { countData, getRecentlyAddedData } from "../../utils/utils";
 import { teachers, students, departments, sectors } from '../../json/data'
 import { useState } from "react";
+import ProfessorChart from '../director/components/ProfessorChart';
+
 
 const DirectorDashboard = () => {
     const [teacherCounter, setTeacherCounter] = useState(countData(teachers));
@@ -11,6 +13,12 @@ const DirectorDashboard = () => {
 
     const recentStudents = getRecentlyAddedData(students, "id", 3);
 
+
+    const professorData = {
+        professor1: { assignments: 10, quizzes: 5, courses: 8 },
+        professor2: { assignments: 5, quizzes: 12, courses: 6 },
+        // Add more professors as needed
+    };
 
 
     // --- -- - -- - - - - - - -- - -- - -- - - - - - - - - -- - - - -  -- - - - - - - - - - - - - -- - -- -  - -
@@ -40,6 +48,7 @@ const DirectorDashboard = () => {
             </div>
             <div>
                 <h1>Active Professors</h1>
+                <ProfessorChart/>
             </div>
             <div className="space-y-2">
                 <h1>Recentaly added students</h1>
