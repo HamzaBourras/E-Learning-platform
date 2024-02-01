@@ -1,8 +1,8 @@
 import { useLocation } from 'react-router-dom'
 import ProfessorForm from './components/ProfessorForm';
-import DepatmentForm from './components/DepatmentForm';
+import DepartmentForm from './components/DepartmentForm';
 import StudentForm from './components/StudentForm';
-import SectorForm from './components/SectotForm';
+import SectorForm from './components/SectorForm';
 
 
 const EditData = () => {
@@ -19,7 +19,7 @@ const EditData = () => {
         case "department":
             return (
                 <>
-                    <DepatmentForm userId={userId}/>
+                    <DepartmentForm userId={userId}/>
                 </>
             );
         case "sector":

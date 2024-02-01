@@ -20,37 +20,54 @@ import ManageStudents from './pages/director/ManageStudents';
 import ManageSectors from './pages/director/ManageSectors';
 import ManagerProfile from './pages/director/Profile';
 
+// Professor pages
+import ProfessorDashboard from './pages/professor/ProfessorDashboard';
+import ManageCourses from './pages/professor/ManageCourses';
+import ManageMyStudents from './pages/professor/ManageMyStudents'
+import ManageAnnouncements from './pages/professor/ManageAnnouncements'
+import ManageQuizzes from './pages/professor/ManageQuizzes'
+import ManageSubmissions from './pages/professor/ManageSubmissions'
+
 
 const App = () => {
   return (
     <>
-          <Routes>
-            <Route path="/" index element={<GuestLayout />} />
+      <Routes>
+        <Route path="/" index element={<GuestLayout />} />
 
-            <Route path="/auth" element={<AuthLayout />}>
-              {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
-              <Route path="student" element={<StudentLayout />} />
+        <Route path="/auth" element={<AuthLayout />}>
+          {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
+          <Route path="student" element={<StudentLayout />} />
 
-              {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
-              <Route path="professor" element={<ProfessorLayout />} />
+          {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
+          <Route path="professor" element={<ProfessorLayout />} >
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path='dashboard' element={<ProfessorDashboard/>} />
+            <Route path='courses' element={<ManageCourses/>} />
+            <Route path='my-students' element={<ManageMyStudents/>} />
+            <Route path='announcements' element={<ManageAnnouncements/>} />
+            <Route path='quizzes' element={<ManageQuizzes/>} />
+            <Route path='submissions' element={<ManageSubmissions/>} />
+          </Route>
 
-              {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
 
-              <Route path="director" element={<DirectorLayout />} >
-                <Route index element={<Navigate to="dashboard" replace />} />
-                <Route path='dashboard' element={<DirectorDashboard />} />
-                <Route path='professors' element={<ManageProfessors />} />
-                <Route path='departments' element={<ManageDepartments />} />
-                <Route path='sectors' element={<ManageSectors />} />
-                <Route path='students' element={<ManageStudents />} />
-                <Route path='edit' element={<EditData />} />
-                <Route path='profile' element={<ManagerProfile />} />
-              </Route>
-            </Route>
 
-            <Route path='*' element={<NotFound />} />
+          {/* --------- --  -- - Director Part-- - -- - -- - - - -- - */}
+          <Route path="director" element={<DirectorLayout />} >
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path='dashboard' element={<DirectorDashboard />} />
+            <Route path='professors' element={<ManageProfessors />} />
+            <Route path='departments' element={<ManageDepartments />} />
+            <Route path='sectors' element={<ManageSectors />} />
+            <Route path='students' element={<ManageStudents />} />
+            <Route path='edit' element={<EditData />} />
+            <Route path='profile' element={<ManagerProfile />} />
+          </Route>
+        </Route>
 
-          </Routes>
+        <Route path='*' element={<NotFound />} />
+
+      </Routes>
     </>
   );
 };

@@ -87,7 +87,6 @@ const columns = [
 ];
 
 
-
 const departments = [
     {
         id: 1,
@@ -240,4 +239,88 @@ const studentColumns = [
 ];
 
 
-export {director, departments, teachers, columns, depatmentsColumns, students, studentColumns,sectors,sectorsColumns };
+const courses = [
+    {
+        id: 1,
+        lessonName: 'Laravel',
+        description: 'Discover the power of Laravel, a PHP web application framework, and learn to build elegant and scalable web applications. Dive into features like Eloquent ORM, Blade templating, and more. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis, provident dolorum. Atque expedita soluta temporibus, eveniet repellendus animi voluptate harum?',
+        tags: ['web', 'laravel', 'backend'],
+        filePath: '',
+        thumbnailImage: ''
+    },
+    {
+        id: 2,
+        lessonName: 'React.js',
+        description: 'A comprehensive guide to the fundamentals of React.js for building modern user interfaces.',
+        tags: ['web', 'react', 'frontend'],
+        filePath: '',
+        thumbnailImage: ''
+    },
+    {
+        id: 3,
+        lessonName: 'Node.js Basics',
+        description: 'Learn the basics of Node.js and server-side JavaScript programming.',
+        tags: ['web', 'node', 'backend'],
+        filePath: '',
+        thumbnailImage: ''
+    },
+    {
+        id: 4,
+        lessonName: 'Python for Data Science',
+        description: 'Explore Python programming for data science and analysis with real-world examples.',
+        tags: ['python', 'data-science'],
+        filePath: '',
+        thumbnailImage: ''
+    },
+    {
+        id: 5,
+        lessonName: 'Angular Framework',
+        description: 'An in-depth tutorial on building web applications with the Angular framework.',
+        tags: ['web', 'angular', 'frontend'],
+        filePath: '',
+        thumbnailImage: ''
+    },
+    {
+        id: 6,
+        lessonName: 'Databases and SQL',
+        description: 'Master the concepts of databases and SQL for efficient data storage and retrieval.',
+        tags: ['database', 'sql', 'backend'],
+        filePath: '',
+        thumbnailImage: ''
+    },
+    {
+        id: 7,
+        lessonName: 'Mobile App Development with Flutter',
+        description: 'Create cross-platform mobile applications with Flutter and Dart programming language.',
+        tags: ['mobile', 'flutter', 'dart'],
+        filePath: '',
+        thumbnailImage: ''
+    },
+    {
+        id: 8,
+        lessonName: 'JavaScript Design Patterns',
+        description: 'Understand common design patterns in JavaScript for writing scalable and maintainable code.',
+        tags: ['javascript', 'design-patterns'],
+        filePath: '',
+        thumbnailImage: ''
+    },
+    {
+        id: 9,
+        lessonName: 'Cybersecurity Essentials',
+        description: 'Learn the essential concepts and techniques in cybersecurity for securing digital systems.',
+        tags: ['cybersecurity'],
+        filePath: '',
+        thumbnailImage: ''
+    },
+    {
+        id: 10,
+        lessonName: 'GraphQL in Practice',
+        description: 'Implement GraphQL for efficient data fetching and manipulation in modern web applications.',
+        tags: ['web', 'graphql', 'backend'],
+        filePath: '',
+        thumbnailImage: ''
+    }
+];
+
+
+export { director, departments, teachers, columns, depatmentsColumns, students, studentColumns, sectors, sectorsColumns, courses };

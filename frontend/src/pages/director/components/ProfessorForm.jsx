@@ -17,17 +17,18 @@ const ProfessorForm = ({ userId }) => {
         'lastname': userId ? professor[0]['lastname'] : '',
         'email': userId ? professor[0]['email'] : '',
         'department': userId ? professor[0]['department'] : '',
-        'sector': userId ? professor[0]['sector'] : '',
+        'sector': userId ? professor[0]['sector'] : [],
         'username': userId ? professor[0][''] : '',
     }
 
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
 
-    const getDepartmentId = getArrayById(departments, 'department', inputs['department'])[0].id
-    const filteredSectors = getArrayById(sectors, 'department_id', getDepartmentId)
+    const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department'] );
 
     return (
         <div className='px-1 space-y-2'>
+            { inputs['sector'] }
+
             {userId ? (
                 <div className='flex w-fit items-center cursor-pointer hover:opacity-55' onClick={() => window.history.back()}>
                     <img src={Back} width={30} alt="back" />
@@ -76,20 +77,22 @@ const ProfessorForm = ({ userId }) => {
                         items={departments}
                         label="Departments"
                         variant='bordered'
-                        defaultSelectedKeys={[inputs['department']]}
+                        value={inputs['department']}
                         errorMessage={errors['department']}
                         onChange={(e) => handleChange('department', e.target.value)}
-
                     >
                         {(department) => <SelectItem key={department.department} >{department.department}</SelectItem>}
                     </Select>
 
                     <Select
-                        items={filteredSectors}
+                        items={sectorsBelongToDepartment}
                         label="Sectors"
                         variant='bordered'
-                        defaultSelectedKeys={inputs['sector'] ? [inputs['sector']] : []}
+                        selectionMode='multiple'
+                        value={inputs['sector']}
+                        errorMessage={errors['sector']}
                         onChange={(e) => handleChange('sector', e.target.value)}
+
                     >
                         {(sector) => <SelectItem key={sector.sector}>{sector.sector}</SelectItem>}
                     </Select>

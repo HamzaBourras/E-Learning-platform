@@ -3,6 +3,7 @@ import TableComponentWithFilter from '../../components/Table/TableComponentWithF
 
 import Btn from "../../components/Button";
 import { sectors, sectorsColumns } from '../../json/data'
+import SectorForm from "./components/SectorForm";
 
 
 
@@ -31,11 +32,7 @@ export default function ManageSectors() {
                                 <>
                                     <ModalHeader className="flex flex-col gap-1">Add New Sector</ModalHeader>
                                     <ModalBody>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Nullam pulvinar risus non risus hendrerit venenatis.
-                                            Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                                        </p>
+                                        <SectorForm/>
                                     </ModalBody>
                                     <ModalFooter>
                                         <Button color="danger" variant="light" onPress={onClose}>

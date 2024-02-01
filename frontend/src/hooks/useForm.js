@@ -26,10 +26,11 @@ const useForm = (initialState, api) => {
         setIsLoading(true);
 
         try {
-            await axios.post(api, inputs)
+            await axios.post(api, inputs,{headers: {"Content-Type": "multipart/form-data"}})
                 .then(res => {
                     if (res.status == 200) {
                         setMessage("Data posted successfully")
+                        console.log(res);
                     }
                 })
 
