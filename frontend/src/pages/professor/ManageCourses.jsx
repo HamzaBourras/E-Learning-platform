@@ -14,7 +14,7 @@ const ManageCourses = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     return (
-        <div className='space-y-3'>
+        <div className='space-y-2'>
             <div className="w-full h-10 flex items-center justify-end px-1 space-x-1">
                 <ButtonGroup size='sm' radius='sm' variant='bordered'>
                     <Button onClick={() => setIsGrid(true)}>

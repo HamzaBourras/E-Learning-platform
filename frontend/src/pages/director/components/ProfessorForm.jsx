@@ -18,7 +18,7 @@ const ProfessorForm = ({ userId }) => {
         'email': userId ? professor[0]['email'] : '',
         'department': userId ? professor[0]['department'] : '',
         'sector': userId ? professor[0]['sector'] : [],
-        'username': userId ? professor[0][''] : '',
+        'username': userId ? professor[0]['username'] : '',
     }
 
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
@@ -27,7 +27,7 @@ const ProfessorForm = ({ userId }) => {
 
     return (
         <div className='px-1 space-y-2'>
-            { inputs['sector'] }
+            { inputs['username'] }
 
             {userId ? (
                 <div className='flex w-fit items-center cursor-pointer hover:opacity-55' onClick={() => window.history.back()}>
@@ -67,10 +67,9 @@ const ProfessorForm = ({ userId }) => {
 
                     <Input variant="bordered"
                         label="Username"
-                        readOnly
                         value={userId ? inputs['username'] : generateUsername(inputs['firstname'], inputs['lastname'])}
                         errorMessage={errors['username']}
-                        onChange={(e) => handleChange('username', e.target.value)}
+                        onChange={() => handleChange('username', generateUsername(inputs['firstname'], inputs['lastname']))}
                     />
 
                     <Select

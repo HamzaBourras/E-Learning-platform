@@ -2,7 +2,7 @@
 import { countData, getRecentlyAddedData } from "../../utils/utils";
 import { teachers, students, departments, sectors } from '../../json/data'
 import { useState } from "react";
-import ProfessorChart from '../director/components/ProfessorChart';
+import BarChart from '../../components/BarChart';
 
 
 const DirectorDashboard = () => {
@@ -17,7 +17,7 @@ const DirectorDashboard = () => {
     const professorData = {
         professor1: { assignments: 10, quizzes: 5, courses: 8 },
         professor2: { assignments: 5, quizzes: 12, courses: 6 },
-        // Add more professors as needed
+        professor3: { assignments: 2, quizzes: 5, courses: 13 },
     };
 
 
@@ -46,11 +46,12 @@ const DirectorDashboard = () => {
                 </div>
 
             </div>
+            
             <div>
                 <h1>Active Professors</h1>
-                <ProfessorChart/>
+                {/* <BarChart data={professorData} /> */}
             </div>
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
                 <h1>Recentaly added students</h1>
                 <div>
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -92,7 +93,7 @@ const DirectorDashboard = () => {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
