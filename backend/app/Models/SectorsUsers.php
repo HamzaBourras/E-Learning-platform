@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sector extends Model
+class SectorsUsers extends Model
 {
     use HasFactory;
 
-    public function departement () {
-        return $this->belongsTo(Departement::class);
-    }
+    protected $table = "sectors_users";
+
+    protected $fillable = [
+        'sectors_id',
+        'users_id'
+    ];
 }

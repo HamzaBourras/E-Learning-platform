@@ -18,9 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        "name",
+        "email",
+        "password",
+        "role_id",
+        "departement_id",
+        "sector_id"
     ];
 
     /**
@@ -42,4 +45,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function departement () {
+        return $this->belongsTo(Departement::class);
+    }
+
+    public function sectors()
+    {
+        return $this->belongsToMany(Sector::class, 'sectors_users', 'users_id', 'sectors_id');
+    }
+
+    
 }
