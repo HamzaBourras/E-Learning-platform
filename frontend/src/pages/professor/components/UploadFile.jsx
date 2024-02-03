@@ -1,5 +1,6 @@
-import { Input, Textarea, Button, Spinner } from '@nextui-org/react'
+import { Input, Textarea, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
 import { useState } from 'react'
+import { sectors } from '../../../json/data'
 
 import remove from '../../../assets/icons/delete.svg'
 import useForm from '../../../hooks/useForm';
@@ -31,6 +32,7 @@ const UploadFile = () => {
 
     const initialState = {
         'courseName': '',
+        'sector': '',
         'description': '',
         'file': null,
     }
@@ -50,6 +52,18 @@ const UploadFile = () => {
                     errorMessage={errors['courseName']}
                     onChange={(e) => handleChange('courseName', e.target.value)}
                 />
+
+                <Select
+                    items={sectors}
+                    label="Sector"
+                    variant='bordered'
+                    selectionMode='multiple'
+                    value={inputs['sector']}
+                    errorMessage={errors['sector']}
+                    onChange={(e) => handleChange('sector', e.target.value)}
+                >
+                    {(sector) => <SelectItem key={sector.sector} >{sector.sector}</SelectItem>}
+                </Select>
 
                 <div className='flex gap-1'>
                     {tags.map((tag, index) => (

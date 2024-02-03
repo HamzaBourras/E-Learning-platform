@@ -2,23 +2,22 @@
 /* eslint-disable react/prop-types */
 
 import { Input, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
-import Back from '../../../assets/icons/back.svg'
 import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
 import { generateUsername, getArrayById } from '../../../utils/utils'
 import { students, departments, sectors } from '../../../json/data'
 
-const ProfessorForm = ({ userId }) => {
+const ProfessorForm = ({ id }) => {
     const apiKey = 'http://127.0.0.1:8000/api/posts/store';
-    const student = getArrayById(students, 'id', userId);
+    const student = getArrayById(students, 'id', id);
 
     const initialState = {
-        'firstname': userId ? student[0]['firstname'] : '',
-        'lastname': userId ? student[0]['lastname'] : '',
-        'email': userId ? student[0]['email'] : '',
-        'username': userId ? student[0]['username'] : '',
-        'department': userId ? student[0]['department'] : '',
-        'sector': userId ? student[0]['sector'] : '',
+        'firstname': id ? student[0]['firstname'] : '',
+        'lastname': id ? student[0]['lastname'] : '',
+        'email': id ? student[0]['email'] : '',
+        'username': id ? student[0]['username'] : '',
+        'department': id ? student[0]['department'] : '',
+        'sector': id ? student[0]['sector'] : '',
     }
 
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey)
@@ -27,17 +26,10 @@ const ProfessorForm = ({ userId }) => {
 
     return (
         <div className='px-1 space-y-2'>
-            {userId ? (
-                <div className='flex w-fit items-center cursor-pointer hover:opacity-55' onClick={() => window.history.back()}>
-                    <img src={Back} width={30} alt="back" />
-                    <span className='font-medium text-lg'>Back</span>
-                </div>
-            ) : ''
-            }
 
             {message && <Alert color="success" message={message} />}
 
-            <h1 className='text-2xl font-medium'>{userId ? 'Update Student' : 'Create New Student'}</h1>
+            <h1 className='text-2xl font-medium'>{id ? 'Update Student' : 'Create New Student'}</h1>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-1">
                     <Input variant="bordered"
@@ -65,7 +57,7 @@ const ProfessorForm = ({ userId }) => {
                     <Input variant="bordered"
                         label="Username"
                         readOnly
-                        value={userId ? inputs['username'] : generateUsername(inputs['firstname'], inputs['lastname'])}
+                        value={id ? inputs['username'] : generateUsername(inputs['firstname'], inputs['lastname'])}
                         errorMessage={errors['username']}
                         onChange={(e) => handleChange('username', e.target.value)}
                     />
@@ -96,13 +88,13 @@ const ProfessorForm = ({ userId }) => {
                     type='submit'
                     className="bg-foreground text-background mt-1"
                 >
-                    {isLoading ? (<div className='flex items-center gap-1'><Spinner color="default" /> Loading...</div>) : userId ? 'Update' : 'Submit'}
+                    {isLoading ? (<div className='flex items-center gap-1'><Spinner color="default" /> Loading...</div>) : id ? 'Update' : 'Submit'}
                 </Button>
 
             </form>
             {/* <Divider />
             {
-                !userId &&
+                !id &&
                 <>
                     <p className="text-small text-default-400">Upload Professors using CSV file instead</p>
                     <div>

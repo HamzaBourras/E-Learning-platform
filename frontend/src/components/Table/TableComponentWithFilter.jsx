@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useState, useMemo, useCallback } from "react";
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import {
     Table,
     TableHeader,
@@ -17,21 +18,31 @@ import {
     DropdownItem,
     User,
     Pagination,
+    useDisclosure,
+    Modal,
+    ModalBody,
+    ModalContent
 } from "@nextui-org/react";
 import { VerticalDotsIcon } from "../VerticalDotsIcon";
 import { SearchIcon } from "../SearchIcon";
 import { ChevronDownIcon } from "../ChevronDownIcon";
 import { capitalize } from "../../utils/utils";
+import { PlusIcon } from "../PlusIcon";
 
 
 
-const TableComponentWithFilter = ({ data, columns, user}) => {
+const TableComponentWithFilter = ({ data, columns, user, Component }) => {
 
-    const navigate = useNavigate();
+    const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+    const [selectId, setSelectId] = useState(null);
 
-    const handleEdit = (userId) => {
-        
-        navigate("../edit",{ state: {userId, user} })
+
+    // const navigate = useNavigate();
+    // navigate("../edit", { state: { userId, user } })
+
+    const handleEdit = (id) => {
+        setSelectId(id);
+        onOpen();
     };
 
     const handleDelete = (userId) => {
@@ -205,6 +216,12 @@ const TableComponentWithFilter = ({ data, columns, user}) => {
                                 ))}
                             </DropdownMenu>
                         </Dropdown>
+                        <Button
+                            onPress={onOpen}
+                            className="bg-foreground text-background"
+                            endContent={<PlusIcon />}
+                            size="sm">Add New
+                        </Button>
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
@@ -260,45 +277,73 @@ const TableComponentWithFilter = ({ data, columns, user}) => {
     }), []);
 
     return (
-        <Table
-            className='xs:sm:overflow-x-scroll md:lg:overflow-hidden overflow-y-hidden'
-            removeWrapper
-            aria-label="User Information Table"
-            bottomContent={bottomContent}
-            bottomContentPlacement="outside"
-            checkboxesProps={{
-                classNames: {
-                    wrapper: "after:bg-foreground after:text-background text-background",
-                },
-            }}
-            classNames={classNames}
-            selectedKeys={selectedKeys}
-            selectionMode="single"
-            sortDescriptor={sortDescriptor}
-            topContent={topContent}
-            topContentPlacement="outside"
-            onSelectionChange={setSelectedKeys}
-            onSortChange={setSortDescriptor}
-        >
-            <TableHeader columns={headerColumns}>
-                {(column) => (
-                    <TableColumn
-                        key={column.uid}
-                        align={column.uid === "actions" ? "center" : "start"}
-                        allowsSorting={column.sortable}
-                    >
-                        {column.name}
-                    </TableColumn>
-                )}
-            </TableHeader>
-            <TableBody emptyContent="No data found" items={sortedItems}>
-                {(item) => (
-                    <TableRow key={item.id}>
-                        {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-                    </TableRow>
-                )}
-            </TableBody>
-        </Table>
+        <div>
+            <Table
+                className='xs:sm:overflow-x-scroll md:lg:overflow-hidden overflow-y-hidden'
+                removeWrapper
+                aria-label="User Information Table"
+                bottomContent={bottomContent}
+                bottomContentPlacement="outside"
+                checkboxesProps={{
+                    classNames: {
+                        wrapper: "after:bg-foreground after:text-background text-background",
+                    },
+                }}
+                classNames={classNames}
+                selectedKeys={selectedKeys}
+                selectionMode="single"
+                sortDescriptor={sortDescriptor}
+                topContent={topContent}
+                topContentPlacement="outside"
+                onSelectionChange={setSelectedKeys}
+                onSortChange={setSortDescriptor}
+            >
+                <TableHeader columns={headerColumns}>
+                    {(column) => (
+                        <TableColumn
+                            key={column.uid}
+                            align={column.uid === "actions" ? "center" : "start"}
+                            allowsSorting={column.sortable}
+                        >
+                            {column.name}
+                        </TableColumn>
+                    )}
+                </TableHeader>
+                <TableBody emptyContent="No data found" items={sortedItems}>
+                    {(item) => (
+                        <TableRow key={item.id}>
+                            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                        </TableRow>
+                    )}
+                </TableBody>
+            </Table>
+
+            <div>
+
+                <Modal
+                    // size="5xl"
+                    isOpen={isOpen}
+                    onOpenChange={onOpenChange}
+                    onClose={() => {
+                        setSelectId(null);
+                        onClose();
+                    }}
+                    className="overflow-auto md:lg:w-[40%]"
+                >
+                    <ModalContent>
+                        {(onClose) => (
+                            <>
+                                <ModalBody className="flex justify-center">
+                                    <Component id={selectId}/>
+                                </ModalBody>
+                            </>
+                        )}
+                    </ModalContent>
+                </Modal>
+
+
+            </div>
+        </div>
     );
 };
 
