@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 31 jan. 2024 à 16:33
+-- Généré le : jeu. 01 fév. 2024 à 21:53
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -105,7 +105,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2024_01_31_150705_create_qcms_table', 7),
 (11, '2024_01_31_150821_create_questions_table', 8),
 (12, '2024_01_31_151008_create_choices_table', 9),
-(13, '2024_01_31_151149_create_notes_table', 10);
+(13, '2024_01_31_151149_create_notes_table', 10),
+(14, '2024_02_01_204453_create_sectors_users_table', 11);
 
 -- --------------------------------------------------------
 
@@ -238,6 +239,20 @@ INSERT INTO `sectors` (`id`, `name`, `departement_id`, `created_at`, `updated_at
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `sectors_users`
+--
+
+CREATE TABLE `sectors_users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `sectors_id` bigint(20) UNSIGNED NOT NULL,
+  `users_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `users`
 --
 
@@ -252,6 +267,14 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `bio`, `role_id`, `sector_id`, `created_at`, `updated_at`) VALUES
+(1, 'Hamza Bourras', 'hamzabour2004@gmail.com', '1234', NULL, 3, 1, NULL, NULL),
+(2, 'Mohamed Slaoui', 'mohamed@gmail.com', '1111', NULL, 3, 1, NULL, NULL);
 
 --
 -- Index pour les tables déchargées
@@ -334,6 +357,14 @@ ALTER TABLE `sectors`
   ADD KEY `sectors_departement_id_foreign` (`departement_id`);
 
 --
+-- Index pour la table `sectors_users`
+--
+ALTER TABLE `sectors_users`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sectors_users_sectors_id_foreign` (`sectors_id`),
+  ADD KEY `sectors_users_users_id_foreign` (`users_id`);
+
+--
 -- Index pour la table `users`
 --
 ALTER TABLE `users`
@@ -368,7 +399,7 @@ ALTER TABLE `documents`
 -- AUTO_INCREMENT pour la table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `notes`
@@ -413,10 +444,16 @@ ALTER TABLE `sectors`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT pour la table `sectors_users`
+--
+ALTER TABLE `sectors_users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Contraintes pour les tables déchargées
@@ -464,6 +501,13 @@ ALTER TABLE `questions`
 --
 ALTER TABLE `sectors`
   ADD CONSTRAINT `sectors_departement_id_foreign` FOREIGN KEY (`departement_id`) REFERENCES `departements` (`id`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `sectors_users`
+--
+ALTER TABLE `sectors_users`
+  ADD CONSTRAINT `sectors_users_sectors_id_foreign` FOREIGN KEY (`sectors_id`) REFERENCES `sectors` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `sectors_users_users_id_foreign` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `users`

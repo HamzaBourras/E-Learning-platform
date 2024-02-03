@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DirectorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix("director/")->controller(DirectorController::class)->name("director.")->group(function(){
+    //--------- - --- teachers -----------------------
+    Route::prefix("professor/")->name("professor.")->group(function(){
+        Route::get("index","index")->name("index");
+
+    });
+
+});
+
