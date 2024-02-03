@@ -1,6 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { Link } from 'react-router-dom';
-import Btn from '../../components/Button'
 import { Modal, ModalContent, ModalHeader, ModalBody, Divider, ModalFooter, useDisclosure, ButtonGroup, Button } from "@nextui-org/react";
 import QuizForm from './components/QuizForm';
 import { useState } from 'react';

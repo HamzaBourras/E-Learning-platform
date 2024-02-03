@@ -1,24 +1,22 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/prop-types */
-
 import { Input, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
-import Back from '../../../assets/icons/back.svg'
 import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
 import { generateUsername, getArrayById } from '../../../utils/utils'
 import { teachers, departments, sectors } from '../../../json/data'
 
-const ProfessorForm = ({ userId }) => {
+const ProfessorForm = ({ id }) => {
     const apiKey = 'http://127.0.0.1:8000/api/posts/store';
-    const professor = getArrayById(teachers, 'id', userId);
+    const professor = getArrayById(teachers, 'id', id);
 
     const initialState = {
-        'firstname': userId ? professor[0]['firstname'] : '',
-        'lastname': userId ? professor[0]['lastname'] : '',
-        'email': userId ? professor[0]['email'] : '',
-        'department': userId ? professor[0]['department'] : '',
-        'sector': userId ? professor[0]['sector'] : [],
-        'username': userId ? professor[0]['username'] : '',
+        'firstname': id ? professor[0]['firstname'] : '',
+        'lastname': id ? professor[0]['lastname'] : '',
+        'email': id ? professor[0]['email'] : '',
+        'department': id ? professor[0]['department'] : '',
+        'sector': id ? professor[0]['sector'] : [],
+        'username': id ? professor[0]['username'] : '',
     }
 
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
@@ -29,17 +27,8 @@ const ProfessorForm = ({ userId }) => {
         <div className='px-1 space-y-2'>
             { inputs['username'] }
 
-            {userId ? (
-                <div className='flex w-fit items-center cursor-pointer hover:opacity-55' onClick={() => window.history.back()}>
-                    <img src={Back} width={30} alt="back" />
-                    <span className='font-medium text-lg'>Back</span>
-                </div>
-            ) : ''
-            }
-
-
             {message && <Alert color="success" message={message} />}
-            <h1 className='text-2xl font-medium'>{userId ? 'Update Professor' : 'Create New Professor'}</h1>
+            <h1 className='text-2xl font-medium'>{id ? 'Update Professor' : 'Create New Professor'}</h1>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-1">
 
@@ -67,7 +56,7 @@ const ProfessorForm = ({ userId }) => {
 
                     <Input variant="bordered"
                         label="Username"
-                        value={userId ? inputs['username'] : generateUsername(inputs['firstname'], inputs['lastname'])}
+                        value={id ? inputs['username'] : generateUsername(inputs['firstname'], inputs['lastname'])}
                         errorMessage={errors['username']}
                         onChange={() => handleChange('username', generateUsername(inputs['firstname'], inputs['lastname']))}
                     />
@@ -100,13 +89,13 @@ const ProfessorForm = ({ userId }) => {
                     type='submit'
                     className="bg-foreground text-background mt-1"
                 >
-                    {isLoading ? (<div className='flex items-center gap-1'><Spinner color="default" /> Loading...</div>) : userId ? 'Update' : 'Submit'}
+                    {isLoading ? (<div className='flex items-center gap-1'><Spinner color="default" /> Loading...</div>) : id ? 'Update' : 'Submit'}
                 </Button>
 
             </form>
             {/* <Divider />
             {
-                !userId &&
+                !id &&
                 <>
                     <p className="text-small text-default-400">Upload Professors using CSV file instead</p>
                     <div>

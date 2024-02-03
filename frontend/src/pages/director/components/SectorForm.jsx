@@ -2,19 +2,18 @@
 /* eslint-disable react/prop-types */
 
 import { Input, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
-import Back from '../../../assets/icons/back.svg'
 import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
 import { getArrayById } from '../../../utils/utils'
 import { departments, sectors } from '../../../json/data'
 
-const SectorForm = ({ userId }) => {
+const SectorForm = ({ id }) => {
     const apiKey = 'http://127.0.0.1:8000/api/posts/store';
-    const sector = getArrayById(sectors, 'id', userId);
+    const sector = getArrayById(sectors, 'id', id);
 
     const initialState = {
-        'sector': userId ? sector[0]['sector'] : '',
-        'department': userId ? sector[0]['department'] : '',
+        'sector': id ? sector[0]['sector'] : '',
+        'department': id ? sector[0]['department'] : '',
     }
 
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
@@ -22,17 +21,9 @@ const SectorForm = ({ userId }) => {
 
     return (
         <div className='px-1 space-y-2'>
-            {userId ? (
-                <div className='flex w-fit items-center cursor-pointer hover:opacity-55' onClick={() => window.history.back()}>
-                    <img src={Back} width={30} alt="back" />
-                    <span className='font-medium text-lg'>Back</span>
-                </div>
-            ) : ''
-            }
-
 
             {message && <Alert color="success" message={message} />}
-            <h1 className='text-2xl font-medium'>{userId ? 'Update Professor' : 'Create New Professor'}</h1>
+            <h1 className='text-2xl font-medium'>{id ? 'Update Professor' : 'Create New Professor'}</h1>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-1">
 
@@ -60,13 +51,13 @@ const SectorForm = ({ userId }) => {
                     type='submit'
                     className="bg-foreground text-background mt-1"
                 >
-                    {isLoading ? (<div className='flex items-center gap-1'><Spinner color="default" /> Loading...</div>) : userId ? 'Update' : 'Submit'}
+                    {isLoading ? (<div className='flex items-center gap-1'><Spinner color="default" /> Loading...</div>) : id ? 'Update' : 'Submit'}
                 </Button>
 
             </form>
             {/* <Divider />
             {
-                !userId &&
+                !id &&
                 <>
                     <p className="text-small text-default-400">Upload Professors using CSV file instead</p>
                     <div>
