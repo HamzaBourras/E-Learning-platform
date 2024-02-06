@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DepartementRequest;
 use App\Models\User;
 use App\Models\Sector;
 use Nette\Utils\ArrayHash;
 use App\Models\Departement;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfessorRequest;
+use App\Http\Requests\StudentRequest;
 use App\Models\SectorsUsers;
 
 class DirectorController extends Controller
 {
     /*********** Professor ***************/
 
-    /**** return All the professors ****/
+    /**** return All professors ****/
 
     public function indexProfessor()
     {
@@ -33,10 +35,10 @@ class DirectorController extends Controller
 
             // représenter le prof sous la format
             $formatProfessor = [
+                "id" => $prof->id,
                 "name" => $prof->name,
                 "email" => $prof->email,
                 "password" => $prof->password,
-                "bio" => $prof->bio,
                 "departement" => $prof->departement->name,
                 "sectors" => $profSectors
             ];
@@ -61,8 +63,8 @@ class DirectorController extends Controller
         User::create([
             "name" => $request->name,
             "email" => $request->email,
-            "departement_id" => $departement_id,
             "role_id" => 2,
+            "departement_id" => $departement_id,
             "password" => $request->email
         ]);
 
@@ -90,11 +92,10 @@ class DirectorController extends Controller
         // selectioné l'id du departement
         $departement_id = Departement::where('name', $request->departement)->first()->id;
 
-        User::where('id', $id)->update([
+        User::where(['id'=>$id,"role_id"=>2])->update([
             "name" => $request->name,
             "email" => $request->email,
             "departement_id" => $departement_id,
-            "role_id" => 2,
             "password" => $request->email
         ]);
 
@@ -116,7 +117,166 @@ class DirectorController extends Controller
     /**** delete a professor ****/
 
     public function destroyProfessor (int $id) {
-        User::where('id',$id)->delete();
-        SectorsUsers::where('users_id',$id)->delete();
+        User::where(['id'=>$id,"role_id"=>2])->delete();
     }
+
+
+
+    /**************************************************************************** */
+
+    /*********** Student ***************/
+
+    /**** return All students ****/
+
+    public function indexStudent () {
+        $studs = User::with("sector","sector.departement")->where('role_id',3)->get();
+
+        $students = [];
+
+        foreach ($studs as $stud) {
+            $formatStudent = [
+                "id" => $stud->id,
+                "name" => $stud->name,
+                "email" => $stud->email,
+                "password" => $stud->password,
+                "departement" => $stud->sector->departement->name,
+                "sector" => $stud->sector->name
+            ];
+
+            array_push($students,$formatStudent);
+        }
+        return [
+            "data" => $students
+        ];
+    }
+
+    /**** store a student ****/
+
+    public function storeStudent (StudentRequest $request) {
+        $sector_id = Sector::where('name',$request->sector)->first()->id;
+
+        User::create([
+            "name" => $request->name,
+            "email" => $request->email,
+            "role_id" => 3,
+            "sector_id" => $sector_id,
+            "password" => $request->email
+        ]);
+    }
+
+    /**** edit a student ****/
+
+    public function editStudent (StudentRequest $request, int $id) {
+        $sector_id = Sector::where('name',$request->sector)->first()->id;
+
+        User::where(['id'=>$id,"role_id"=>3])->update([
+            "name" => $request->name,
+            "email" => $request->email,
+            "sector_id" => $sector_id,
+            "password" => $request->email
+        ]);
+    }
+
+    /**** delete a student ****/
+
+    public function destroyStudent (int $id) {
+        User::where(["id"=>$id, "role_id"=>3])->delete();
+    }
+
+
+
+    /**************************************************************************** */
+
+    /*********** Departement ***************/
+
+    /**** return All departement ****/
+
+    public function indexDepartement () {
+        $departements = Departement::all(['id','name as departement']);
+
+        return [
+            "data" => $departements
+        ];
+    }
+
+    /**** store a departement ****/
+
+    public function storeDepartement (DepartementRequest $request) {
+        Departement::create([
+            "name" => $request->departement
+        ]);
+    }
+
+    /**** edit a departement ****/
+
+    public function editDepartement (DepartementRequest $request, int $id) {
+        Departement::where('id',$id)->update([
+            "name" => $request->departement
+        ]);
+    }
+
+    /**** delete a departement ****/
+
+    public function destroyDepartement ( int $id) {
+        Departement::where('id',$id)->delete();
+    }
+
+
+
+    /**************************************************************************** */
+
+    /*********** Sector ***************/
+
+    /**** return All departement ****/
+
+    public function indexSector () {
+        $sects = Sector::with("departement")->get();
+
+        $sectors = [];
+
+        foreach($sects as $sect) {
+            $formatSect = [
+                "id" => $sect->id,
+                "departement" => $sect->departement->name,
+                "sector" => $sect->name
+            ];
+
+            array_push($sectors,$formatSect);
+        }
+
+        return [
+            "data" => $sectors
+        ];
+    }
+
+    /**** store a departement ****/
+
+    public function storeSector (DepartementRequest $request) {
+        $departement_id = Departement::where('name',$request->departement)->first()->id;
+        
+        Sector::create([
+            "name" => $request->sector,
+            "departement_id" => $departement_id
+        ]);
+    }
+
+    /**** edit a departement ****/
+
+    public function editSector (DepartementRequest $request, int $id) {
+        $departement_id = Departement::where('name',$request->departement)->first()->id;
+
+        Sector::where('id',$id)->update([
+            "name" => $request->sector,
+            "departement_id" => $departement_id
+        ]);
+    }
+
+    /**** delete a departement ****/
+
+    public function destroySector ( int $id) {
+        Sector::where('id',$id)->delete();
+    }
+
 }
+
+    

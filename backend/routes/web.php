@@ -20,13 +20,37 @@ Route::get('/', function () {
 
 Route::prefix("auth/director/")->controller(DirectorController::class)->name("director.")->group(function(){
 
-    //--------- - --- teachers -----------------------
+    //--------- - --- professor -----------------------
     Route::prefix("professor/")->name("professor.")->group(function(){
         Route::get("index","indexProfessor")->name("indexProfessor");
         Route::post("store","storeProfessor")->name("storeProfessor");
         Route::post("edit/{id}","editProfessor")->where(["id"=>"[0-9]+"])->name("editProfessor");
         Route::delete("destroy/{id}","destroyProfessor")->where(["id"=>"[0-9]+"])->name("destroyProfessor");
 
+    });
+
+    //--------- - --- student -----------------------
+    Route::prefix("student/")->name("student.")->group(function () {
+        Route::get("index","indexStudent")->name("indexStudent");
+        Route::post("store","storeStudent")->name("storeStudent");
+        Route::post("edit/{id}","editStudent")->where(["id"=>"[0-9]+"])->name("editStudent");
+        Route::delete("destroy/{id}","destroyStudent")->where(["id"=>"[0-9]+"])->name("destroyStudent");
+    });
+
+    //--------- - --- departement -----------------------
+    Route::prefix("departement/")->name("departement.")->group(function () {
+        Route::get("index","indexDepartement")->name("indexDepartement");
+        Route::post("store","storeDepartement")->name("storeDepartement");
+        Route::post("edit/{id}","editDepartement")->where(["id"=>"[0-9]+"])->name("editDepartement");
+        Route::delete("destroy/{id}","destroyDepartement")->where(["id"=>"[0-9]+"])->name("destroyDepartement");
+    });
+
+    //--------- - --- sector -----------------------
+    Route::prefix("sector/")->name("sector.")->group(function () {
+        Route::get("index","indexSector")->name("indexSector");
+        Route::post("store","storeSector")->name("storeSector");
+        Route::post("edit/{id}","editSector")->where(["id"=>"[0-9]+"])->name("editSector");
+        Route::delete("destroy/{id}","destroySector")->where(["id"=>"[0-9]+"])->name("destroySector");
     });
 
 });

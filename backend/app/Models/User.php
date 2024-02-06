@@ -32,7 +32,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -47,6 +46,8 @@ class User extends Authenticatable
     ];
 
 
+    // if user is a professor
+
     public function departement () {
         return $this->belongsTo(Departement::class);
     }
@@ -55,6 +56,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Sector::class, 'sectors_users', 'users_id', 'sectors_id');
     }
+
+    // if user is a student
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class);
+    }
+
+
 
     
 }
