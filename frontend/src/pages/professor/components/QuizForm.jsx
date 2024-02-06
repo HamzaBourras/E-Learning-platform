@@ -6,15 +6,15 @@ import Alert from '../../../components/Alert';
 import { getArrayById } from '../../../utils/utils';
 import { quizzes } from '../../../json/data';
 
-const QuizCreator = ({ quizId }) => {
+const QuizCreator = ({ id }) => {
 
 
-    const Quiz = getArrayById(quizzes, 'id', quizId)[0];
+    const Quiz = getArrayById(quizzes, 'id', id)[0];
 
     const apiKey = 'http://127.0.0.1:8000/api/posts/store';
     const initialState = {
-        quizName: quizId ? Quiz['quizName'] : '',
-        questions: quizId ? Quiz['questions'] : [],
+        quizName: id ? Quiz['quizName'] : '',
+        questions: id ? Quiz['questions'] : [],
     };
 
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
@@ -121,7 +121,7 @@ const QuizCreator = ({ quizId }) => {
                             type='submit'
                             className='bg-foreground text-background'
                             onClick={handleSubmit} disabled={isLoading}>
-                            {isLoading ? (<div className='flex items-center gap-1'><Spinner size='sm' color="default" /> {quizId ? 'updating ...' : 'creating ...'} </div>) :  quizId ? 'Update quiz' : 'Submit quiz' }
+                            {isLoading ? (<div className='flex items-center gap-1'><Spinner size='sm' color="default" /> {id ? 'updating ...' : 'creating ...'} </div>) :  id ? 'Update quiz' : 'Submit quiz' }
                         </Button>
                     </div>
                 </form>

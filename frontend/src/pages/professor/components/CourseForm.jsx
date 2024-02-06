@@ -1,12 +1,15 @@
+/* eslint-disable react/prop-types */
 import { Input, Textarea, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
 import { useState } from 'react'
-import { sectors } from '../../../json/data'
+import { courses, sectors } from '../../../json/data'
 
 import remove from '../../../assets/icons/delete.svg'
 import useForm from '../../../hooks/useForm';
 import Alert from '../../../components/Alert';
+import { getArrayById } from '../../../utils/utils';
 
-const UploadFile = () => {
+const CourseForm = ({ id }) => {
+
     const [tags, setTags] = useState([]);
     const [inputValue, setInputValue] = useState('');
 
@@ -30,10 +33,12 @@ const UploadFile = () => {
 
     const apiKey = 'http://127.0.0.1:8000/api/posts/store';
 
+    const course = getArrayById(courses, 'id', id)[0]
+
     const initialState = {
-        'courseName': '',
-        'sector': '',
-        'description': '',
+        'courseName': id ? course['courseName'] : '' ,
+        'sector': id ? course['sector'] : '',
+        'description': id ? course['description'] : '',
         'file': null,
     }
 
@@ -58,7 +63,7 @@ const UploadFile = () => {
                     label="Sector"
                     variant='bordered'
                     selectionMode='multiple'
-                    value={inputs['sector']}
+                    defaultSelectedKeys={[inputs['sector']]}
                     errorMessage={errors['sector']}
                     onChange={(e) => handleChange('sector', e.target.value)}
                 >
@@ -82,13 +87,14 @@ const UploadFile = () => {
                     type="text"
                     variant='bordered'
                     label="Your tags goes here"
-                    value={inputValue}
+                    value={inputs['tags']}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleClickedKey}
                 />
                 <Textarea
                     variant='bordered'
                     label="Your description goes here"
+                    value={inputs['description']}
                 ></Textarea>
                 <div>
                     <label className="sr-only">Choose file</label>
@@ -100,7 +106,7 @@ const UploadFile = () => {
                     {errors['file'] && <p className='text-xs text-pink-500'>{errors['file']}</p>}
                 </div>
                 <Button type='submit' variant='shadow' className='bg-foreground text-background'>
-                    Upload {isLoading && <Spinner />}
+                    {id ? 'Update' : 'Upload'} {isLoading && <Spinner />}
                 </Button>
             </form>
 
@@ -110,4 +116,4 @@ const UploadFile = () => {
     )
 }
 
-export default UploadFile
+export default CourseForm

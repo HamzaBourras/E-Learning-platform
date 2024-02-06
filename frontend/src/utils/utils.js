@@ -3,6 +3,10 @@ export function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+export const uncapitalize = (str) =>{
+    return str.toLowerCase()
+}
+
 export const getArrayById = (array, colName, id) => {
     return id ? array.filter((item) => item[colName] == id) : array;
 };

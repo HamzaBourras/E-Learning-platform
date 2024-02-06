@@ -147,91 +147,81 @@ const sectorsColumns = [
 
 const students = [
     {
-        id: 1,
-        firstname: "John",
-        lastname: "Doe",
-        department: "Physics",
-        sector: "Astrophysics",
-        email: "johndoe@example.com"
+        "id": 1,
+        "username": "j.doe",
+        "email": "johndoe@example.com",
+        "department": "Development",
+        "sector": "Computer Science"
     },
     {
-        id: 2,
-        firstname: "Jane",
-        lastname: "Smith",
-        department: "Chemistry",
-        sector: "Organic Chemistry",
-        email: "janesmith@example.com"
+        "id": 2,
+        "username": "j.smith",
+        "email": "janesmith@example.com",
+        "department": "Marketing",
+        "sector": "TM"
     },
     {
-        id: 3,
-        firstname: "David",
-        lastname: "Johnson",
-        department: "Biology",
-        sector: "Genetics",
-        email: "davidjohnson@example.com"
+        "id": 3,
+        "username": "d.johnson",
+        "email": "davidjohnson@example.com",
+        "department": "Management",
+        "sector": "ER"
     },
     {
-        id: 4,
-        firstname: "Sarah",
-        lastname: "Williams",
-        department: "Computer Science",
-        sector: "Artificial Intelligence",
-        email: "sarahwilliams@example.com"
+        "id": 4,
+        "username": "s.williams",
+        "email": "sarahwilliams@example.com",
+        "department": "Development",
+        "sector": "Data Science"
     },
     {
-        id: 5,
-        firstname: "Michael",
-        lastname: "Brown",
-        department: "Engineering",
-        sector: "Mechanical Engineering",
-        email: "michaelbrown@example.com"
+        "id": 5,
+        "username": "m.brown",
+        "email": "michaelbrown@example.com",
+        "department": "Management",
+        "sector": "ER"
     },
     {
-        id: 6,
-        firstname: "Emily",
-        lastname: "Davis",
-        department: "Mathematics",
-        sector: "Statistics",
-        email: "emilydavis@example.com"
+        "id": 6,
+        "username": "e.davis",
+        "email": "emilydavis@example.com",
+        "department": "Development",
+        "sector": "Computer Science"
     },
     {
-        id: 7,
-        firstname: "Daniel",
-        lastname: "Miller",
-        department: "Physics",
-        sector: "Quantum Physics",
-        email: "danielmiller@example.com"
+        "id": 7,
+        "username": "d.miller",
+        "email": "danielmiller@example.com",
+        "department": "Development",
+        "sector": "Computer Science"
     },
     {
-        id: 8,
-        firstname: "Olivia",
-        lastname: "Wilson",
-        department: "Chemistry",
-        sector: "Inorganic Chemistry",
-        email: "oliviawilson@example.com"
+        "id": 8,
+        "username": "o.wilson",
+        "email": "oliviawilson@example.com",
+        "department": "Marketing",
+        "sector": "TM"
     },
     {
-        id: 9,
-        firstname: "Andrew",
-        lastname: "Taylor",
-        department: "Biology",
-        sector: "Microbiology",
-        email: "andrewtaylor@example.com"
+        "id": 9,
+        "username": "a.taylor",
+        "email": "andrewtaylor@example.com",
+        "department": "Management",
+        "sector": "ER"
     },
     {
-        id: 10,
-        firstname: "Sophia",
-        lastname: "Anderson",
-        department: "Computer Science",
-        sector: "Cybersecurity",
-        email: "sophiaanderson@example.com"
+        "id": 10,
+        "username": "s.anderson",
+        "email": "sophiaanderson@example.com",
+        "department": "Development",
+        "sector": "Data Science"
     }
 ];
 
+
 const studentColumns = [
     { name: "ID", uid: "id", sortable: true },
-    { name: "First Name", uid: "firstname", sortable: true },
-    { name: "Last Name", uid: "lastname", sortable: true },
+    { name: "Username", uid: "username", sortable: true },
     { name: "Department", uid: "department", sortable: true },
     { name: "Sector", uid: "sector", sortable: true },
     { name: "Email", uid: "email" },
@@ -242,81 +232,91 @@ const studentColumns = [
 const courses = [
     {
         id: 1,
-        lessonName: 'Laravel',
+        courseName: 'Laravel',
         description: 'Discover the power of Laravel, a PHP web application framework, and learn to build elegant and scalable web applications. Dive into features like Eloquent ORM, Blade templating, and more. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis, provident dolorum. Atque expedita soluta temporibus, eveniet repellendus animi voluptate harum?',
         tags: ['web', 'laravel', 'backend'],
+        sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
     },
     {
         id: 2,
-        lessonName: 'React.js',
+        courseName: 'React.js',
         description: 'A comprehensive guide to the fundamentals of React.js for building modern user interfaces.',
         tags: ['web', 'react', 'frontend'],
+        sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
     },
     {
         id: 3,
-        lessonName: 'Node.js Basics',
+        courseName: 'Node.js Basics',
         description: 'Learn the basics of Node.js and server-side JavaScript programming.',
         tags: ['web', 'node', 'backend'],
+        sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
     },
     {
         id: 4,
-        lessonName: 'Python for Data Science',
+        courseName: 'Python for Data Science',
         description: 'Explore Python programming for data science and analysis with real-world examples.',
         tags: ['python', 'data-science'],
+        sector: 'Data Science',
         filePath: '',
         thumbnailImage: ''
     },
     {
         id: 5,
-        lessonName: 'Angular Framework',
+        courseName: 'Angular Framework',
         description: 'An in-depth tutorial on building web applications with the Angular framework.',
         tags: ['web', 'angular', 'frontend'],
+        sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
     },
     {
         id: 6,
-        lessonName: 'Databases and SQL',
+        courseName: 'Databases and SQL',
         description: 'Master the concepts of databases and SQL for efficient data storage and retrieval.',
         tags: ['database', 'sql', 'backend'],
+        sector: 'Data Science',
         filePath: '',
         thumbnailImage: ''
     },
     {
         id: 7,
-        lessonName: 'Mobile App Development with Flutter',
+        courseName: 'Mobile App Development with Flutter',
         description: 'Create cross-platform mobile applications with Flutter and Dart programming language.',
         tags: ['mobile', 'flutter', 'dart'],
+        sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
     },
     {
         id: 8,
-        lessonName: 'JavaScript Design Patterns',
+        courseName: 'JavaScript Design Patterns',
         description: 'Understand common design patterns in JavaScript for writing scalable and maintainable code.',
         tags: ['javascript', 'design-patterns'],
+        sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
     },
     {
         id: 9,
-        lessonName: 'Cybersecurity Essentials',
+        courseName: 'Cybersecurity Essentials',
         description: 'Learn the essential concepts and techniques in cybersecurity for securing digital systems.',
         tags: ['cybersecurity'],
+        sector: 'Data Science',
         filePath: '',
         thumbnailImage: ''
     },
     {
         id: 10,
-        lessonName: 'GraphQL in Practice',
+        courseName: 'GraphQL in Practice',
         description: 'Implement GraphQL for efficient data fetching and manipulation in modern web applications.',
         tags: ['web', 'graphql', 'backend'],
+        sector: 'Data Science',
         filePath: '',
         thumbnailImage: ''
     }

@@ -1,7 +1,6 @@
-
 const ManageMyStudents = () => {
     return (
-        <div>Manage My Students</div>
+        <div>Manage MyStudents</div>
     )
 }
 

@@ -23,7 +23,7 @@ const SectorForm = ({ id }) => {
         <div className='px-1 space-y-2'>
 
             {message && <Alert color="success" message={message} />}
-            <h1 className='text-2xl font-medium'>{id ? 'Update Professor' : 'Create New Professor'}</h1>
+            <h1 className='text-2xl font-medium'>{id ? 'Update Sector' : 'Create New Sector'}</h1>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-1">
 

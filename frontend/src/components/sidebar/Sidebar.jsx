@@ -18,16 +18,16 @@ const Sidebar = ({ tabs, user }) => {
             break;
 
         case 'professor':
-            color = 'warning'
+            color = 'danger'
             main = classNames({
-                'hover:bg-orange-300': true
+                'hover:bg-red-400': true
             })
             break;
 
         case 'student':
-            color = 'danger'
+            color = 'warning'
             main = classNames({
-                'hover:bg-red-400': true
+                'hover:bg-orange-300': true
             })
             break;
     }
@@ -36,15 +36,17 @@ const Sidebar = ({ tabs, user }) => {
 
     return (
         <nav className='fixed flex flex-col gap-3 items-center h-dvh xs:sm:w-20 md:lg:w-52 border-r-1'>
-            <div className="h-[10vh] grow-0 flex items-center justify-center px-8">
+            <div className="h-[10vh] grow-0 flex items-center justify-center px-8 my-3">
                 <Link
                     to={`/auth/${user}`}
-                    className="flex-none">
+                    className="flex-none flex flex-col items-center">
                     <img
                         src={Logo}
                         width={65}
                     />
+                    <span className='font-bold text-purple-700 text-lg drop-shadow'>UCA</span>
                 </Link>
+                
             </div>
             <div className='h-[80vh] mt-5 flex-shrink relative'>
                 <ul className="px-4 text-sm font-medium flex-1">
@@ -53,7 +55,7 @@ const Sidebar = ({ tabs, user }) => {
                             to={i.path}
                             key={i.id}
                             className={`cursor-pointer mx-2 mb-2 ${main} group transition-all rounded-lg p-2 flex items-center justify-center space-x-2 `}
-                            
+
                         >
                             <div className='w-full inline-flex space-x-3'>
                                 <img

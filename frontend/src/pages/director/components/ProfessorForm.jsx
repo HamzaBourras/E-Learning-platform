@@ -65,7 +65,7 @@ const ProfessorForm = ({ id }) => {
                         items={departments}
                         label="Departments"
                         variant='bordered'
-                        value={inputs['department']}
+                        defaultSelectedKeys={[inputs['department']]}
                         errorMessage={errors['department']}
                         onChange={(e) => handleChange('department', e.target.value)}
                     >
@@ -77,7 +77,7 @@ const ProfessorForm = ({ id }) => {
                         label="Sectors"
                         variant='bordered'
                         selectionMode='multiple'
-                        value={inputs['sector']}
+                        defaultSelectedKeys={[inputs['sector']]}
                         errorMessage={errors['sector']}
                         onChange={(e) => handleChange('sector', e.target.value)}
 

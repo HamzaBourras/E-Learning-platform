@@ -56,7 +56,6 @@ const ProfessorForm = ({ id }) => {
 
                     <Input variant="bordered"
                         label="Username"
-                        readOnly
                         value={id ? inputs['username'] : generateUsername(inputs['firstname'], inputs['lastname'])}
                         errorMessage={errors['username']}
                         onChange={(e) => handleChange('username', e.target.value)}
@@ -66,7 +65,7 @@ const ProfessorForm = ({ id }) => {
                         items={departments}
                         label="Departments"
                         variant='bordered'
-                        value={inputs['department']}
+                        defaultSelectedKeys={[inputs['department']]}
                         errorMessage={errors['department']}
                         onChange={(e) => handleChange('department', e.target.value)}
                     >
@@ -77,7 +76,7 @@ const ProfessorForm = ({ id }) => {
                         items={sectorsBelongToDepartment}
                         label="Sectors"
                         variant='bordered'
-                        value={inputs['sector']}
+                        defaultSelectedKeys={[inputs['sector']]}
                         errorMessage={errors['sector']}
                         onChange={(e) => handleChange('sector', e.target.value)}
                     >
