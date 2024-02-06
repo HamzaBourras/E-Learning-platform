@@ -15,13 +15,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+//    return  redirect()->route("director.dashboard");
 });
 
-Route::prefix("director/")->controller(DirectorController::class)->name("director.")->group(function(){
+Route::prefix("auth/director/")->controller(DirectorController::class)->name("director.")->group(function(){
+
     //--------- - --- teachers -----------------------
     Route::prefix("professor/")->name("professor.")->group(function(){
-        Route::get("index","index")->name("index");
+        Route::get("index","indexProfessor")->name("indexProfessor");
+        Route::post("store","storeProfessor")->name("storeProfessor");
+        Route::post("edit/{id}","editProfessor")->where(["id"=>"[0-9]+"])->name("editProfessor");
+        Route::delete("destroy/{id}","destroyProfessor")->where(["id"=>"[0-9]+"])->name("destroyProfessor");
 
     });
 
