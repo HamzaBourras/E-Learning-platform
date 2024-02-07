@@ -39,7 +39,7 @@ class DirectorController extends Controller
                 "name" => $prof->name,
                 "email" => $prof->email,
                 "password" => $prof->password,
-                "departement" => $prof->departement->name,
+                "department" => $prof->departement->name,
                 "sectors" => $profSectors
             ];
 
