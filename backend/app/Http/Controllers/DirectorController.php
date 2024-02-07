@@ -36,7 +36,7 @@ class DirectorController extends Controller
             // représenter le prof sous la format
             $formatProfessor = [
                 "id" => $prof->id,
-                "name" => $prof->name,
+                "username" => $prof->name,
                 "email" => $prof->email,
                 "password" => $prof->password,
                 "department" => $prof->departement->name,
@@ -93,7 +93,6 @@ class DirectorController extends Controller
         $departement_id = Departement::where('name', $request->departement)->first()->id;
 
         User::where(['id'=>$id,"role_id"=>2])->update([
-            "name" => $request->name,
             "email" => $request->email,
             "departement_id" => $departement_id,
             "password" => $request->email
@@ -191,8 +190,8 @@ class DirectorController extends Controller
 
     /**** return All departement ****/
 
-    public function indexDepartement () {
-        $departements = Departement::all(['id','name as departement']);
+    public function indexDepartment () {
+        $departements = Departement::all(['id','name as department']);
 
         return [
             "data" => $departements
@@ -201,23 +200,23 @@ class DirectorController extends Controller
 
     /**** store a departement ****/
 
-    public function storeDepartement (DepartementRequest $request) {
+    public function storeDepartment (DepartementRequest $request) {
         Departement::create([
-            "name" => $request->departement
+            "name" => $request->department
         ]);
     }
 
     /**** edit a departement ****/
 
-    public function editDepartement (DepartementRequest $request, int $id) {
+    public function editDepartment (DepartementRequest $request, int $id) {
         Departement::where('id',$id)->update([
-            "name" => $request->departement
+            "name" => $request->department
         ]);
     }
 
     /**** delete a departement ****/
 
-    public function destroyDepartement ( int $id) {
+    public function destroyDepartment ( int $id) {
         Departement::where('id',$id)->delete();
     }
 
@@ -252,7 +251,7 @@ class DirectorController extends Controller
     /**** store a departement ****/
 
     public function storeSector (DepartementRequest $request) {
-        $departement_id = Departement::where('name',$request->departement)->first()->id;
+        $departement_id = Departement::where('name',$request->department)->first()->id;
         
         Sector::create([
             "name" => $request->sector,
@@ -263,7 +262,7 @@ class DirectorController extends Controller
     /**** edit a departement ****/
 
     public function editSector (DepartementRequest $request, int $id) {
-        $departement_id = Departement::where('name',$request->departement)->first()->id;
+        $departement_id = Departement::where('name',$request->department)->first()->id;
 
         Sector::where('id',$id)->update([
             "name" => $request->sector,

@@ -39,11 +39,11 @@ Route::prefix("auth/director/")->controller(DirectorController::class)->name("di
     });
 
     //--------- - --- departement -----------------------
-    Route::prefix("departement/")->name("departement.")->group(function () {
-        Route::get("index","indexDepartement")->name("indexDepartement");
-        Route::post("store","storeDepartement")->name("storeDepartement");
-        Route::put("edit/{id}","editDepartement")->where(["id"=>"[0-9]+"])->name("editDepartement");
-        Route::delete("destroy/{id}","destroyDepartement")->where(["id"=>"[0-9]+"])->name("destroyDepartement");
+    Route::prefix("department/")->name("department.")->group(function () {
+        Route::get("index","indexDepartment")->name("indexDepartment");
+        Route::post("store","storeDepartment")->name("storeDepartment");
+        Route::put("edit/{id}","editDepartment")->where(["id"=>"[0-9]+"])->name("editDepartment");
+        Route::delete("destroy/{id}","destroyDepartment")->where(["id"=>"[0-9]+"])->name("destroyDepartment");
     });
 
     //--------- - --- sector -----------------------
