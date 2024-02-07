@@ -8,19 +8,8 @@ import DepartmentForm from './components/DepartmentForm'
 
 export default function App() {
     return (
-        <div className='space-y-4'>
-            <div className="flex justify-between items-center">
-                <div>
-                    <h1 className='text-2xl font-bold'>Departments</h1>
-                    <p className='text-gray-600'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, alias.
-                    </p>
-                </div>
-            </div>
-            <div>
-                <TableComponentWithFilter Component={DepartmentForm} data={departments} columns={depatmentsColumns} user="department" />
-            </div>
-
+        <div>
+            <TableComponentWithFilter Component={DepartmentForm} data={departments} columns={depatmentsColumns} title="Departments" user="department" />
         </div>
     )
 }

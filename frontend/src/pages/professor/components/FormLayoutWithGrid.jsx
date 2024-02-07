@@ -12,7 +12,7 @@ import { sectors } from "../../../json/data";
 const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
 
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-    const [isGrid, setIsGrid] = useState(name=="Announcement" ? false : true);
+    const [isGrid, setIsGrid] = useState(name=="Announcement" || name=="Students" ? false : true);
     const [selectedId, setSelectedId] = useState(null);
 
     const [selectedKey, setSelectedKey] = useState('')

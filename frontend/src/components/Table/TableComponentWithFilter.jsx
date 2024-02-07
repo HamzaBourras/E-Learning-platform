@@ -31,7 +31,7 @@ import { PlusIcon } from "../PlusIcon";
 
 
 
-const TableComponentWithFilter = ({ data, columns, user, Component }) => {
+const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, title }) => {
 
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
     const [selectId, setSelectId] = useState(null);
@@ -174,12 +174,20 @@ const TableComponentWithFilter = ({ data, columns, user, Component }) => {
 
     const topContent = useMemo(() => {
         return (
-            <div className="flex flex-col gap-4">
-                <div className="flex justify-between gap-3 items-end">
+            <div className="flex flex-col gap-4 m-2">
+                <div className="flex items-center space-x-4 p-2 m-1 w-full bg-blue-50 bg-opacity-65 rounded-md border border-blue-300">
+                <img
+                    className='w-20'
+                    src={imageLogo}
+                />
+                <h1 className='h1 text-blue-500'>{title}</h1>
+            </div>
+                <div className="flex justify-between gap-3 items-center px-3">
                     <Input
                         isClearable
+                        className="w-96"
                         classNames={{
-                            base: "w-full sm:max-w-[44%]",
+                            base: "w-full sm:max-w-[50%]",
                             inputWrapper: "border-1",
                         }}
                         placeholder="Search by name..."
@@ -216,12 +224,13 @@ const TableComponentWithFilter = ({ data, columns, user, Component }) => {
                                 ))}
                             </DropdownMenu>
                         </Dropdown>
-                        <Button
+                        
+                        {!user == "Student" ? <Button
                             onPress={onOpen}
                             className="bg-foreground text-background"
                             endContent={<PlusIcon />}
                             size="sm">Add New
-                        </Button>
+                        </Button> : null}
                     </div>
                 </div>
                 <div className="flex justify-between items-center">

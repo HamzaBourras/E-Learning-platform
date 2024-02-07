@@ -1,6 +1,17 @@
+import TableComponentWithFilter from "../../components/Table/TableComponentWithFilter"
+import { studentColumns, students } from "../../json/data"
+
 const ManageMyStudents = () => {
     return (
-        <div>Manage MyStudents</div>
+        <div>
+            <TableComponentWithFilter 
+                Component="" 
+                data={students} 
+                columns={studentColumns}
+                title="My Students"
+                user="Student" 
+            />
+        </div>
     )
 }
 

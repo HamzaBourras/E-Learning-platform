@@ -82,8 +82,8 @@ const teachers = [
 const columns = [
     { name: "ID", uid: "id", sortable: true },
     { name: "NAME", uid: "name", sortable: true },
-    { name: "AGE", uid: "age", sortable: true },
-    { name: "SECTOR", uid: "sector", sortable: true },
+    // { name: "AGE", uid: "age", sortable: true },
+    // { name: "SECTOR", uid: "sector", sortable: true },
     { name: "EMAIL", uid: "email" },
     { name: "DEPARTMENT", uid: "department", sortable: true },
     { name: "ACTIONS", uid: "actions" },

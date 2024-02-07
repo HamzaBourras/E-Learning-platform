@@ -49,7 +49,7 @@ const DirectorDashboard = () => {
             
             <div>
                 <h1>Active Professors</h1>
-                {/* <BarChart data={professorData} /> */}
+                <BarChart data={professorData} />
             </div>
             {/* <div className="space-y-2">
                 <h1>Recentaly added students</h1>
