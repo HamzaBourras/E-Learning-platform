@@ -1,8 +1,8 @@
 import { Progress, Divider } from '@nextui-org/react'
 import { students, courses } from '../../json/data'
 import { countData } from '../../utils/utils'
-import Stduent from '../../assets/images/student-Logo.svg'
-import Course from '../../assets/images/folder-Logo.svg'
+import Stduent from '../../assets/images/student-logo.png'
+import Course from '../../assets/images/folder-Logo.png'
 const ProfessorDashboard = () => {
     const numberOfStudents = countData(students)
     const numberOfCourses = countData(courses)

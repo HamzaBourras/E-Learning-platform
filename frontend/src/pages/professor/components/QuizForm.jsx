@@ -60,7 +60,7 @@ const QuizCreator = ({ id }) => {
     }
 
     return (
-        <>
+        <div className='my-3'>
             {message && <Alert color='success' message={message} />}
             <div className='flex justify-center'>
                 <form onSubmit={handleSubmit} className='w-[90%] space-y-2'>
@@ -126,7 +126,7 @@ const QuizCreator = ({ id }) => {
                     </div>
                 </form>
             </div>
-        </>
+        </div>
     );
 };
 

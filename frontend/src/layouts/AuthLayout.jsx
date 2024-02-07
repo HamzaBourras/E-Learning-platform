@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Outlet, Navigate } from 'react-router-dom'
-
+import Background from '../assets/images/bg.png'
 
 const AuthLayout = () => {
     const user = true;
@@ -10,6 +10,7 @@ const AuthLayout = () => {
 
     return (
         <div className=''>
+            <img className="absolute -z-50 object-cover w-full h-full opacity-30" src={Background}/>
             <main>
                 <Outlet />
             </main>

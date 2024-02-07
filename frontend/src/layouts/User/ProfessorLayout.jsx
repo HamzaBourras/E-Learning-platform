@@ -9,7 +9,7 @@ const ProfessorLayout = () => {
             </div>
             <div className='grow shrink xs:sm:ml-24 mr-3 md:lg:ml-56 py-3 overflow-hidden'>
                 <div className='md:lg:mx-40'>
-                    <Outlet />
+                    <Outlet/>
                 </div>
             </div>
         </div>

@@ -10,69 +10,72 @@ const director = {
 
 const teachers = [
     {
-        id: 1,
-        firstname: "Tony",
-        lastname: "Reichert",
-        sector: "CEO",
-        department: "Management",
-        avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-        email: "tony.reichert@example.com",
+        "id": 1,
+        "firstname": "Tony",
+        "lastname": "Reichert",
+        "department": "Management",
+        "avatar": "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+        "email": "tony.reichert@example.com",
+        "sectors": [
+            "TM"
+        ]
     },
     {
-        id: 2,
-        firstname: "Zoey",
-        lastname: "Lang",
-        sector: "Tech Lead",
-        department: "Development",
-        status: "paused",
-        age: "25",
-        avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-        email: "zoey.lang@example.com",
+        "id": 2,
+        "firstname": "Zoey",
+        "lastname": "Lang",
+        "department": "Development",
+        "avatar": "https://i.pravatar.cc/150?u=a042581f4e29026704d",
+        "email": "zoey.lang@example.com",
+        "sectors": [
+            "Tech Lead"
+        ]
     },
     {
-        id: 3,
-        firstname: "Jane",
-        lastname: "Fisher",
-        sector: "Computer Science",
-        department: "Development",
-        status: "active",
-        age: "22",
-        avatar: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-        email: "jane.fisher@example.com",
+        "id": 3,
+        "firstname": "Jane",
+        "lastname": "Fisher",
+        "department": "Development",
+        "avatar": "https://i.pravatar.cc/150?u=a04258114e29026702d",
+        "email": "jane.fisher@example.com",
+        "sectors": [
+            "Computer Science",
+            "Data Science"
+        ]
     },
     {
-        id: 4,
-        firstname: "William",
-        lastname: "Howard",
-        sector: "C.M.",
-        department: "Marketing",
-        status: "vacation",
-        age: "28",
-        avatar: "https://i.pravatar.cc/150?u=a048581f4e29026701d",
-        email: "william.howard@example.com",
+        "id": 4,
+        "firstname": "William",
+        "lastname": "Howard",
+        "department": "Marketing",
+        "avatar": "https://i.pravatar.cc/150?u=a048581f4e29026701d",
+        "email": "william.howard@example.com",
+        "sectors": [
+            "C.M."
+        ]
     },
     {
-        id: 5,
-        firstname: "Kristen",
-        lastname: "Copper",
-        sector: "TM",
-        department: "Sales",
-        status: "active",
-        age: "24",
-        avatar: "https://i.pravatar.cc/150?u=a092581d4ef9026700d",
-        email: "kristen.cooper@example.com",
+        "id": 5,
+        "firstname": "Kristen",
+        "lastname": "Copper",
+        "department": "Sales",
+        "avatar": "https://i.pravatar.cc/150?u=a092581d4ef9026700d",
+        "email": "kristen.cooper@example.com",
+        "sectors": [
+            "TM"
+        ]
     },
     {
-        id: 6,
-        firstname: "Brian",
-        lastname: "Kim",
-        sector: "P. Manager",
-        department: "Management",
-        age: "29",
-        avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-        email: "brian.kim@example.com",
-        status: "Active",
-    },
+        "id": 6,
+        "firstname": "Brian",
+        "lastname": "Kim",
+        "department": "Management",
+        "avatar": "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+        "email": "brian.kim@example.com",
+        "sectors": [
+            "P. Manager"
+        ]
+    }
 ];
 
 
@@ -738,5 +741,53 @@ const quizzes = [
 
 
 
+const announcements = [
+    {
+        "id": 1,
+        "announcementName": "New course on Quantum Computing starting next week!",
+        "sector": "Computer Science",
+        "status": true
+    },
+    {
+        "id": 2,
+        "announcementName": "Reminder: Marketing seminar on brand management tomorrow.",
+        "sector": "TM",
+        "status": true
+    },
+    {
+        "id": 3,
+        "announcementName": "Scheduled maintenance on the network this weekend.",
+        "sector": "Data Science",
+        "status": true
+    },
+    {
+        "id": 4,
+        "announcementName": "Welcome to our new students joining the Biology department!",
+        "sector": "ER",
+        "status": true
+    },
+    {
+        "id": 5,
+        "announcementName": "Leadership training workshop postponed to next month.",
+        "sector": "Computer Science",
+        "status": false
+    }
+];
 
-export { director, departments, teachers, columns, depatmentsColumns, students, studentColumns, sectors, sectorsColumns, courses, quizzes };
+
+
+export 
+{ 
+    director, 
+    departments, 
+    teachers, 
+    columns, 
+    depatmentsColumns, 
+    students, 
+    studentColumns, 
+    sectors, 
+    sectorsColumns, 
+    courses, 
+    quizzes,
+    announcements
+};

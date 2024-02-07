@@ -328,7 +328,7 @@ const TableComponentWithFilter = ({ data, columns, user, Component }) => {
                         setSelectId(null);
                         onClose();
                     }}
-                    className="overflow-auto md:lg:w-[40%]"
+                    className="overflow-auto size-[400px]"
                 >
                     <ModalContent>
                         {(onClose) => (
