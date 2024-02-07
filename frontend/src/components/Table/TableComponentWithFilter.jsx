@@ -36,10 +36,6 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
     const [selectId, setSelectId] = useState(null);
 
-
-    // const navigate = useNavigate();
-    // navigate("../edit", { state: { userId, user } })
-
     const handleEdit = (id) => {
         setSelectId(id);
         onOpen();

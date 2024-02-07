@@ -18,6 +18,8 @@ const DirectorDashboard = () => {
         professor1: { assignments: 10, quizzes: 5, courses: 8 },
         professor2: { assignments: 5, quizzes: 12, courses: 6 },
         professor3: { assignments: 2, quizzes: 5, courses: 13 },
+        professor4: { assignments: 2, quizzes: 5, courses: 4 },
+        professor5: { assignments: 5, quizzes: 8, courses: 13 },
     };
 
 

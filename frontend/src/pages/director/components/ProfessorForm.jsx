@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/prop-types */
 import { Input, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
@@ -5,10 +6,15 @@ import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
 import { generateUsername, getArrayById } from '../../../utils/utils'
 import { teachers, departments, sectors } from '../../../json/data'
+import { ALL_PROFESSORS_API } from '../../../api/apis';
+import useFetch from '../../../hooks/useFetch'
 
 const ProfessorForm = ({ id }) => {
-    const apiKey = 'http://127.0.0.1:8000/api/posts/store';
-    const professor = getArrayById(teachers, 'id', id);
+    const apiKey = ALL_PROFESSORS_API;
+    const storeApiKey = ""
+    const {data} = useFetch(apiKey);
+
+    const professor = getArrayById((data.data), 'id', id);
 
     const initialState = {
         'firstname': id ? professor[0]['firstname'] : '',
@@ -19,7 +25,7 @@ const ProfessorForm = ({ id }) => {
         'username': id ? professor[0]['username'] : '',
     }
 
-    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
+    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, storeApiKey);
 
     const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department'] );
 
