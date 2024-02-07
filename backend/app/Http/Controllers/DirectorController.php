@@ -236,7 +236,7 @@ class DirectorController extends Controller
         foreach($sects as $sect) {
             $formatSect = [
                 "id" => $sect->id,
-                "departement" => $sect->departement->name,
+                "department" => $sect->departement->name,
                 "sector" => $sect->name
             ];
 
