@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 01 fév. 2024 à 21:53
+-- Généré le : mer. 07 fév. 2024 à 18:06
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -60,7 +60,8 @@ INSERT INTO `departements` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (4, 'Chimestry', NULL, NULL),
 (5, 'Physics', NULL, NULL),
 (6, 'Electricity', NULL, NULL),
-(7, 'Energy', NULL, NULL);
+(7, 'Energy', NULL, NULL),
+(8, 'développement', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -106,7 +107,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2024_01_31_150821_create_questions_table', 8),
 (12, '2024_01_31_151008_create_choices_table', 9),
 (13, '2024_01_31_151149_create_notes_table', 10),
-(14, '2024_02_01_204453_create_sectors_users_table', 11);
+(14, '2024_02_01_204453_create_sectors_users_table', 11),
+(15, '2024_02_03_114054_add_departement_id_users_table', 12);
 
 -- --------------------------------------------------------
 
@@ -250,6 +252,17 @@ CREATE TABLE `sectors_users` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `sectors_users`
+--
+
+INSERT INTO `sectors_users` (`id`, `sectors_id`, `users_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, NULL, NULL),
+(3, 2, 3, NULL, NULL),
+(4, 1, 5, NULL, NULL),
+(5, 1, 4, NULL, NULL),
+(6, 2, 6, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -265,16 +278,22 @@ CREATE TABLE `users` (
   `role_id` bigint(20) UNSIGNED DEFAULT NULL,
   `sector_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `departement_id` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `bio`, `role_id`, `sector_id`, `created_at`, `updated_at`) VALUES
-(1, 'Hamza Bourras', 'hamzabour2004@gmail.com', '1234', NULL, 3, 1, NULL, NULL),
-(2, 'Mohamed Slaoui', 'mohamed@gmail.com', '1111', NULL, 3, 1, NULL, NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `bio`, `role_id`, `sector_id`, `created_at`, `updated_at`, `departement_id`) VALUES
+(1, 'Hamza Bourras', 'hamzabour2004@gmail.com', '1234', NULL, 3, 1, NULL, NULL, NULL),
+(2, 'Mohamed Slaoui', 'mohamed@gmail.com', '1111', NULL, 3, 1, NULL, NULL, NULL),
+(3, 'Fahd karami ', 'fahd@gmail.com', '0000', NULL, 2, NULL, NULL, NULL, 3),
+(4, 'said gounane', 'said@gmail.com', '9999', NULL, 2, NULL, NULL, NULL, 8),
+(5, 'lamia ziad', 'lamia@gmail.com', '0000', NULL, 2, NULL, NULL, NULL, 3),
+(6, 'nadia chouhad', 'nadia@gmail.com', '0000', NULL, 2, NULL, NULL, NULL, 3),
+(8, 'hamza mohamed', 'hammoh@gmail.com', '3333', 'I am the admin', 1, NULL, NULL, NULL, NULL);
 
 --
 -- Index pour les tables déchargées
@@ -371,7 +390,8 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`),
   ADD KEY `users_role_id_foreign` (`role_id`),
-  ADD KEY `users_sector_id_foreign` (`sector_id`);
+  ADD KEY `users_sector_id_foreign` (`sector_id`),
+  ADD KEY `users_departement_id_foreign` (`departement_id`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -387,7 +407,7 @@ ALTER TABLE `choices`
 -- AUTO_INCREMENT pour la table `departements`
 --
 ALTER TABLE `departements`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `documents`
@@ -399,7 +419,7 @@ ALTER TABLE `documents`
 -- AUTO_INCREMENT pour la table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `notes`
@@ -447,13 +467,13 @@ ALTER TABLE `sectors`
 -- AUTO_INCREMENT pour la table `sectors_users`
 --
 ALTER TABLE `sectors_users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Contraintes pour les tables déchargées
@@ -513,6 +533,7 @@ ALTER TABLE `sectors_users`
 -- Contraintes pour la table `users`
 --
 ALTER TABLE `users`
+  ADD CONSTRAINT `users_departement_id_foreign` FOREIGN KEY (`departement_id`) REFERENCES `departements` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `users_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `users_sector_id_foreign` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`) ON DELETE CASCADE;
 COMMIT;
