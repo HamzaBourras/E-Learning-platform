@@ -135,10 +135,10 @@ class DirectorController extends Controller
         foreach ($studs as $stud) {
             $formatStudent = [
                 "id" => $stud->id,
-                "name" => $stud->name,
+                "username" => $stud->name,
                 "email" => $stud->email,
                 "password" => $stud->password,
-                "departement" => $stud->sector->departement->name,
+                "department" => $stud->sector->departement->name,
                 "sector" => $stud->sector->name
             ];
 
