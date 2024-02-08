@@ -28,9 +28,13 @@ const useFetch = (url) => {
 
         getData();
 
+        return setData(null)
+
     }, [url]);
 
     return { isLoading, data, error }
 };
 
 export default useFetch;
+
+

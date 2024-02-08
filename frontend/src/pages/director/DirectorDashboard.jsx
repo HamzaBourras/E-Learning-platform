@@ -22,7 +22,6 @@ const DirectorDashboard = () => {
         professor5: { assignments: 5, quizzes: 8, courses: 13 },
     };
 
-
     // --- -- - -- - - - - - - -- - -- - -- - - - - - - - - -- - - - -  -- - - - - - - - - - - - - -- - -- -  - -
     return (
         <div className="space-y-3">

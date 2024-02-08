@@ -129,14 +129,16 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
                 return (
                     <div className="relative flex justify-end items-center gap-2">
                         <Dropdown
-
+                            aria-label="options"
                             className="bg-background border-1 border-default-200">
                             <DropdownTrigger>
                                 <Button isIconOnly radius="full" size="sm" variant="light">
                                     <VerticalDotsIcon className="text-default-400" />
                                 </Button>
                             </DropdownTrigger>
-                            <DropdownMenu>
+                            <DropdownMenu
+                                aria-label="options"
+                            >
                                 <DropdownItem
                                     onClick={() => handleEdit(user.id)}
                                 >
@@ -171,12 +173,12 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
     const topContent = useMemo(() => {
         return (
             <div className="flex flex-col gap-4 m-2">
-                <div className="flex items-center space-x-4 p-2 m-1 w-full bg-blue-50 bg-opacity-65 rounded-md border border-blue-300">
+                <div className="flex items-center space-x-4 p-2 m-1 w-full bg-blue-50 bg-opacity-65 rounded-md border border-blue-200">
                 <img
                     className='w-20'
                     src={imageLogo}
                 />
-                <h1 className='h1 text-blue-500'>{title}</h1>
+                <h1 className='h1 text-blue-600'>{title}</h1>
             </div>
                 <div className="flex justify-between gap-3 items-center px-3">
                     <Input
@@ -221,12 +223,13 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
                             </DropdownMenu>
                         </Dropdown>
                         
-                        {!user == "Student" ? <Button
+                        <Button
                             onPress={onOpen}
                             className="bg-foreground text-background"
                             endContent={<PlusIcon />}
                             size="sm">Add New
-                        </Button> : null}
+                        </Button>
+
                     </div>
                 </div>
                 <div className="flex justify-between items-center">

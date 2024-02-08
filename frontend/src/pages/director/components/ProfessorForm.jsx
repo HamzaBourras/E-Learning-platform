@@ -4,25 +4,23 @@
 import { Input, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
 import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
-import { generateUsername, getArrayById } from '../../../utils/utils'
-import { teachers, departments, sectors } from '../../../json/data'
-import { ALL_PROFESSORS_API } from '../../../api/apis';
-import useFetch from '../../../hooks/useFetch'
+import { getArrayById } from '../../../utils/utils'
+import { useSelector } from 'react-redux'
 
 const ProfessorForm = ({ id }) => {
-    const apiKey = ALL_PROFESSORS_API;
     const storeApiKey = ""
-    const {data} = useFetch(apiKey);
+    const professors = useSelector((state)=> state.director.professors)
+    const departments = useSelector((state)=> state.director.departments)
+    const sectors = useSelector((state)=> state.director.sectors)
+    console.log(professors);
 
-    const professor = getArrayById((data.data), 'id', id);
+    const professor = getArrayById((professors), 'id', id);
 
     const initialState = {
-        'firstname': id ? professor[0]['firstname'] : '',
-        'lastname': id ? professor[0]['lastname'] : '',
+        'username': id ? professor[0]['username'] : '',
         'email': id ? professor[0]['email'] : '',
         'department': id ? professor[0]['department'] : '',
         'sector': id ? professor[0]['sector'] : [],
-        'username': id ? professor[0]['username'] : '',
     }
 
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, storeApiKey);
@@ -31,7 +29,6 @@ const ProfessorForm = ({ id }) => {
 
     return (
         <div className='px-1 space-y-2'>
-            { inputs['username'] }
 
             {message && <Alert color="success" message={message} />}
             <h1 className='text-2xl font-medium'>{id ? 'Update Professor' : 'Create New Professor'}</h1>
@@ -39,33 +36,20 @@ const ProfessorForm = ({ id }) => {
                 <div className="grid grid-cols-2 gap-1">
 
                     <Input variant="bordered"
-                        label="FirstName"
-                        value={inputs['firstname']}
-                        errorMessage={errors['firstname']}
-                        onChange={(e) => handleChange('firstname', e.target.value)}
-                    />
-
-                    <Input variant="bordered"
-                        label="LastName"
-                        value={inputs['lastname']}
-                        errorMessage={errors['lastname']}
-                        onChange={(e) => handleChange('lastname', e.target.value)}
-                    />
-
-                    <Input variant="bordered"
                         // className='col-span-2'
+                        label="Username"
+                        value={inputs['username']}
+                        errorMessage={errors['username']}
+                        onChange={(e) => handleChange('username', e.target.value)}
+                    />
+
+                    <Input variant="bordered"
                         label="Email"
                         value={inputs['email']}
                         errorMessage={errors['email']}
                         onChange={(e) => handleChange('email', e.target.value)}
                     />
 
-                    <Input variant="bordered"
-                        label="Username"
-                        value={id ? inputs['username'] : generateUsername(inputs['firstname'], inputs['lastname'])}
-                        errorMessage={errors['username']}
-                        onChange={() => handleChange('username', generateUsername(inputs['firstname'], inputs['lastname']))}
-                    />
 
                     <Select
                         items={departments}

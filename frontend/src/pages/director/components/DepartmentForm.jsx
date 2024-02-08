@@ -6,10 +6,14 @@ import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
 import { getArrayById } from '../../../utils/utils'
 import { departments } from '../../../json/data'
+// import { useSelector } from 'react-redux'
 
 const DepartmentForm = ({ id }) => {
     const apiKey = 'http://127.0.0.1:8000/api/posts/store';
     const department = getArrayById(departments, 'id', id);
+
+    // const professors = useSelector((state)=> state.professors.all)
+    // console.log(professors);
 
     const initialState = {
         'department': id ? department[0]['department'] : '',
