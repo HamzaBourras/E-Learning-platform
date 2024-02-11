@@ -6,46 +6,51 @@ import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
 import { getArrayById } from '../../../utils/utils'
 import { useSelector } from 'react-redux'
+import { STORE_PROFESSOR_API, UPDATE_PROFESSOR_API } from '../../../api/apis'
 
 const ProfessorForm = ({ id }) => {
-    const storeApiKey = ""
-    const professors = useSelector((state)=> state.director.professors)
-    const departments = useSelector((state)=> state.director.departments)
-    const sectors = useSelector((state)=> state.director.sectors)
-    console.log(professors);
+    //  -----------------------DATA------------------------------------------
+    const professors = useSelector((state) => state.director.professors)
+    const departments = useSelector((state) => state.director.departments)
+    const sectors = useSelector((state) => state.director.sectors)
+    
+    // ------------------------API-----------------------------------------
+    const method = id ? "put" : "post";
+    let apiKey = id ? `${UPDATE_PROFESSOR_API}/${id}` : `${STORE_PROFESSOR_API}`
 
     const professor = getArrayById((professors), 'id', id);
 
     const initialState = {
-        'username': id ? professor[0]['username'] : '',
+        'name': id ? professor[0]['username'] : '',
         'email': id ? professor[0]['email'] : '',
         'department': id ? professor[0]['department'] : '',
-        'sector': id ? professor[0]['sector'] : [],
+        'sectors': id ? professor[0]['sectors'] : [],
     }
 
-    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, storeApiKey);
+    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method);
 
-    const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department'] );
+    const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department']);
 
     return (
         <div className='px-1 space-y-2'>
-
-            {message && <Alert color="success" message={message} />}
-            <h1 className='text-2xl font-medium'>{id ? 'Update Professor' : 'Create New Professor'}</h1>
+            
+            {message && <Alert color="" message={message} />}
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-1">
-
+                    
                     <Input variant="bordered"
                         // className='col-span-2'
                         label="Username"
-                        value={inputs['username']}
-                        errorMessage={errors['username']}
-                        onChange={(e) => handleChange('username', e.target.value)}
+                        value={inputs['name']}
+                        name='name'
+                        errorMessage={errors['name']}
+                        onChange={(e) => handleChange('name', e.target.value)}
                     />
 
                     <Input variant="bordered"
                         label="Email"
                         value={inputs['email']}
+                        name='email'
                         errorMessage={errors['email']}
                         onChange={(e) => handleChange('email', e.target.value)}
                     />
@@ -55,7 +60,8 @@ const ProfessorForm = ({ id }) => {
                         items={departments}
                         label="Departments"
                         variant='bordered'
-                        defaultSelectedKeys={[inputs['department']]}
+                        name='department'
+                        defaultSelectedKeys={inputs['department'] !== "" ? [inputs['department']] : undefined}
                         errorMessage={errors['department']}
                         onChange={(e) => handleChange('department', e.target.value)}
                     >
@@ -66,11 +72,11 @@ const ProfessorForm = ({ id }) => {
                         items={sectorsBelongToDepartment}
                         label="Sectors"
                         variant='bordered'
+                        name='sectors'
                         selectionMode='multiple'
-                        defaultSelectedKeys={[inputs['sector']]}
-                        errorMessage={errors['sector']}
-                        onChange={(e) => handleChange('sector', e.target.value)}
-
+                        defaultSelectedKeys={inputs['sectors']}
+                        errorMessage={errors['sectors']}
+                        onChange={(e) => handleChange('sectors', e.target.value)}
                     >
                         {(sector) => <SelectItem key={sector.sector}>{sector.sector}</SelectItem>}
                     </Select>

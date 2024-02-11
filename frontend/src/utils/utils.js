@@ -3,7 +3,7 @@ export function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export const uncapitalize = (str) =>{
+export const uncapitalize = (str) => {
     return str.toLowerCase()
 }
 

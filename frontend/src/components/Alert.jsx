@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import classNames from "classnames";
 
+
 const Alert = ({ color, message }) => {
   let theme = null;
 
@@ -18,8 +19,16 @@ const Alert = ({ color, message }) => {
         "bg-red-50": color == "danger",
         "text-red-500": color == "danger",
       });
-
+      break;
+    default:
+    theme = classNames({
+      "border-blue-200": color == "",
+      "bg-blue-50": color == "",
+      "text-blue-500": color == "",
+    });
+    break;
   }
+
 
   return (
     <>

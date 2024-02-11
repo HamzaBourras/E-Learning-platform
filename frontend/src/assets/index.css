@@ -31,3 +31,8 @@
 .h2 {
   @apply text-3xl font-bold;
 }
+
+nav a.active{
+  border: 1px dashed black;
+  /* background-color: rgba(168, 149, 149, 0.66); */
+}

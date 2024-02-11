@@ -46,7 +46,7 @@ const Sidebar = ({ tabs, user }) => {
                     />
                     <span className='font-bold text-purple-700 text-lg drop-shadow'>UCA</span>
                 </Link>
-                
+
             </div>
             <div className='h-[80vh] mt-5 flex-shrink relative'>
                 <ul className="px-4 text-sm font-medium flex-1">
@@ -54,8 +54,7 @@ const Sidebar = ({ tabs, user }) => {
                         <NavLink
                             to={i.path}
                             key={i.id}
-                            className={`cursor-pointer mx-2 mb-2 ${main} group transition-all rounded-lg p-2 flex items-center justify-center space-x-2 `}
-
+                            className={({ isActive }) => `cursor-pointer mx-2 mb-2 ${main} group transition-all rounded-lg p-2 flex items-center justify-center space-x-2 ${isActive ? 'active' : ''}`}
                         >
                             <div className='w-full inline-flex space-x-3'>
                                 <img
@@ -73,8 +72,8 @@ const Sidebar = ({ tabs, user }) => {
                         </NavLink>
                     ))
                     }
-                </ul >
-            </div >
+                </ul>
+            </div>
 
             <Divider />
             <div className="h-[8vh] grow-0 flex justify-center space-y-3 w-full">

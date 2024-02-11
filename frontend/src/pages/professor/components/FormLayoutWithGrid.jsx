@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Modal, ModalContent, ModalHeader, ModalBody, Divider, ModalFooter, useDisclosure, ButtonGroup, Button, Tab,Tabs, Card, CardBody } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Divider, ModalFooter, useDisclosure, ButtonGroup, Button, Tab, Tabs, Card, CardBody } from "@nextui-org/react";
 import { useState } from 'react';
 import grid from '../../../assets/icons/gridSQ.svg'
 import list from '../../../assets/icons/grid_list.svg'
@@ -12,7 +12,7 @@ import { sectors } from "../../../json/data";
 const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
 
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-    const [isGrid, setIsGrid] = useState(name=="Announcement" || name=="Students" ? false : true);
+    const [isGrid, setIsGrid] = useState(name == "Announcement" || name == "Students" ? false : true);
     const [selectedId, setSelectedId] = useState(null);
 
     const [selectedKey, setSelectedKey] = useState('')
@@ -58,7 +58,27 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                     setSelectedId(null);
                     onClose();
                 }}
-                className="overflow-auto "
+                className="overflow-auto"
+                motionProps={{
+                    variants: {
+                        enter: {
+                            y: 0,
+                            opacity: 1,
+                            transition: {
+                                duration: 0.3,
+                                ease: "easeOut",
+                            },
+                        },
+                        exit: {
+                            y: -20,
+                            opacity: 0,
+                            transition: {
+                                duration: 0.2,
+                                ease: "easeIn",
+                            },
+                        },
+                    }
+                }}
             >
                 <ModalContent>
                     {(onClose) => (
@@ -69,8 +89,8 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="danger" variant="solid" onPress={onClose}>
-                                        Close
-                                    </Button>
+                                    Close
+                                </Button>
                             </ModalFooter>
                         </>
                     )}
@@ -78,9 +98,9 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
             </Modal>
             <Divider />
             <div className="flex w-full flex-col">
-                <Tabs 
-                    aria-label="Dynamic tabs" 
-                    items={sectors} 
+                <Tabs
+                    aria-label="Dynamic tabs"
+                    items={sectors}
                     variant='underlined'
                     selectedKey={selectedKey}
                     onSelectionChange={setSelectedKey}
@@ -90,7 +110,7 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                             key={item.sector}
                             title={item.sector}
                         >
-                            
+
                         </Tab>
                     )}
                 </Tabs>

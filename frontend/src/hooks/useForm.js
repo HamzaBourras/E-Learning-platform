@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from 'axios'
 
-const useForm = (initialState, api, method) => {
+const useForm = (initialState = {}, api, method) => {
 
     const [inputs, setInputs] = useState(initialState)
     const [errors, setErrors] = useState({})
@@ -26,24 +26,60 @@ const useForm = (initialState, api, method) => {
         setIsLoading(true);
 
         try {
-            await axios[method](api, inputs,{headers: {"Content-Type": "multipart/form-data"}})
-                .then(res => {
-                    if (res.status == 200) {
-                        setMessage("Data posted successfully")
-                        console.log(res);
-                    }
-                })
+            const response = await axios({
+                method: method, // Dynamic method
+                url: api, // API endpoint
+                data: inputs // Data to be sent with the request
+            });
+
+            if (response.status === 200) {
+                setMessage(response.data.message);
+                console.log(response);
+            }
 
         } catch (error) {
             const err = error?.response?.data?.errors;
+            let errorMessage = ''; // Define a variable to store the error message
             setErrors(err)
-        }
-        finally {
+
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                const status = error.response.status;
+
+                switch (status) {
+                    case 400:
+                        errorMessage = "Bad request: The server cannot process the request due to a client error.";
+                        break;
+                    case 401:
+                        errorMessage = "Unauthorized: The user is not authenticated to perform the request.";
+                        break;
+                    case 402:
+                        errorMessage = "Payment Required: This status code is reserved for future use.";
+                        break;
+                    case 405:
+                        errorMessage = "Method not allowed";
+                        break;
+                    // Add more cases for other status codes as needed
+                    default:
+                    // errorMessage = error.response.data?.message || "An error occurred while processing your request.";
+                }
+            } else if (error.request) {
+                // The request was made but no response was received
+                errorMessage = "No response received from the server.";
+            } else {
+                // Something else happened while setting up the request
+                errorMessage = "An error occurred while making the request.";
+            }
+
+            // Set the error message in the message state variable
+            setMessage(errorMessage);
+        } finally {
             setIsLoading(false);
         }
+
     }
 
-    return { inputs, errors,message, isLoading, handleChange, handleSubmit }
+    return { inputs, errors, message, isLoading, handleChange, handleSubmit, setMessage }
 }
 
 export default useForm;
