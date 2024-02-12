@@ -5,10 +5,19 @@ import { Input, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
 import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
 import { getArrayById } from '../../../utils/utils'
-import { departments, sectors } from '../../../json/data'
+import { useSelector } from 'react-redux'
+import { STORE_SECTOR_API, UPDATE_SECTOR_API } from '../../../api/apis'
+
 
 const SectorForm = ({ id }) => {
-    const apiKey = 'http://127.0.0.1:8000/api/posts/store';
+
+    //  -----------------------DATA------------------------------------------
+    const departments = useSelector((state) => state.director.departments)
+    const sectors = useSelector((state) => state.director.sectors)
+
+    // ------------------------API-----------------------------------------
+    const apiKey = id ? `${UPDATE_SECTOR_API}/${id}` : `${STORE_SECTOR_API}`
+    const method = id ? "put" : "post";
     const sector = getArrayById(sectors, 'id', id);
 
     const initialState = {
@@ -16,14 +25,13 @@ const SectorForm = ({ id }) => {
         'department': id ? sector[0]['department'] : '',
     }
 
-    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
+    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method);
 
 
     return (
         <div className='px-1 space-y-2'>
 
             {message && <Alert color="success" message={message} />}
-            <h1 className='text-2xl font-medium'>{id ? 'Update Sector' : 'Create New Sector'}</h1>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-1">
 
@@ -38,7 +46,7 @@ const SectorForm = ({ id }) => {
                         items={departments}
                         label="Departments"
                         variant='bordered'
-                        defaultSelectedKeys={[inputs['department']]}
+                        defaultSelectedKeys={inputs['department'] !== "" ? [inputs['department']] : undefined}
                         errorMessage={errors['department']}
                         onChange={(e) => handleChange('department', e.target.value)}
 

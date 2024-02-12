@@ -1,29 +1,34 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/prop-types */
 
-import { Input, Button, Spinner} from '@nextui-org/react'
+import { Input, Button, Spinner } from '@nextui-org/react'
 import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
 import { getArrayById } from '../../../utils/utils'
-import { departments } from '../../../json/data'
+import { useSelector } from 'react-redux'
+import { STORE_DEPARTMENT_API, UPDATE_DEPARTMENT_API } from '../../../api/apis'
 
 const DepartmentForm = ({ id }) => {
-    const apiKey = 'http://127.0.0.1:8000/api/posts/store';
+    //  -----------------------DATA------------------------------------------
+    const departments = useSelector((state) => state.director.departments)
+
+    // ------------------------API-----------------------------------------
+    const apiKey = id ? `${UPDATE_DEPARTMENT_API}/${id}` : `${STORE_DEPARTMENT_API}`
+    const method = id ? "put" : "post";
     const department = getArrayById(departments, 'id', id);
 
     const initialState = {
         'department': id ? department[0]['department'] : '',
     }
 
-    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
+    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method);
 
 
     return (
         <div className='px-1 space-y-2'>
 
             {message && <Alert color="success" message={message} />}
-            <h1 className='text-2xl font-medium'>{id ? 'Update Department' : 'Create New Department'}</h1>
-            
+
             <form onSubmit={handleSubmit} className='space-y-3'>
                 <div className="grid grid-cols-1 gap-1">
                     <Input variant="bordered"

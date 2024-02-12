@@ -4,46 +4,47 @@
 import { Input, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
 import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
-import { generateUsername, getArrayById } from '../../../utils/utils'
-import { students, departments, sectors } from '../../../json/data'
+import { useSelector } from 'react-redux'
+import { STORE_STUDENT_API, UPDATE_STUDENT_API } from '../../../api/apis'
+import { getArrayById } from '../../../utils/utils'
 
-const ProfessorForm = ({ id }) => {
-    const apiKey = 'http://127.0.0.1:8000/api/posts/store';
+
+const StudentForm = ({ id }) => {
+
+    //  -----------------------DATA------------------------------------------
+    const students = useSelector((state) => state.director.students)
+    const departments = useSelector((state) => state.director.departments)
+    const sectors = useSelector((state) => state.director.sectors)
+
+    // ------------------------API-----------------------------------------
+    const apiKey = id ? `${UPDATE_STUDENT_API}/${id}` : `${STORE_STUDENT_API}`
+    const method = id ? "put" : "post";
     const student = getArrayById(students, 'id', id);
-
+    // --------------------------------------------------------------------
     const initialState = {
-        'firstname': id ? student[0]['firstname'] : '',
-        'lastname': id ? student[0]['lastname'] : '',
-        'email': id ? student[0]['email'] : '',
         'username': id ? student[0]['username'] : '',
+        'email': id ? student[0]['email'] : '',
         'department': id ? student[0]['department'] : '',
         'sector': id ? student[0]['sector'] : '',
     }
 
-    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey)
+    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method)
 
-    const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department'] );
+    const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department']);
 
     return (
         <div className='px-1 space-y-2'>
 
             {message && <Alert color="success" message={message} />}
 
-            <h1 className='text-2xl font-medium'>{id ? 'Update Student' : 'Create New Student'}</h1>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-1">
-                    <Input variant="bordered"
-                        label="FirstName"
-                        value={inputs['firstname']}
-                        errorMessage={errors['firstname']}
-                        onChange={(e) => handleChange('firstname', e.target.value)}
-                    />
 
                     <Input variant="bordered"
-                        label="LastName"
-                        value={inputs['lastname']}
-                        errorMessage={errors['lastname']}
-                        onChange={(e) => handleChange('lastname', e.target.value)}
+                        label="Username"
+                        value={inputs['username']}
+                        errorMessage={errors['username']}
+                        onChange={(e) => handleChange('username', e.target.value)}
                     />
 
                     <Input variant="bordered"
@@ -52,13 +53,6 @@ const ProfessorForm = ({ id }) => {
                         value={inputs['email']}
                         errorMessage={errors['email']}
                         onChange={(e) => handleChange('email', e.target.value)}
-                    />
-
-                    <Input variant="bordered"
-                        label="Username"
-                        value={id ? inputs['username'] : generateUsername(inputs['firstname'], inputs['lastname'])}
-                        errorMessage={errors['username']}
-                        onChange={(e) => handleChange('username', e.target.value)}
                     />
 
                     <Select
@@ -115,4 +109,4 @@ const ProfessorForm = ({ id }) => {
 }
 
 
-export default ProfessorForm
+export default StudentForm

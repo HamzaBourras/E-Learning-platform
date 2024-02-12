@@ -9,7 +9,7 @@ const ManageMyStudents = () => {
                 data={students} 
                 columns={studentColumns}
                 title="My Students"
-                user="Student" 
+                user="my-students" 
             />
         </div>
     )

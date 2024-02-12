@@ -2,7 +2,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useState, useMemo, useCallback } from "react";
-// import { useNavigate } from 'react-router-dom'
 import {
     Table,
     TableHeader,
@@ -21,20 +20,34 @@ import {
     useDisclosure,
     Modal,
     ModalBody,
-    ModalContent
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    Spinner
 } from "@nextui-org/react";
 import { VerticalDotsIcon } from "../VerticalDotsIcon";
 import { SearchIcon } from "../SearchIcon";
 import { ChevronDownIcon } from "../ChevronDownIcon";
 import { capitalize } from "../../utils/utils";
 import { PlusIcon } from "../PlusIcon";
+import useForm from "../../hooks/useForm";
+// --  -- - - --APIs-------- - - - - - - 
 
+import { DELETE_DEPARTMENT_API, DELETE_PROFESSOR_API, DELETE_SECTOR_API, DELETE_STUDENT_API } from "../../api/apis"; 
+import Alert from "../Alert";
+import { handleRenderAction } from '../../state/features/Director/directorSlice';
+import { useDispatch } from "react-redux";
+DELETE_SECTOR_API
 
 
 const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, title }) => {
 
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
     const [selectId, setSelectId] = useState(null);
+    const [deleteAction, setDeleteAction] = useState(false);
+    const [apiKey, setApiKey] = useState(null);
+
+    const dispatch = useDispatch();
 
     const handleEdit = (id) => {
         setSelectId(id);
@@ -42,8 +55,35 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
     };
 
     const handleDelete = (userId) => {
-        console.log(`Delete data with ID: ${userId}`);
+        // console.log(`Delete ${user} with ID: ${userId}`);
+        switch (user) {
+            case 'professor':
+                setApiKey(`${DELETE_PROFESSOR_API}/${userId}`)
+                onOpen();
+                setDeleteAction(true)
+                break;
+            case 'student':
+                setApiKey(`${DELETE_STUDENT_API}/${userId}`)
+                onOpen();
+                setDeleteAction(true)
+                break;
+            case 'sector':
+                setApiKey(`${DELETE_SECTOR_API}/${userId}`)
+                onOpen();
+                setDeleteAction(true)
+                break;
+            case 'department':
+                setApiKey(`${DELETE_DEPARTMENT_API}/${userId}`)
+                onOpen();
+                setDeleteAction(true)
+                break;
+
+            default:
+                break;
+        }
     };
+
+    const { handleSubmit, isLoading, errors, message, setMessage } = useForm({}, apiKey, 'delete')
     // ---------------------------------------------
 
     const INITIAL_VISIBLE_COLUMNS = [];
@@ -129,14 +169,16 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
                 return (
                     <div className="relative flex justify-end items-center gap-2">
                         <Dropdown
-
+                            aria-label="options"
                             className="bg-background border-1 border-default-200">
                             <DropdownTrigger>
                                 <Button isIconOnly radius="full" size="sm" variant="light">
                                     <VerticalDotsIcon className="text-default-400" />
                                 </Button>
                             </DropdownTrigger>
-                            <DropdownMenu>
+                            <DropdownMenu
+                                aria-label="options"
+                            >
                                 <DropdownItem
                                     onClick={() => handleEdit(user.id)}
                                 >
@@ -171,13 +213,13 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
     const topContent = useMemo(() => {
         return (
             <div className="flex flex-col gap-4 m-2">
-                <div className="flex items-center space-x-4 p-2 m-1 w-full bg-blue-50 bg-opacity-65 rounded-md border border-blue-300">
-                <img
-                    className='w-20'
-                    src={imageLogo}
-                />
-                <h1 className='h1 text-blue-500'>{title}</h1>
-            </div>
+                <div className="flex items-center space-x-4 p-2 m-1 w-full bg-blue-50 bg-opacity-15 rounded-md border">
+                    <img
+                        className='w-20'
+                        src={imageLogo}
+                    />
+                    <h1 className='h1 text-blue-600'>{title}</h1>
+                </div>
                 <div className="flex justify-between gap-3 items-center px-3">
                     <Input
                         isClearable
@@ -220,13 +262,16 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
                                 ))}
                             </DropdownMenu>
                         </Dropdown>
-                        
-                        {!user == "Student" ? <Button
+
+                        {user == 'my-students' ? null : 
+                        <Button
                             onPress={onOpen}
                             className="bg-foreground text-background"
                             endContent={<PlusIcon />}
                             size="sm">Add New
-                        </Button> : null}
+                        </Button>
+                        }
+
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
@@ -331,16 +376,86 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
                     onOpenChange={onOpenChange}
                     onClose={() => {
                         setSelectId(null);
+                        setDeleteAction(false);
+                        setApiKey(null)
                         onClose();
+                        setMessage('')
+                        dispatch(handleRenderAction())
                     }}
-                    className="overflow-auto size-[400px]"
+                    className="overflow-auto p-3"
+                    motionProps={{
+                        variants: {
+                            enter: {
+                                y: 0,
+                                opacity: 1,
+                                transition: {
+                                    duration: 0.3,
+                                    ease: "easeOut",
+                                },
+                            },
+                            exit: {
+                                y: -20,
+                                opacity: 0,
+                                transition: {
+                                    duration: 0.2,
+                                    ease: "easeIn",
+                                },
+                            },
+                        }
+                    }}
                 >
                     <ModalContent>
                         {(onClose) => (
                             <>
-                                <ModalBody className="flex justify-center">
-                                    <Component id={selectId}/>
+                                <ModalHeader className="flex flex-col gap-1 text-2xl font-medium">
+                                    {message && <Alert color="success" message={message} />}
+                                    {deleteAction &&
+                                        <div>
+                                            <h1 className="text-red-500">Delete {user}</h1>
+                                            <p className="text-sm text-gray-600">Are you sure you want to delete this {user} ?</p>
+                                        </div>
+                                    }
+
+                                    {!deleteAction && (
+                                        <div>
+                                            {!selectId && <h1>Create new {user}</h1>}
+                                            {selectId && <h1>Update {user}</h1>}
+                                        </div>
+                                    )}
+
+                                </ModalHeader>
+                                <ModalBody className="">
+                                    {deleteAction && <div>
+                                    </div>
+                                    }
+                                    {!deleteAction && (
+                                        <div>
+                                            <Component id={selectId} />
+                                        </div>
+                                    )}
                                 </ModalBody>
+                                <ModalFooter>
+                                    {deleteAction &&
+                                        <div className="space-x-2 flex">
+                                            <Button variant="faded" onPress={onClose}>
+                                                Cancel
+                                            </Button>
+                                            <Button
+                                                color="danger"
+                                                variant="solid"
+                                                onClick={handleSubmit}
+                                                isDisabled={isLoading}
+                                            >
+                                                {isLoading ? (<div className='flex items-center gap-1'><Spinner color="white" /> Loading...</div>) : 'Delete'}
+                                            </Button>
+                                        </div>
+                                    }
+                                    {!deleteAction && (
+                                        <div>
+                                        </div>
+                                    )}
+
+                                </ModalFooter>
                             </>
                         )}
                     </ModalContent>
