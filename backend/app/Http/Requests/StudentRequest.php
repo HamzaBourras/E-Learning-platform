@@ -22,8 +22,8 @@ class StudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "username"=>"required",
-            "email"=>"required|email|unique:users,email",
+            "name"=>"required",
+            "email"=>"required|email|",
             "sector"=>"required"
         ];
     }

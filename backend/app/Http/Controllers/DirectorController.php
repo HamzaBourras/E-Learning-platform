@@ -58,7 +58,7 @@ class DirectorController extends Controller
     public function storeProfessor(ProfessorRequest $request)
     {
         // selectioné l'id du departement
-        $departement_id = Departement::where('name', $request->departement)->first()->id;
+        $departement_id = Departement::where('name', $request->department)->first()->id;
 
         User::create([
             "name" => $request->name,
@@ -83,6 +83,11 @@ class DirectorController extends Controller
                 "sectors_id" => $sector_id
             ]);
         }
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Professor added successfully"
+        ]);
     }
 
     /**** edit a professor ****/
@@ -90,9 +95,10 @@ class DirectorController extends Controller
     public function editProfessor(ProfessorRequest $request, int $id)
     {
         // selectioné l'id du departement
-        $departement_id = Departement::where('name', $request->departement)->first()->id;
+        $departement_id = Departement::where('name', $request->department)->first()->id;
 
         User::where(['id'=>$id,"role_id"=>2])->update([
+            "name"=> $request->name,
             "email" => $request->email,
             "departement_id" => $departement_id,
             "password" => $request->email
@@ -110,6 +116,11 @@ class DirectorController extends Controller
             ]);
         }
 
+        return response()->json([
+            "status" => 200,
+            "message" => "Professor updated successfully"
+        ]);
+
     }
 
 
@@ -117,6 +128,11 @@ class DirectorController extends Controller
 
     public function destroyProfessor (int $id) {
         User::where(['id'=>$id,"role_id"=>2])->delete();
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Professor deleted successfully"
+        ]);
     }
 
 
@@ -161,6 +177,11 @@ class DirectorController extends Controller
             "sector_id" => $sector_id,
             "password" => $request->email
         ]);
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Student added successfully"
+        ]);
     }
 
     /**** edit a student ****/
@@ -174,12 +195,22 @@ class DirectorController extends Controller
             "sector_id" => $sector_id,
             "password" => $request->email
         ]);
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Student updated successfully"
+        ]);
     }
 
     /**** delete a student ****/
 
     public function destroyStudent (int $id) {
         User::where(["id"=>$id, "role_id"=>3])->delete();
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Student deleted successfully"
+        ]);
     }
 
 
@@ -204,6 +235,11 @@ class DirectorController extends Controller
         Departement::create([
             "name" => $request->department
         ]);
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Department added successfully"
+        ]);
     }
 
     /**** edit a departement ****/
@@ -212,12 +248,22 @@ class DirectorController extends Controller
         Departement::where('id',$id)->update([
             "name" => $request->department
         ]);
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Department updated successfully"
+        ]);
     }
 
     /**** delete a departement ****/
 
     public function destroyDepartment ( int $id) {
         Departement::where('id',$id)->delete();
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Department deleted successfully"
+        ]);
     }
 
 
@@ -257,6 +303,11 @@ class DirectorController extends Controller
             "name" => $request->sector,
             "departement_id" => $departement_id
         ]);
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Sector added successfully"
+        ]);
     }
 
     /**** edit a departement ****/
@@ -268,12 +319,22 @@ class DirectorController extends Controller
             "name" => $request->sector,
             "departement_id" => $departement_id
         ]);
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Sector updated successfully"
+        ]);
     }
 
     /**** delete a departement ****/
 
     public function destroySector ( int $id) {
         Sector::where('id',$id)->delete();
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Sector deleted successfully"
+        ]);
     }
 
 }

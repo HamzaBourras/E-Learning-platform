@@ -22,8 +22,8 @@ class ProfessorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "username"=>"required",
-            "email"=>"required|email|unique:users,email",
+            "name"=>"required",
+            "email"=>"required|email",
             "department"=>"required",
             "sectors"=>"required"
         ];
