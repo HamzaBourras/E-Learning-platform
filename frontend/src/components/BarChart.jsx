@@ -12,6 +12,8 @@ const BarChart = ({ data, labels, colors }) => {
         backgroundColor: colors[index],
         borderColor: colors[index].replace(/[^,]+(?=\))/, '1'),
         borderWidth: 1,
+        borderRadius: 4,
+        
         data: Object.values(data).map((professor) => professor[label] || 0),
     }));
 

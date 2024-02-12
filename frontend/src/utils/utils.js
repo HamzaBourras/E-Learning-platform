@@ -29,3 +29,15 @@ export const getRecentlyAddedData = (array, comparison, number) => {
 
     return recentData;
 }
+
+export const sortArray = (array, method="asc") => {
+    const sortedArray = array.slice()
+    switch (method) {
+        case 'asc':
+            return sortedArray.sort((a, b) => a.downloads - b.downloads);
+        case 'desc':
+            return sortedArray.sort((a, b) => b.downloads - a.downloads);
+        default:
+            return sortedArray
+    }
+}

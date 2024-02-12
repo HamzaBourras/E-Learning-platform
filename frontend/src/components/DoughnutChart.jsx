@@ -3,31 +3,21 @@
 import { Chart as ChartJS } from 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
 
-const DashboardChart = ({ teacherCounter, studentCounter, departmentCounter, sectorCounter }) => {
+const DoughnutChart = ({ labels, data, colors }) => {
     const chartData = {
-        labels: ['Professors', 'Students', 'Departments', 'Sectors'],
+        labels: labels,
         datasets: [
             {
-                data: [teacherCounter, studentCounter, departmentCounter, sectorCounter],
-                backgroundColor: [
-                    'rgba(75,192,192,0.6)',
-                    'rgba(255,99,132,0.6)',
-                    'rgba(255,206,86,0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                ],
-                borderColor: [
-                    'rgba(75,192,192,1)',
-                    'rgba(255,99,132,1)',
-                    'rgba(255,206,86,1)',
-                    'rgba(54, 162, 235, 1)',
-                ],
+                data: data,
+                backgroundColor: colors.map(color => color.replace(/[^,]+(?=\))/, '0.6')),
+                borderColor: colors.map(color => color.replace(/[^,]+(?=\))/, '1')),
                 borderWidth: 1,
             },
         ],
     };
 
     const chartOptions = {
-        cutout: '70%', // Adjust the cutout to control the size of the hole in the center
+        cutout: '70%',
         plugins: {
             legend: {
                 position: 'bottom',
@@ -36,11 +26,10 @@ const DashboardChart = ({ teacherCounter, studentCounter, departmentCounter, sec
     };
 
     return (
-        <div className='size-32'>
-            <h2>Data Overview</h2>
+        <div className='size-56'>
             <Doughnut data={chartData} options={chartOptions} />
         </div>
     );
 };
 
-export default DashboardChart;
+export default DoughnutChart;

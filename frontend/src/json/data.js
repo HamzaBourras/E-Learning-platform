@@ -238,6 +238,7 @@ const courses = [
         courseName: 'Laravel',
         description: 'Discover the power of Laravel, a PHP web application framework, and learn to build elegant and scalable web applications. Dive into features like Eloquent ORM, Blade templating, and more. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis, provident dolorum. Atque expedita soluta temporibus, eveniet repellendus animi voluptate harum?',
         tags: ['web', 'laravel', 'backend'],
+        downloads: 12,
         sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
@@ -247,6 +248,7 @@ const courses = [
         courseName: 'React.js',
         description: 'A comprehensive guide to the fundamentals of React.js for building modern user interfaces.',
         tags: ['web', 'react', 'frontend'],
+        downloads: 2 ,
         sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
@@ -256,6 +258,7 @@ const courses = [
         courseName: 'Node.js Basics',
         description: 'Learn the basics of Node.js and server-side JavaScript programming.',
         tags: ['web', 'node', 'backend'],
+        downloads: 6 ,
         sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
@@ -265,6 +268,7 @@ const courses = [
         courseName: 'Python for Data Science',
         description: 'Explore Python programming for data science and analysis with real-world examples.',
         tags: ['python', 'data-science'],
+        downloads: 9,
         sector: 'Data Science',
         filePath: '',
         thumbnailImage: ''
@@ -274,6 +278,7 @@ const courses = [
         courseName: 'Angular Framework',
         description: 'An in-depth tutorial on building web applications with the Angular framework.',
         tags: ['web', 'angular', 'frontend'],
+        downloads: 0,
         sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
@@ -283,6 +288,7 @@ const courses = [
         courseName: 'Databases and SQL',
         description: 'Master the concepts of databases and SQL for efficient data storage and retrieval.',
         tags: ['database', 'sql', 'backend'],
+        downloads: 4,
         sector: 'Data Science',
         filePath: '',
         thumbnailImage: ''
@@ -292,6 +298,7 @@ const courses = [
         courseName: 'Mobile App Development with Flutter',
         description: 'Create cross-platform mobile applications with Flutter and Dart programming language.',
         tags: ['mobile', 'flutter', 'dart'],
+        downloads: 21,
         sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
@@ -301,6 +308,7 @@ const courses = [
         courseName: 'JavaScript Design Patterns',
         description: 'Understand common design patterns in JavaScript for writing scalable and maintainable code.',
         tags: ['javascript', 'design-patterns'],
+        downloads: 7,
         sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
@@ -310,6 +318,7 @@ const courses = [
         courseName: 'Cybersecurity Essentials',
         description: 'Learn the essential concepts and techniques in cybersecurity for securing digital systems.',
         tags: ['cybersecurity'],
+        downloads: 3,
         sector: 'Data Science',
         filePath: '',
         thumbnailImage: ''
@@ -319,6 +328,7 @@ const courses = [
         courseName: 'GraphQL in Practice',
         description: 'Implement GraphQL for efficient data fetching and manipulation in modern web applications.',
         tags: ['web', 'graphql', 'backend'],
+        downloads: 2,
         sector: 'Data Science',
         filePath: '',
         thumbnailImage: ''

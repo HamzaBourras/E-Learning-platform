@@ -3,6 +3,7 @@ import { countData, getRecentlyAddedData } from "../../utils/utils";
 import { teachers, students, departments, sectors } from '../../json/data'
 import { useState } from "react";
 import BarChart from '../../components/BarChart';
+import ProgressComponent from "../../components/ProgressComponent";
 
 
 const DirectorDashboard = () => {
@@ -30,21 +31,14 @@ const DirectorDashboard = () => {
             </div>
             <div className="grid xs:sm:grid-cols-2 md:lg:grid-cols-4 gap-2">
 
-                <div className="border border-purple-100 shadow-sm text-lg h-20 rounded-md flex justify-center items-center">
-                    <h1 className="text-2xl">{teacherCounter} <span className="">Professors</span></h1>
-                </div>
+                <ProgressComponent name="Professors" image="" number={teacherCounter} maxNumber={10}/>
 
-                <div className="border border-purple-100 shadow-sm text-lg h-20 rounded-md flex justify-center items-center">
-                    <h1 className="text-2xl">{studentCounter} <span className="">Students</span></h1>
-                </div>
+                <ProgressComponent name="Students" image="" number={studentCounter} maxNumber={40}/>
 
-                <div className="border border-purple-100 shadow-sm text-lg h-20 rounded-md flex justify-center items-center">
-                    <h1 className="text-2xl">{departmentCounter} <span className="">Departments</span></h1>
-                </div>
+                <ProgressComponent name="Departments" image="" number={departmentCounter} maxNumber={10}/>
 
-                <div className="border border-purple-100 shadow-sm text-lg h-20 rounded-md flex justify-center items-center">
-                    <h1 className="text-2xl">{sectorCounter} <span className="">Sectors</span></h1>
-                </div>
+                <ProgressComponent name="Sectors" image="" number={sectorCounter} maxNumber={10}/>
+
 
             </div>
             
