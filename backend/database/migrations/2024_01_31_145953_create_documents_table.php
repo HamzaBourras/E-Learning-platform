@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string("title");
             $table->string("description");
-            $table->string("path");
+            $table->string("file");
             $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

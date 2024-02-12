@@ -36,7 +36,7 @@ class DirectorController extends Controller
             // représenter le prof sous la format
             $formatProfessor = [
                 "id" => $prof->id,
-                "username" => $prof->name,
+                "name" => $prof->name,
                 "email" => $prof->email,
                 "password" => $prof->password,
                 "department" => $prof->departement->name,
@@ -135,7 +135,7 @@ class DirectorController extends Controller
         foreach ($studs as $stud) {
             $formatStudent = [
                 "id" => $stud->id,
-                "username" => $stud->name,
+                "name" => $stud->name,
                 "email" => $stud->email,
                 "password" => $stud->password,
                 "department" => $stud->sector->departement->name,
@@ -144,9 +144,9 @@ class DirectorController extends Controller
 
             array_push($students,$formatStudent);
         }
-        return [
+        return response()->json([
             "data" => $students
-        ];
+        ]);
     }
 
     /**** store a student ****/
@@ -193,9 +193,9 @@ class DirectorController extends Controller
     public function indexDepartment () {
         $departements = Departement::all(['id','name as department']);
 
-        return [
+        return response()->json([
             "data" => $departements
-        ];
+        ]);
     }
 
     /**** store a departement ****/
@@ -243,9 +243,9 @@ class DirectorController extends Controller
             array_push($sectors,$formatSect);
         }
 
-        return [
+        return response()->json([
             "data" => $sectors
-        ];
+        ]);
     }
 
     /**** store a departement ****/
