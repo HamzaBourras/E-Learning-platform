@@ -69,7 +69,7 @@ class DirectorController extends Controller
         ]);
 
         // selectioné l'id du professor crée
-        $professorCreeId = User::orderBy('id', 'desc')->where('role_id', 2)->first();
+        $professorCreeId = User::orderBy('id', 'desc')->where('role_id', 2)->first()->id;
 
         // enregistré les ids des sectors selectioné
         $sectors_id = [];
