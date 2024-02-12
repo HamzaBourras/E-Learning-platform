@@ -20,7 +20,7 @@ class DirectorController extends Controller
 
     public function indexProfessor()
     {
-        $profs =  User::with("sectors", "departement")->where('role_id', 2)->get();
+        $profs =  User::with("sectors", "departement")->where('role_id', 2)->orderBy('id','desc')->get();
 
         $professors = [];
         // dd($profs[0]->departement->name);
@@ -71,9 +71,13 @@ class DirectorController extends Controller
         // selectioné l'id du professor crée
         $professorCreeId = User::orderBy('id', 'desc')->where('role_id', 2)->first();
 
+        // enregistré les noms des sectors selectioné
+        $sectors_names = explode(',',$request->sectors);
+
         // enregistré les ids des sectors selectioné
+        
         $sectors_id = [];
-        array_push($sectors_id, Sector::whereIn('name', $request->sectors)->pluck('id')->toArray());
+        array_push($sectors_id, Sector::whereIn('name', $sectors_names)->pluck('id')->toArray());
         $sectors_id = $sectors_id[0];  // ici parsque $sectors_id c'est un tableau à l'interieur d'un tableau
 
         // inserer les ids des sectors et du professor dans la table de relation many to many
