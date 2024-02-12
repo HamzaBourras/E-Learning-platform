@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DirectorController;
+use App\Http\Controllers\ProfessorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,7 @@ Route::get('/', function () {
 //    return  redirect()->route("director.dashboard");
 });
 
+    /********************** Director *************************/
 Route::prefix("auth/director/")->controller(DirectorController::class)->name("director.")->group(function(){
 
     //--------- - --- professor -----------------------
@@ -53,6 +55,29 @@ Route::prefix("auth/director/")->controller(DirectorController::class)->name("di
         Route::delete("destroy/{id}","destroySector")->where(["id"=>"[0-9]+"])->name("destroySector");
     });
 
+
+});
+
+
+    /********************** Professor *************************/
+Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("professor.")->group(function () {
+
+    //--------- - --- courses -----------------------
+    Route::prefix("course/")->name("course.")->group(function () {
+        Route::get("index","indexCourse")->name("indexCourse");
+        Route::post("store","storeCourse")->name("storeCourse");
+        Route::put("edit/{id}","editCourse")->where(["id"=>"[0-9]+"])->name("editCourse");
+        Route::delete("destroy/{id}","destroyCourse")->where(["id"=>"[0_9]+"])->name("destroyCourse");
+        
+    });
+
+});
+
+
+
+        /********** Test ************/
+Route::get('auth/professor/course/create', function () {
+    return view('createCourse');
 });
 
 
