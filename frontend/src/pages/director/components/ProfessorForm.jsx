@@ -21,16 +21,17 @@ const ProfessorForm = ({ id }) => {
     const professor = getArrayById((professors), 'id', id);
 
     const initialState = {
-        'name': id ? professor[0]['username'] : '',
+        'name': id ? professor[0]['name'] : '',
         'email': id ? professor[0]['email'] : '',
         'department': id ? professor[0]['department'] : '',
         'sectors': id ? professor[0]['sectors'] : [],
     }
 
+    
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method);
-
+    
     const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department']);
-
+    
     return (
         <div className='px-1 space-y-2'>
             
@@ -40,7 +41,7 @@ const ProfessorForm = ({ id }) => {
                     
                     <Input variant="bordered"
                         // className='col-span-2'
-                        label="Username"
+                        label="Name"
                         value={inputs['name']}
                         name='name'
                         errorMessage={errors['name']}
@@ -76,7 +77,7 @@ const ProfessorForm = ({ id }) => {
                         selectionMode='multiple'
                         defaultSelectedKeys={inputs['sectors']}
                         errorMessage={errors['sectors']}
-                        onChange={(e) => handleChange('sectors', e.target.value)}
+                        onChange={(e) => handleChange('sectors', e.target.value.split(','))}
                     >
                         {(sector) => <SelectItem key={sector.sector}>{sector.sector}</SelectItem>}
                     </Select>

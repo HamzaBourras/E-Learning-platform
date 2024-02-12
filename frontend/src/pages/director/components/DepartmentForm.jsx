@@ -18,7 +18,7 @@ const DepartmentForm = ({ id }) => {
     const department = getArrayById(departments, 'id', id);
 
     const initialState = {
-        'department': id ? department[0]['department'] : '',
+        'name': id ? department[0]['name'] : '',
     }
 
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method);
@@ -33,9 +33,9 @@ const DepartmentForm = ({ id }) => {
                 <div className="grid grid-cols-1 gap-1">
                     <Input variant="bordered"
                         label="Department name"
-                        value={inputs['department']}
-                        errorMessage={errors['department']}
-                        onChange={(e) => handleChange('department', e.target.value)}
+                        value={inputs['name']}
+                        errorMessage={errors['name']}
+                        onChange={(e) => handleChange('name', e.target.value)}
                     />
 
                 </div>
