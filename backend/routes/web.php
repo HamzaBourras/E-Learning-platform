@@ -26,7 +26,7 @@ Route::prefix("auth/director/")->controller(DirectorController::class)->name("di
     Route::prefix("professor/")->name("professor.")->group(function(){
         Route::get("index","indexProfessor")->name("indexProfessor");
         Route::post("store","storeProfessor")->name("storeProfessor");
-        Route::put("edit/{id}","editProfessor")->where(["id"=>"[0-9]+"])->name("editProfessor");
+        Route::get("edit/","editProfessor")->where(["id"=>"[0-9]+"])->name("editProfessor");
         Route::delete("destroy/{id}","destroyProfessor")->where(["id"=>"[0-9]+"])->name("destroyProfessor");
 
     });

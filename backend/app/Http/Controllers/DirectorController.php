@@ -107,19 +107,26 @@ class DirectorController extends Controller
 
         // enregistré les ids des sectors selectioné
         $sectors_id = [];
+
         array_push($sectors_id, Sector::whereIn('name', $request->sectors)->pluck('id')->toArray());
         $sectors_id = $sectors_id[0];  // ici parsque $sectors_id c'est un tableau à l'interieur d'un tableau
 
+        
+        // supprimer les anciens sectors du prof
+        SectorsUsers::where('users_id',$id)->delete();
+        
         // inserer les ids des sectors et du professor dans la table de relation many to many
         foreach ($sectors_id as $sector_id) {
-            SectorsUsers::where('users_id',$id)->update([
+            SectorsUsers::create([
+                "users_id" => $id,
                 "sectors_id" => $sector_id
             ]);
         }
 
         return response()->json([
             "status" => 200,
-            "message" => "Professor updated successfully"
+            "message" => "Professor updated successfully",
+            // "data" => $sectors_id
         ]);
 
     }
