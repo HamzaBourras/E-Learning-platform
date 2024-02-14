@@ -59,6 +59,7 @@ Route::prefix("auth/director/")->controller(DirectorController::class)->name("di
 });
 
 
+
     /********************** Professor *************************/
 Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("professor.")->group(function () {
 
