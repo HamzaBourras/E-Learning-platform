@@ -11,9 +11,9 @@ class AuthentificationController extends Controller
 {
     public function login (AuthentificationRequest $request) {
         
-        $validated = $request->validated();
+        $user = User::where('username',$request->username);
         
-        if (Auth::attempt($validated)) {
+        if (password_verify($request->password, $user->password)) {
             $user = Auth::uesr();
             return response()->json([
                 "data" => $user
@@ -21,7 +21,7 @@ class AuthentificationController extends Controller
 
         } else {
             return response()->json([
-                "data" => "no user founded"
+                "data" => "no user found"
             ]);
         }
 
