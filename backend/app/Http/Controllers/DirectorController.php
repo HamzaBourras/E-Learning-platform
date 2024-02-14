@@ -227,7 +227,7 @@ class DirectorController extends Controller
     /**** return All departement ****/
 
     public function indexDepartment () {
-        $departements = Departement::all(['id','name as department'])->orderBy('id','desc');
+        $departements = Departement::orderBy('id','desc')->get(['id','name as department']);
 
         return response()->json([
             "data" => $departements
