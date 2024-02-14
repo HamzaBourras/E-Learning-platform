@@ -84,8 +84,8 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
 
 
         /********** Test ************/
-Route::get('auth/professor/course/create', function () {
-    return view('createCourse');
+Route::get('createLogin', function () {
+    return view('createLogin');
 });
 
 
