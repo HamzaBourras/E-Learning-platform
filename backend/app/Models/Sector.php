@@ -9,6 +9,11 @@ class Sector extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "name",
+        "departement_id"
+    ];
+
     public function departement () {
         return $this->belongsTo(Departement::class);
     }
