@@ -24,7 +24,7 @@ class ProfessorRequest extends FormRequest
         return [
             "firstName"=>"required",
             "lastName"=>"required",
-            "name"=>"required",
+            "username"=>"required",
             "email"=>"required|email",
             "department"=>"required",
             "sectors"=>"required"

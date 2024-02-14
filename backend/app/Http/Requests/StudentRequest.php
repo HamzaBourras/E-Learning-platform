@@ -24,7 +24,7 @@ class StudentRequest extends FormRequest
         return [
             "firstName"=>"required",
             "lastName"=>"required",
-            "name"=>"required",
+            "username"=>"required",
             "email"=>"required|email|",
             "sector"=>"required"
         ];

@@ -37,6 +37,8 @@ class DirectorController extends Controller
             // représenter le prof sous la format
             $formatProfessor = [
                 "id" => $prof->id,
+                "firstName" => $prof->firstName,
+                "lastName" => $prof->lastName,
                 "name" => $prof->name,
                 "email" => $prof->email,
                 "password" => $prof->password,
@@ -159,6 +161,8 @@ class DirectorController extends Controller
         foreach ($studs as $stud) {
             $formatStudent = [
                 "id" => $stud->id,
+                "firstName" => $stud->firstName,
+                "lastName" => $stud->lastName,
                 "name" => $stud->name,
                 "email" => $stud->email,
                 "password" => $stud->password,
