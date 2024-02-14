@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CourseRequest;
-use App\Models\Document;
+use App\Models\User;
 use App\Models\Sector;
+use App\Models\Document;
 use Illuminate\Http\Request;
+use App\Http\Requests\CourseRequest;
 
 class ProfessorController extends Controller
 {
     
-    /*********** Course ***************/
+    /*************** Course ***************/
 
     /**** return All courses ****/
     public function indexCourse () {
@@ -92,6 +93,47 @@ class ProfessorController extends Controller
     }
 
 
+
+    /**************** Student ***************/
+
+    /**** return All students for professor ****/
+
+    public function indexStudent () {
+        $user_id = 3; // à refaire
+
+            // selectioné le prof avec ses filières
+        $user = User::with("sectors","sectors.departement")->where('id',$user_id)->first();
+
+        $profStudents = [];
+
+        foreach ($user->sectors as $sector) {    // $user->sectors représente les filères du prof
+            foreach ($sector->users as $student) {   // $sector->users représente tous les étudiants de chaque filère
+                if($student->role->id == 3) {   // vérifer si c'est un étudiant
+                    $formatProfStudent = [
+                        "username" => $student->username,
+                        "firstName" => $student->firstName,
+                        "lastName" => $student->lastName,
+                        "sector" => $sector->name,
+                        "department" => $sector->departement->name,
+                        "email" => $student->email
+                    ];
+
+                    array_push($profStudents,$formatProfStudent);
+                }
+
+            }
+        }
+
+        return [
+            "data" => $profStudents
+        ];
+    }
+
+
+
+    
+
+    
 
 
 

@@ -26,7 +26,7 @@ Route::post("/login",[AuthentificationController::class,"login"])->name("login")
 
 
 
-    /********************** Director *************************/
+    /********************** Director Management *************************/
 Route::prefix("auth/director/")->controller(DirectorController::class)->name("director.")->group(function(){
 
     //--------- - --- professor -----------------------
@@ -67,7 +67,7 @@ Route::prefix("auth/director/")->controller(DirectorController::class)->name("di
 
 
 
-    /********************** Professor *************************/
+    /********************** Professor Management *************************/
 Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("professor.")->group(function () {
 
     //--------- - --- courses -----------------------
@@ -77,6 +77,19 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
         Route::put("edit/{id}","editCourse")->where(["id"=>"[0-9]+"])->name("editCourse");
         Route::delete("destroy/{id}","destroyCourse")->where(["id"=>"[0_9]+"])->name("destroyCourse");
         
+    });
+
+
+    //--------- - --- students -----------------------
+    Route::prefix("student/")->name("student.")->group(function () {
+        Route::get("index","indexStudent")->name("indexStudent");
+
+    });
+
+
+    //--------- - --- Announcements -----------------------
+    Route::prefix("announcement/")->name("announcement.")->group(function () {
+        Route::get("index","indexAnnouncement")->name("indexAnnouncement");
     });
 
 });

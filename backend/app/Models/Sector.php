@@ -17,4 +17,8 @@ class Sector extends Model
     public function departement () {
         return $this->belongsTo(Departement::class);
     }
+
+    public function users() {
+        return $this->hasMany(User::class);
+    }
 }
