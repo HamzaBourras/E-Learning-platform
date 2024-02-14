@@ -139,7 +139,6 @@ class DirectorController extends Controller
         User::where(['id'=>$id,"role_id"=>2])->delete();
 
         return response()->json([
-            "status" => 200,
             "message" => "Professor deleted successfully"
         ]);
     }
