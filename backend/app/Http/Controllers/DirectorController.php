@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DepartementRequest;
 use App\Models\User;
 use App\Models\Sector;
 use Nette\Utils\ArrayHash;
 use App\Models\Departement;
-use Illuminate\Http\Request;
-use App\Http\Requests\ProfessorRequest;
-use App\Http\Requests\StudentRequest;
 use App\Models\SectorsUsers;
+use Illuminate\Http\Request;
+use App\Http\Requests\SectorRequest;
+use App\Http\Requests\StudentRequest;
+use App\Http\Requests\ProfessorRequest;
+use App\Http\Requests\DepartementRequest;
 
 class DirectorController extends Controller
 {
@@ -304,7 +305,7 @@ class DirectorController extends Controller
 
     /**** store a departement ****/
 
-    public function storeSector (DepartementRequest $request) {
+    public function storeSector (SectorRequest $request) {
         $departement_id = Departement::where('name',$request->department)->first()->id;
         
         Sector::create([
@@ -320,7 +321,7 @@ class DirectorController extends Controller
 
     /**** edit a departement ****/
 
-    public function editSector (DepartementRequest $request, int $id) {
+    public function editSector (SectorRequest $request, int $id) {
         $departement_id = Departement::where('name',$request->department)->first()->id;
 
         Sector::where('id',$id)->update([
