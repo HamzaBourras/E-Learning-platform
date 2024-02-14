@@ -39,7 +39,7 @@ class DirectorController extends Controller
                 "id" => $prof->id,
                 "firstName" => $prof->firstName,
                 "lastName" => $prof->lastName,
-                "name" => $prof->name,
+                "username" => $prof->username,
                 "email" => $prof->email,
                 "password" => $prof->password,
                 "department" => $prof->departement->name,
@@ -64,7 +64,9 @@ class DirectorController extends Controller
         $departement_id = Departement::where('name', $request->department)->first()->id;
 
         User::create([
-            "name" => $request->name,
+            "firstName" =>$request->firstName,
+            "lastName" =>$request->lastName,
+            "username" => $request->username,
             "email" => $request->email,
             "role_id" => 2,
             "departement_id" => $departement_id,
@@ -89,7 +91,6 @@ class DirectorController extends Controller
         }
 
         return response()->json([
-            "status" => 200,
             "message" => "Professor added successfully"
         ]);
     }
@@ -102,7 +103,9 @@ class DirectorController extends Controller
         $departement_id = Departement::where('name', $request->department)->first()->id;
 
         User::where(['id'=>$id,"role_id"=>2])->update([
-            "name"=> $request->name,
+            "firstName" =>$request->firstName,
+            "lastName" =>$request->lastName,
+            "username" => $request->username,
             "email" => $request->email,
             "departement_id" => $departement_id,
             "password" => $request->email
@@ -127,9 +130,7 @@ class DirectorController extends Controller
         }
 
         return response()->json([
-            "status" => 200,
             "message" => "Professor updated successfully",
-            // "data" => $sectors_id
         ]);
 
     }
@@ -163,7 +164,7 @@ class DirectorController extends Controller
                 "id" => $stud->id,
                 "firstName" => $stud->firstName,
                 "lastName" => $stud->lastName,
-                "name" => $stud->name,
+                "username" => $stud->username,
                 "email" => $stud->email,
                 "password" => $stud->password,
                 "department" => $stud->sector->departement->name,
@@ -183,7 +184,9 @@ class DirectorController extends Controller
         $sector_id = Sector::where('name',$request->sector)->first()->id;
 
         User::create([
-            "name" => $request->name,
+            "firstName" =>$request->firstName,
+            "lastName" =>$request->lastName,
+            "username" => $request->username,
             "email" => $request->email,
             "role_id" => 3,
             "sector_id" => $sector_id,
@@ -201,7 +204,9 @@ class DirectorController extends Controller
         $sector_id = Sector::where('name',$request->sector)->first()->id;
 
         User::where(['id'=>$id,"role_id"=>3])->update([
-            "name" => $request->name,
+            "firstName" =>$request->firstName,
+            "lastName" =>$request->lastName,
+            "username" => $request->username,
             "email" => $request->email,
             "sector_id" => $sector_id,
             "password" => $request->email
