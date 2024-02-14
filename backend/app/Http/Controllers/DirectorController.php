@@ -153,7 +153,7 @@ class DirectorController extends Controller
     /**** return All students ****/
 
     public function indexStudent () {
-        $studs = User::with("sector","sector.departement")->where('role_id',3)->get();
+        $studs = User::with("sector","sector.departement")->where('role_id',3)->orderBy('id','desc')->get();
 
         $students = [];
 
@@ -188,7 +188,6 @@ class DirectorController extends Controller
         ]);
 
         return response()->json([
-            "status" => 200,
             "message" => "Student added successfully"
         ]);
     }
@@ -206,7 +205,6 @@ class DirectorController extends Controller
         ]);
 
         return response()->json([
-            "status" => 200,
             "message" => "Student updated successfully"
         ]);
     }
@@ -217,7 +215,6 @@ class DirectorController extends Controller
         User::where(["id"=>$id, "role_id"=>3])->delete();
 
         return response()->json([
-            "status" => 200,
             "message" => "Student deleted successfully"
         ]);
     }
@@ -231,7 +228,7 @@ class DirectorController extends Controller
     /**** return All departement ****/
 
     public function indexDepartment () {
-        $departements = Departement::all(['id','name as department']);
+        $departements = Departement::all(['id','name as department'])->orderBy('id','desc');
 
         return response()->json([
             "data" => $departements
@@ -246,7 +243,6 @@ class DirectorController extends Controller
         ]);
 
         return response()->json([
-            "status" => 200,
             "message" => "Department added successfully"
         ]);
     }
@@ -259,7 +255,6 @@ class DirectorController extends Controller
         ]);
 
         return response()->json([
-            "status" => 200,
             "message" => "Department updated successfully"
         ]);
     }
@@ -270,7 +265,6 @@ class DirectorController extends Controller
         Departement::where('id',$id)->delete();
 
         return response()->json([
-            "status" => 200,
             "message" => "Department deleted successfully"
         ]);
     }
@@ -281,10 +275,10 @@ class DirectorController extends Controller
 
     /*********** Sector ***************/
 
-    /**** return All departement ****/
+    /**** return All sectors ****/
 
     public function indexSector () {
-        $sects = Sector::with("departement")->get();
+        $sects = Sector::with("departement")->orderBy('id','desc')->get();
 
         $sectors = [];
 
@@ -303,7 +297,7 @@ class DirectorController extends Controller
         ]);
     }
 
-    /**** store a departement ****/
+    /**** store a sector ****/
 
     public function storeSector (SectorRequest $request) {
         $departement_id = Departement::where('name',$request->department)->first()->id;
@@ -314,12 +308,11 @@ class DirectorController extends Controller
         ]);
 
         return response()->json([
-            "status" => 200,
             "message" => "Sector added successfully"
         ]);
     }
 
-    /**** edit a departement ****/
+    /**** edit a sector ****/
 
     public function editSector (SectorRequest $request, int $id) {
         $departement_id = Departement::where('name',$request->department)->first()->id;
@@ -330,18 +323,16 @@ class DirectorController extends Controller
         ]);
 
         return response()->json([
-            "status" => 200,
             "message" => "Sector updated successfully"
         ]);
     }
 
-    /**** delete a departement ****/
+    /**** delete a sector ****/
 
     public function destroySector ( int $id) {
         Sector::where('id',$id)->delete();
 
         return response()->json([
-            "status" => 200,
             "message" => "Sector deleted successfully"
         ]);
     }
