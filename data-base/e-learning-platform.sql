@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 07 fév. 2024 à 18:06
+-- Généré le : mer. 14 fév. 2024 à 14:49
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -73,11 +73,26 @@ CREATE TABLE `documents` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `path` varchar(255) NOT NULL,
+  `file` varchar(255) NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `sector_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `documents`
+--
+
+INSERT INTO `documents` (`id`, `title`, `description`, `file`, `user_id`, `created_at`, `updated_at`, `sector_id`) VALUES
+(1, 'algorithme cours', 'un cours complet sur l\'algorithme', 'path 1', 3, NULL, NULL, 1),
+(2, 'Modèle TCP/IP', 'un cours complet sur modèle TCP/IP', 'path 2', 5, NULL, NULL, 2),
+(3, 'tp 1 C', 'un tp sur le langage de programmation C', 'path 3', 3, NULL, NULL, 2),
+(4, 'gestion des fichiers', 'un cours sur la gestion des fichiers pour le langage C', 'path 4', 3, NULL, NULL, 1),
+(5, 'les pointeurs', 'un cours sur les pointeurs dans le langage c', 'path 5', 6, NULL, NULL, 1),
+(6, 'réponse de tp 1 c', 'réponse de tp 1 du langage C', 'path 1-1', 1, NULL, NULL, 1),
+(7, 'réponse du tp 2 c', 'un réponse du tp 2 sur le langage c', 'path 1-2', 2, NULL, NULL, 1),
+(9, 'transmission numérique', 'un cours sur les transmissions numérique dans le réseau informatique un cours sur les transmissions numérique dans le réseau informatique un cours sur les transmissions numérique dans le réseau informatique', 'courses/hshMMKae69568xCblmup6xwSmSd1FMrxJgNAwV3L.bin', 5, '2024-02-12 09:30:53', '2024-02-12 09:30:53', 1);
 
 -- --------------------------------------------------------
 
@@ -108,7 +123,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (12, '2024_01_31_151008_create_choices_table', 9),
 (13, '2024_01_31_151149_create_notes_table', 10),
 (14, '2024_02_01_204453_create_sectors_users_table', 11),
-(15, '2024_02_03_114054_add_departement_id_users_table', 12);
+(15, '2024_02_03_114054_add_departement_id_users_table', 12),
+(16, '2024_02_08_101859_add_sector_id_to_documents', 13),
+(17, '2024_02_14_104545_add_first_name_last_name_to_users', 14);
 
 -- --------------------------------------------------------
 
@@ -257,8 +274,8 @@ CREATE TABLE `sectors_users` (
 --
 
 INSERT INTO `sectors_users` (`id`, `sectors_id`, `users_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, NULL, NULL),
-(3, 2, 3, NULL, NULL),
+(1, 2, 3, NULL, '2024-02-12 16:56:46'),
+(3, 2, 3, NULL, '2024-02-12 16:56:46'),
 (4, 1, 5, NULL, NULL),
 (5, 1, 4, NULL, NULL),
 (6, 2, 6, NULL, NULL);
@@ -271,7 +288,7 @@ INSERT INTO `sectors_users` (`id`, `sectors_id`, `users_id`, `created_at`, `upda
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `bio` varchar(255) DEFAULT NULL,
@@ -279,21 +296,23 @@ CREATE TABLE `users` (
   `sector_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `departement_id` bigint(20) UNSIGNED DEFAULT NULL
+  `departement_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `firstName` varchar(255) NOT NULL,
+  `lastName` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `bio`, `role_id`, `sector_id`, `created_at`, `updated_at`, `departement_id`) VALUES
-(1, 'Hamza Bourras', 'hamzabour2004@gmail.com', '1234', NULL, 3, 1, NULL, NULL, NULL),
-(2, 'Mohamed Slaoui', 'mohamed@gmail.com', '1111', NULL, 3, 1, NULL, NULL, NULL),
-(3, 'Fahd karami ', 'fahd@gmail.com', '0000', NULL, 2, NULL, NULL, NULL, 3),
-(4, 'said gounane', 'said@gmail.com', '9999', NULL, 2, NULL, NULL, NULL, 8),
-(5, 'lamia ziad', 'lamia@gmail.com', '0000', NULL, 2, NULL, NULL, NULL, 3),
-(6, 'nadia chouhad', 'nadia@gmail.com', '0000', NULL, 2, NULL, NULL, NULL, 3),
-(8, 'hamza mohamed', 'hammoh@gmail.com', '3333', 'I am the admin', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `bio`, `role_id`, `sector_id`, `created_at`, `updated_at`, `departement_id`, `firstName`, `lastName`) VALUES
+(1, 'H.Bourras', 'hamzabour2004@gmail.com', '1234', NULL, 3, 1, NULL, NULL, NULL, 'hamza', 'bourras'),
+(2, 'M.Slaoui', 'mohamed@gmail.com', '1111', NULL, 3, 1, NULL, NULL, NULL, 'mohamed', 'slaoui'),
+(3, 'F.karami', 'fahd@gmail.com', 'fahd@gmail.com', NULL, 2, NULL, NULL, '2024-02-12 16:56:46', 3, 'fahd', 'karami'),
+(4, 's.gounane', 'said@gmail.com', '9999', NULL, 2, NULL, NULL, NULL, 8, 'said', 'gounane'),
+(5, 'l.ziad', 'lamia@gmail.com', '0000', NULL, 2, NULL, NULL, NULL, 3, 'lamia', 'ziad'),
+(6, 'n.chouhad', 'nadia@gmail.com', '0000', NULL, 2, NULL, NULL, NULL, 3, 'nadia', 'chouhad'),
+(8, 'aF.adminL', 'admin@gmail.com', '3333', 'I am the admin', 1, NULL, NULL, NULL, NULL, 'adminF', 'adminL');
 
 --
 -- Index pour les tables déchargées
@@ -317,7 +336,8 @@ ALTER TABLE `departements`
 --
 ALTER TABLE `documents`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `documents_user_id_foreign` (`user_id`);
+  ADD KEY `documents_user_id_foreign` (`user_id`),
+  ADD KEY `documents_sector_id_foreign` (`sector_id`);
 
 --
 -- Index pour la table `migrations`
@@ -413,13 +433,13 @@ ALTER TABLE `departements`
 -- AUTO_INCREMENT pour la table `documents`
 --
 ALTER TABLE `documents`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT pour la table `notes`
@@ -467,13 +487,13 @@ ALTER TABLE `sectors`
 -- AUTO_INCREMENT pour la table `sectors_users`
 --
 ALTER TABLE `sectors_users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Contraintes pour les tables déchargées
@@ -489,6 +509,7 @@ ALTER TABLE `choices`
 -- Contraintes pour la table `documents`
 --
 ALTER TABLE `documents`
+  ADD CONSTRAINT `documents_sector_id_foreign` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `documents_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
