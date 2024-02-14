@@ -12,7 +12,7 @@ export const DELETE_PROFESSOR_API = "http://127.0.0.1:8000/api/auth/director/pro
 
 //------------STUDENTS-------------------------------------
 export const ALL_STUDENTS_API = "http://127.0.0.1:8000/api/auth/director/student/index";
-export const STORE_STUDENT_API = "http://127.0.0.1:2000/api/auth/director/student/store";
+export const STORE_STUDENT_API = "http://127.0.0.1:8000/api/auth/director/student/store";
 export const UPDATE_STUDENT_API = "http://127.0.0.1:8000/api/auth/director/student/edit";
 export const DELETE_STUDENT_API = "http://127.0.0.1:8000/api/auth/director/student/destroy";
 
@@ -20,14 +20,14 @@ export const DELETE_STUDENT_API = "http://127.0.0.1:8000/api/auth/director/stude
 
 //------------SECTORS-------------------------------------
 export const ALL_SECTORS_API = "http://127.0.0.1:8000/api/auth/director/sector/index";
-export const STORE_SECTOR_API = "http://127.0.0.1:2000/api/auth/director/sector/store";
+export const STORE_SECTOR_API = "http://127.0.0.1:8000/api/auth/director/sector/store";
 export const UPDATE_SECTOR_API = "http://127.0.0.1:8000/api/auth/director/sector/edit";
 export const DELETE_SECTOR_API = "http://127.0.0.1:8000/api/auth/director/sector/destroy";
 
 
 //------------DEPARTMENTS-------------------------------------
 export const ALL_DEPARTMENTS_API = "http://127.0.0.1:8000/api/auth/director/department/index";
-export const STORE_DEPARTMENT_API = "http://127.0.0.1:2000/api/auth/director/department/store";
+export const STORE_DEPARTMENT_API = "http://127.0.0.1:8000/api/auth/director/department/store";
 export const UPDATE_DEPARTMENT_API = "http://127.0.0.1:8000/api/auth/director/department/edit";
 export const DELETE_DEPARTMENT_API = "http://127.0.0.1:8000/api/auth/director/department/destroy";
 

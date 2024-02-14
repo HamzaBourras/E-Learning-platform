@@ -4,9 +4,17 @@ import { teachers, students, departments, sectors } from '../../json/data'
 import { useState } from "react";
 import BarChart from '../../components/BarChart';
 import ProgressComponent from "../../components/ProgressComponent";
+// images
+import ProfImage from '../../assets/images/teacher.png'
+import StudentImage from '../../assets/images/student-logo.png'
+import DepartmentImage from '../../assets/images/department.png'
+import SectorImage from '../../assets/images/sector.png'
+import { useSelector } from "react-redux";
+
 
 
 const DirectorDashboard = () => {
+
     const [teacherCounter, setTeacherCounter] = useState(countData(teachers));
     const [studentCounter, setStudentCounter] = useState(countData(students));
     const [departmentCounter, setDepartmentCounter] = useState(countData(departments));
@@ -31,13 +39,13 @@ const DirectorDashboard = () => {
             </div>
             <div className="grid xs:sm:grid-cols-2 md:lg:grid-cols-4 gap-2">
 
-                <ProgressComponent name="Professors" image="" number={teacherCounter} maxNumber={10}/>
+                <ProgressComponent name="Professors" image={ProfImage} number={teacherCounter} maxNumber={10}/>
 
-                <ProgressComponent name="Students" image="" number={studentCounter} maxNumber={40}/>
+                <ProgressComponent name="Students" image={StudentImage} number={studentCounter} maxNumber={40}/>
 
-                <ProgressComponent name="Departments" image="" number={departmentCounter} maxNumber={10}/>
+                <ProgressComponent name="Departments" image={DepartmentImage} number={departmentCounter} maxNumber={10}/>
 
-                <ProgressComponent name="Sectors" image="" number={sectorCounter} maxNumber={10}/>
+                <ProgressComponent name="Sectors" image={SectorImage} number={sectorCounter} maxNumber={10}/>
 
 
             </div>

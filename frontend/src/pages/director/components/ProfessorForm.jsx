@@ -1,51 +1,77 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/prop-types */
 import { Input, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
 import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
-import { getArrayById } from '../../../utils/utils'
+import { generateUsername, getArrayById } from '../../../utils/utils'
 import { useSelector } from 'react-redux'
 import { STORE_PROFESSOR_API, UPDATE_PROFESSOR_API } from '../../../api/apis'
+import { useEffect, useState } from 'react'
 
 const ProfessorForm = ({ id }) => {
     //  -----------------------DATA------------------------------------------
     const professors = useSelector((state) => state.director.professors)
     const departments = useSelector((state) => state.director.departments)
     const sectors = useSelector((state) => state.director.sectors)
-    
+
     // ------------------------API-----------------------------------------
     const method = id ? "put" : "post";
     let apiKey = id ? `${UPDATE_PROFESSOR_API}/${id}` : `${STORE_PROFESSOR_API}`
+    // ---------------------------------------------------------------------
 
     const professor = getArrayById((professors), 'id', id);
-
     const initialState = {
-        'name': id ? professor[0]['name'] : '',
+        'firstName': id ? professor[0]['firstName'] : '',
+        'lastName': id ? professor[0]['lastName'] : '',
+        'username': id ? professor[0]['username'] : '',
         'email': id ? professor[0]['email'] : '',
         'department': id ? professor[0]['department'] : '',
         'sectors': id ? professor[0]['sectors'] : [],
     }
-
-    
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method);
-    
     const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department']);
-    
+
+    // const [generatedUsername, setGeneratedUsername] = useState('')
+
+    // useEffect(()=>{
+    //     setGeneratedUsername(generateUsername(inputs['firstName'], inputs['lastName']))
+    //     const change = () => {
+    //         handleChange('username', generateUsername)
+    //     }
+
+    //     change()
+
+    // },[inputs['firstName'], inputs['lastName']])
+
     return (
         <div className='px-1 space-y-2'>
-            
+            {inputs['username']}
             {message && <Alert color="" message={message} />}
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-1">
-                    
+
                     <Input variant="bordered"
                         // className='col-span-2'
-                        label="Name"
-                        value={inputs['name']}
-                        name='name'
-                        errorMessage={errors['name']}
-                        onChange={(e) => handleChange('name', e.target.value)}
+                        label="FirstName"
+                        value={inputs['firstName']}
+                        errorMessage={errors['firstName']}
+                        onChange={(e) => {
+                            handleChange('firstName', e.target.value)
+                            handleChange('username', generateUsername(e.target.value, inputs['lastName']))
+                            }
+                        }
+                    />
+
+                    <Input variant="bordered"
+                        label="LastName"
+                        value={inputs['lastName']}
+                        errorMessage={errors['lastName']}
+                        onChange={(e) => {
+                            handleChange('lastName', e.target.value)
+                            handleChange('username', generateUsername(inputs['firstName'], e.target.value))
+                        }}
                     />
 
                     <Input variant="bordered"
@@ -56,6 +82,14 @@ const ProfessorForm = ({ id }) => {
                         onChange={(e) => handleChange('email', e.target.value)}
                     />
 
+                    <Input variant="bordered"
+                        // className='col-span-2'
+                        readOnly
+                        label="Username"
+                        value={inputs['username']}
+                        errorMessage={errors['username']}
+                        onChange={()=>{ console.log("i am changing") }}
+                    />
 
                     <Select
                         items={departments}

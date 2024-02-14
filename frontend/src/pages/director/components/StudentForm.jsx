@@ -22,7 +22,7 @@ const StudentForm = ({ id }) => {
     const student = getArrayById(students, 'id', id);
     // --------------------------------------------------------------------
     const initialState = {
-        'username': id ? student[0]['username'] : '',
+        'name': id ? student[0]['name'] : '',
         'email': id ? student[0]['email'] : '',
         'department': id ? student[0]['department'] : '',
         'sector': id ? student[0]['sector'] : '',
@@ -41,10 +41,10 @@ const StudentForm = ({ id }) => {
                 <div className="grid grid-cols-2 gap-1">
 
                     <Input variant="bordered"
-                        label="Username"
-                        value={inputs['username']}
-                        errorMessage={errors['username']}
-                        onChange={(e) => handleChange('username', e.target.value)}
+                        label="Name"
+                        value={inputs['name']}
+                        errorMessage={errors['name']}
+                        onChange={(e) => handleChange('name', e.target.value)}
                     />
 
                     <Input variant="bordered"

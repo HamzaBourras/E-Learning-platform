@@ -4,6 +4,7 @@ import TableComponentWithFilter from '../../components/Table/TableComponentWithF
 
 import { depatmentsColumns } from '../../json/data'
 import DepartmentForm from './components/DepartmentForm'
+import departmentImage from '../../assets/images/department.png';
 
 
 export default function App() {
@@ -11,7 +12,7 @@ export default function App() {
 
     return (
         <div>
-            <TableComponentWithFilter Component={DepartmentForm} data={departments} columns={depatmentsColumns} title="Departments" user="department" />
+            <TableComponentWithFilter imageLogo={departmentImage} Component={DepartmentForm} data={departments} columns={depatmentsColumns} title="Departments" user="department" />
         </div>
     )
 }
