@@ -90,6 +90,9 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
     //--------- - --- Announcements -----------------------
     Route::prefix("announcement/")->name("announcement.")->group(function () {
         Route::get("index","indexAnnouncement")->name("indexAnnouncement");
+        Route::post("store","storeAnnouncement")->name("storeAnnouncement");
+        Route::put("edit/{id}","editAnnouncement")->where(["id"=>"[0-9]+"])->name("editAnnouncement");
+        Route::delete("destroy/{id}","destroyAnnouncement")->where(["id"=>"[0-9]+"])->name("destroyAnnouncement");
     });
 
 });

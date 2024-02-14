@@ -14,4 +14,8 @@ class Announcement extends Model
         "sector_id",
         "user_id"
     ];
+
+    public function sector () {
+        return $this->belongsTo(Sector::class);
+    }
 }

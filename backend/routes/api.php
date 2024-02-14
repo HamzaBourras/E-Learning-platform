@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\ProfessorController;
+use App\Http\Controllers\AuthentificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-/********************** Director *************************/
+    /********************** Authentification **********************/
+
+ Route::post("/login",[AuthentificationController::class,"login"])->name("login");
+
+
+
+/********************** Director management *************************/
 
 Route::prefix("auth/director/")->controller(DirectorController::class)->name("director.")->group(function () {
 
@@ -60,7 +67,7 @@ Route::prefix("auth/director/")->controller(DirectorController::class)->name("di
 
 
 
-/********************** Professor *************************/
+/********************** Professor management *************************/
 
 Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("professor.")->group(function () {
 

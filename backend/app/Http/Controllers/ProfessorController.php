@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnnouncementRequest;
 use App\Models\User;
 use App\Models\Sector;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Requests\CourseRequest;
+use App\Models\Announcement;
 
 class ProfessorController extends Controller
 {
@@ -61,6 +63,10 @@ class ProfessorController extends Controller
             "description" => $request->description,
             "file" => $filename
         ]);
+
+        return response()->json( [
+            "message" => "course added succesfully"
+        ]);
     }
 
 
@@ -83,6 +89,10 @@ class ProfessorController extends Controller
             "description" => $request->description,
             "file" => $filename
         ]);
+
+        return response()->json( [
+            "message" => "course updated succesfully"
+        ]);
     }
 
 
@@ -90,6 +100,10 @@ class ProfessorController extends Controller
 
     public function destroyCourse (int $id) {
         Document::where(["id"=>$id])->delete();
+
+        return response()->json( [
+            "message" => "course deleted succesfully"
+        ]);
     }
 
 
@@ -131,9 +145,74 @@ class ProfessorController extends Controller
 
 
 
-    
+    /**************** Announcement ***************/
 
-    
+    /**** return All Announcements ****/
+
+    public function indexAnnouncement () {
+        $user_id = 3; // à refaire
+
+        $allAnnouncements = Announcement::where('user_id',$user_id)->with("sector")->get();
+
+        $announcements = [];
+
+        foreach ($allAnnouncements as $anounc) {
+            $formatAnnounce = [
+                "id" => $anounc->id,
+                "announcementName" => $anounc->announcement,
+                "sector" => $anounc->sector->name
+            ];
+
+            array_push($announcements,$formatAnnounce);
+        }
+
+        return [
+            "data" => $announcements
+        ];
+    }
+
+    /**** store an Announcement ****/
+
+    public function storeAnnouncement (AnnouncementRequest $request) {
+        $user_id = 3;  // à refaire
+
+        $sector_id = Sector::where('name',$request->sector)->first()->id;
+
+        Announcement::create([
+            "announcement" => $request->announcementName,
+            "sector_id" => $sector_id,
+            "user_id" => $user_id
+        ]);
+
+        return response()->json( [
+            "message" => "Announcement added succesfully"
+        ]);
+    }
+
+    /**** edit an Announcement ****/
+
+    public function editAnnouncement (AnnouncementRequest $request, int $id) {
+        $sector_id = Sector::where('name',$request->sector)->first()->id;
+
+        Announcement::where('id',$id)->update([
+            "announcement" => $request->announcementName,
+            "sector_id" => $sector_id,
+        ]);
+
+        return response()->json( [
+            "message" => "Announcement updated succesfully"
+        ]);
+    }
+
+    /**** delete an Announcement ****/
+
+    public function destroyAnnouncement (int $id) {
+        Announcement::where('id',$id)->delete();
+
+        return response()->json( [
+            "message" => "Announcement deleted succesfully"
+        ]);
+    }
 
 
 
