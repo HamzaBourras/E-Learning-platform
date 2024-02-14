@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthentificationController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\ProfessorController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
 //    return  redirect()->route("director.dashboard");
 });
+
+    /********************** Authentification **********************/
+
+Route::post("/login",[AuthentificationController::class,"login"])->name("login");
+
+
 
     /********************** Director *************************/
 Route::prefix("auth/director/")->controller(DirectorController::class)->name("director.")->group(function(){
