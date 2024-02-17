@@ -108,7 +108,7 @@ const Sidebar = ({ tabs, user }) => {
                     <span className='xs:sm:hidden md:lg:block'>John Doe</span>
                 </div>
             </div>
-        </nav >
+        </nav>
     );
 
 }

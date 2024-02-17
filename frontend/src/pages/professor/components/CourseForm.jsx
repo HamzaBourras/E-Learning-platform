@@ -1,38 +1,14 @@
 /* eslint-disable react/prop-types */
 import { Input, Textarea, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
-import { useState } from 'react'
 import { courses, sectors } from '../../../json/data'
-
-import remove from '../../../assets/icons/delete.svg'
 import useForm from '../../../hooks/useForm';
 import Alert from '../../../components/Alert';
 import { getArrayById } from '../../../utils/utils';
 
 const CourseForm = ({ id }) => {
 
-    const [tags, setTags] = useState([]);
-    const [inputValue, setInputValue] = useState('');
-
-    const handleClickedKey = (e) => {
-        if (e.key !== ' ') return;
-
-        const value = inputValue.trim().toLowerCase();
-        if (!value) return;
-
-        if (tags.length < 5) {
-            setTags([...tags, value]);
-            setInputValue('');
-        }
-    }
-
-    const handleRemoveTag = (index) => {
-        const newTags = [...tags];
-        newTags.splice(index, 1);
-        setTags(newTags);
-    };
 
     const apiKey = 'http://127.0.0.1:8000/api/posts/store';
-
     const course = getArrayById(courses, 'id', id)[0]
 
     const initialState = {
@@ -41,8 +17,7 @@ const CourseForm = ({ id }) => {
         'description': id ? course['description'] : '',
         'file': null,
     }
-
-
+    
     const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey)
 
     return (
@@ -59,7 +34,7 @@ const CourseForm = ({ id }) => {
                 />
 
                 <Select
-                    items={sectors}
+                    items={sectors} 
                     label="Sector"
                     variant='bordered'
                     selectionMode='multiple'
@@ -70,27 +45,7 @@ const CourseForm = ({ id }) => {
                     {(sector) => <SelectItem key={sector.sector} >{sector.sector}</SelectItem>}
                 </Select>
 
-                <div className='flex gap-1'>
-                    {tags.map((tag, index) => (
-                        <div className="border px-1.5 rounded flex gap-2" key={index}>
-                            <span>{tag}</span>
-                            <img
-                                src={remove}
-                                onClick={() => handleRemoveTag(index)}
-                                width={16}
-                                className='cursor-pointer'
-                            />
-                        </div>
-                    ))}
-                </div>
-                <Input
-                    type="text"
-                    variant='bordered'
-                    label="Your tags goes here"
-                    value={inputs['tags']}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={handleClickedKey}
-                />
+                
                 <Textarea
                     variant='bordered'
                     label="Your description goes here"

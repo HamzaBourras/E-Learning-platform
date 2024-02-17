@@ -6,7 +6,7 @@ import useForm from '../../../hooks/useForm'
 import Alert from '../../../components/Alert'
 import { useSelector } from 'react-redux'
 import { STORE_STUDENT_API, UPDATE_STUDENT_API } from '../../../api/apis'
-import { getArrayById } from '../../../utils/utils'
+import { generateUsername, getArrayById } from '../../../utils/utils'
 
 
 const StudentForm = ({ id }) => {
@@ -22,7 +22,9 @@ const StudentForm = ({ id }) => {
     const student = getArrayById(students, 'id', id);
     // --------------------------------------------------------------------
     const initialState = {
-        'name': id ? student[0]['name'] : '',
+        'firstName': id ? student[0]['firstName'] : '',
+        'lastName': id ? student[0]['lastName'] : '',
+        'username': id ? student[0]['username'] : '',
         'email': id ? student[0]['email'] : '',
         'department': id ? student[0]['department'] : '',
         'sector': id ? student[0]['sector'] : '',
@@ -41,10 +43,25 @@ const StudentForm = ({ id }) => {
                 <div className="grid grid-cols-2 gap-1">
 
                     <Input variant="bordered"
-                        label="Name"
-                        value={inputs['name']}
-                        errorMessage={errors['name']}
-                        onChange={(e) => handleChange('name', e.target.value)}
+                        // className='col-span-2'
+                        label="FirstName"
+                        value={inputs['firstName']}
+                        errorMessage={errors['firstName']}
+                        onChange={(e) => {
+                            handleChange('firstName', e.target.value)
+                            handleChange('username', generateUsername(e.target.value, inputs['lastName']))
+                        }
+                        }
+                    />
+
+                    <Input variant="bordered"
+                        label="LastName"
+                        value={inputs['lastName']}
+                        errorMessage={errors['lastName']}
+                        onChange={(e) => {
+                            handleChange('lastName', e.target.value)
+                            handleChange('username', generateUsername(inputs['firstName'], e.target.value))
+                        }}
                     />
 
                     <Input variant="bordered"
@@ -55,11 +72,20 @@ const StudentForm = ({ id }) => {
                         onChange={(e) => handleChange('email', e.target.value)}
                     />
 
+                    <Input variant="bordered"
+                        // className='col-span-2'
+                        readOnly
+                        label="Username"
+                        value={inputs['username']}
+                        errorMessage={errors['username']}
+                        onChange={() => { console.log("i am changing") }}
+                    />
+
                     <Select
                         items={departments}
                         label="Departments"
                         variant='bordered'
-                        defaultSelectedKeys={[inputs['department']]}
+                        defaultSelectedKeys={inputs['department'] !== "" ? [inputs['department']] : undefined}
                         errorMessage={errors['department']}
                         onChange={(e) => handleChange('department', e.target.value)}
                     >
@@ -68,9 +94,9 @@ const StudentForm = ({ id }) => {
 
                     <Select
                         items={sectorsBelongToDepartment}
-                        label="Sectors"
+                        label="Sector"
                         variant='bordered'
-                        defaultSelectedKeys={[inputs['sector']]}
+                        defaultSelectedKeys={inputs['sector'] !== "" ? [inputs['sector']] : undefined}
                         errorMessage={errors['sector']}
                         onChange={(e) => handleChange('sector', e.target.value)}
                     >

@@ -15,7 +15,6 @@ const AnnouncementForm = ({ id }) => {
     const initialState = {
         'announcementName': id ? course['announcementName'] : '' ,
         'sector': id ? course['sector'] : '',
-        'status': id ? course['status'] : '',
     }
 
 

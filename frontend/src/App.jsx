@@ -28,6 +28,11 @@ import ManageAnnouncements from './pages/professor/ManageAnnouncements'
 import ManageQuizzes from './pages/professor/ManageQuizzes'
 import ManageSubmissions from './pages/professor/ManageSubmissions'
 
+// student pages
+import StudentDashboard from './pages/student/StudentDashboard'
+import StudentTasks from './pages/student/StudentTasks'
+import StudentCourses from './pages/student/StudentCourses'
+
 
 const App = () => {
   return (
@@ -37,17 +42,22 @@ const App = () => {
 
         <Route path="/auth" element={<AuthLayout />}>
           {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
-          <Route path="student" element={<StudentLayout />} />
+          <Route path="student" element={<StudentLayout />} >
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<StudentDashboard />} />
+            <Route path="tasks" element={<StudentTasks />} />
+            <Route path="courses" element={<StudentCourses />} />
+          </Route>
 
           {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
           <Route path="professor" element={<ProfessorLayout />} >
             <Route index element={<Navigate to="dashboard" replace />} />
-            <Route path='dashboard' element={<ProfessorDashboard/>} />
-            <Route path='courses' element={<ManageCourses/>} />
-            <Route path='my-students' element={<ManageMyStudents/>} />
-            <Route path='announcements' element={<ManageAnnouncements/>} />
-            <Route path='quizzes' element={<ManageQuizzes/>} />
-            <Route path='submissions' element={<ManageSubmissions/>} />
+            <Route path='dashboard' element={<ProfessorDashboard />} />
+            <Route path='courses' element={<ManageCourses />} />
+            <Route path='my-students' element={<ManageMyStudents />} />
+            <Route path='announcements' element={<ManageAnnouncements />} />
+            <Route path='quizzes' element={<ManageQuizzes />} />
+            <Route path='submissions' element={<ManageSubmissions />} />
           </Route>
 
 

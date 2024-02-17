@@ -1,7 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { countData, getRecentlyAddedData } from "../../utils/utils";
-import { teachers, students, departments, sectors } from '../../json/data'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BarChart from '../../components/BarChart';
 import ProgressComponent from "../../components/ProgressComponent";
 // images
@@ -15,12 +15,45 @@ import { useSelector } from "react-redux";
 
 const DirectorDashboard = () => {
 
-    const [teacherCounter, setTeacherCounter] = useState(countData(teachers));
-    const [studentCounter, setStudentCounter] = useState(countData(students));
-    const [departmentCounter, setDepartmentCounter] = useState(countData(departments));
-    const [sectorCounter, setSectorCounter] = useState(countData(sectors));
+    const professors = useSelector((state) => state.director.professors);
+    const students = useSelector((state) => state.director.students);
+    const departments = useSelector((state) => state.director.departments);
+    const sectors = useSelector((state) => state.director.sectors);
 
-    const recentStudents = getRecentlyAddedData(students, "id", 3);
+    const [professorCounter, setProfessorCounter] = useState(0);
+    const [studentCounter, setStudentCounter] = useState(0);
+    const [departmentCounter, setDepartmentCounter] = useState(0);
+    const [sectorCounter, setSectorCounter] = useState(0);
+
+    const [isLoading, setIsLoading] = useState({
+        'professors': true,
+        'students': true,
+        'departments': true,
+        'sectors': true
+    })
+
+    const updateData = () => {
+        setProfessorCounter(countData(professors))
+        setStudentCounter(countData(students))
+        setDepartmentCounter(countData(departments))
+        setSectorCounter(countData(sectors))
+
+        setIsLoading(prev => ({
+            'professors': false,
+            'students': false,
+            'departments': false,
+            'sectors': false
+        }));
+    }
+
+    useEffect(()=>{
+        if (professors && students && departments && sectors) {
+            updateData()
+        }
+
+    },[professors, students, departments, sectors])
+
+    // const recentStudents = getRecentlyAddedData(students, "id", 3);
 
 
     const professorData = {
@@ -39,20 +72,20 @@ const DirectorDashboard = () => {
             </div>
             <div className="grid xs:sm:grid-cols-2 md:lg:grid-cols-4 gap-2">
 
-                <ProgressComponent name="Professors" image={ProfImage} number={teacherCounter} maxNumber={10}/>
+                <ProgressComponent isLoading={isLoading.professors} name="Professors" image={ProfImage} number={professorCounter} maxNumber={30} color="secondary" />
 
-                <ProgressComponent name="Students" image={StudentImage} number={studentCounter} maxNumber={40}/>
+                <ProgressComponent isLoading={isLoading.students} name="Students" image={StudentImage} number={studentCounter} maxNumber={40} color="secondary" />
 
-                <ProgressComponent name="Departments" image={DepartmentImage} number={departmentCounter} maxNumber={10}/>
+                <ProgressComponent isLoading={isLoading.departments} name="Departments" image={DepartmentImage} number={departmentCounter} maxNumber={10} color="secondary" />
 
-                <ProgressComponent name="Sectors" image={SectorImage} number={sectorCounter} maxNumber={10}/>
+                <ProgressComponent isLoading={isLoading.sectors} name="Sectors" image={SectorImage} number={sectorCounter} maxNumber={10} color="secondary" />
 
 
             </div>
-            
+
             <div>
                 <h1>Active Professors</h1>
-                <BarChart data={professorData} labels={['assignments', 'quizzes', 'courses']} colors={colors}/>
+                <BarChart data={professorData} labels={['assignments', 'quizzes', 'courses']} colors={colors} />
             </div>
             {/* <div className="space-y-2">
                 <h1>Recentaly added students</h1>

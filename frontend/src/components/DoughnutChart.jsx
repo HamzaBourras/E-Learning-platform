@@ -26,7 +26,7 @@ const DoughnutChart = ({ labels, data, colors }) => {
     };
 
     return (
-        <div className='size-56'>
+        <div className='xs:sm:size-56 md:lg:size-80'>
             <Doughnut data={chartData} options={chartOptions} />
         </div>
     );

@@ -8,7 +8,6 @@ import Alert from '../../../components/Alert'
 import { generateUsername, getArrayById } from '../../../utils/utils'
 import { useSelector } from 'react-redux'
 import { STORE_PROFESSOR_API, UPDATE_PROFESSOR_API } from '../../../api/apis'
-import { useEffect, useState } from 'react'
 
 const ProfessorForm = ({ id }) => {
     //  -----------------------DATA------------------------------------------
@@ -33,21 +32,8 @@ const ProfessorForm = ({ id }) => {
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method);
     const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department']);
 
-    // const [generatedUsername, setGeneratedUsername] = useState('')
-
-    // useEffect(()=>{
-    //     setGeneratedUsername(generateUsername(inputs['firstName'], inputs['lastName']))
-    //     const change = () => {
-    //         handleChange('username', generateUsername)
-    //     }
-
-    //     change()
-
-    // },[inputs['firstName'], inputs['lastName']])
-
     return (
         <div className='px-1 space-y-2'>
-            {inputs['username']}
             {message && <Alert color="" message={message} />}
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-1">

@@ -152,6 +152,8 @@ const students = [
     {
         "id": 1,
         "username": "j.doe",
+        "firstName": "John",
+        "lastName": "Doe",
         "email": "johndoe@example.com",
         "department": "Development",
         "sector": "Computer Science"
@@ -159,6 +161,8 @@ const students = [
     {
         "id": 2,
         "username": "j.smith",
+        "firstName": "Jane",
+        "lastName": "Smith",
         "email": "janesmith@example.com",
         "department": "Marketing",
         "sector": "TM"
@@ -166,6 +170,8 @@ const students = [
     {
         "id": 3,
         "username": "d.johnson",
+        "firstName": "David",
+        "lastName": "Johnson",
         "email": "davidjohnson@example.com",
         "department": "Management",
         "sector": "ER"
@@ -173,6 +179,8 @@ const students = [
     {
         "id": 4,
         "username": "s.williams",
+        "firstName": "Sarah",
+        "lastName": "Williams",
         "email": "sarahwilliams@example.com",
         "department": "Development",
         "sector": "Data Science"
@@ -180,6 +188,8 @@ const students = [
     {
         "id": 5,
         "username": "m.brown",
+        "firstName": "Michael",
+        "lastName": "Brown",
         "email": "michaelbrown@example.com",
         "department": "Management",
         "sector": "ER"
@@ -187,6 +197,8 @@ const students = [
     {
         "id": 6,
         "username": "e.davis",
+        "firstName": "Emily",
+        "lastName": "Davis",
         "email": "emilydavis@example.com",
         "department": "Development",
         "sector": "Computer Science"
@@ -194,6 +206,8 @@ const students = [
     {
         "id": 7,
         "username": "d.miller",
+        "firstName": "Daniel",
+        "lastName": "Miller",
         "email": "danielmiller@example.com",
         "department": "Development",
         "sector": "Computer Science"
@@ -201,6 +215,8 @@ const students = [
     {
         "id": 8,
         "username": "o.wilson",
+        "firstName": "Olivia",
+        "lastName": "Wilson",
         "email": "oliviawilson@example.com",
         "department": "Marketing",
         "sector": "TM"
@@ -208,6 +224,8 @@ const students = [
     {
         "id": 9,
         "username": "a.taylor",
+        "firstName": "Andrew",
+        "lastName": "Taylor",
         "email": "andrewtaylor@example.com",
         "department": "Management",
         "sector": "ER"
@@ -215,6 +233,8 @@ const students = [
     {
         "id": 10,
         "username": "s.anderson",
+        "firstName": "Sophia",
+        "lastName": "Anderson",
         "email": "sophiaanderson@example.com",
         "department": "Development",
         "sector": "Data Science"
@@ -224,7 +244,9 @@ const students = [
 
 const studentColumns = [
     { name: "ID", uid: "id", sortable: true },
-    { name: "Name", uid: "name", sortable: true },
+    { name: "USERNAME", uid: "username", sortable: true },
+    { name: "FIRSTNAME", uid: "firstName", sortable: true },
+    { name: "LASTNAME", uid: "lastName", sortable: true },
     { name: "Department", uid: "department", sortable: true },
     { name: "Sector", uid: "sector", sortable: true },
     { name: "Email", uid: "email" },
@@ -248,7 +270,7 @@ const courses = [
         courseName: 'React.js',
         description: 'A comprehensive guide to the fundamentals of React.js for building modern user interfaces.',
         tags: ['web', 'react', 'frontend'],
-        downloads: 2 ,
+        downloads: 2,
         sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
@@ -258,7 +280,7 @@ const courses = [
         courseName: 'Node.js Basics',
         description: 'Learn the basics of Node.js and server-side JavaScript programming.',
         tags: ['web', 'node', 'backend'],
-        downloads: 6 ,
+        downloads: 6,
         sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
@@ -298,7 +320,7 @@ const courses = [
         courseName: 'Mobile App Development with Flutter',
         description: 'Create cross-platform mobile applications with Flutter and Dart programming language.',
         tags: ['mobile', 'flutter', 'dart'],
-        downloads: 21,
+        downloads: 3,
         sector: 'Computer Science',
         filePath: '',
         thumbnailImage: ''
@@ -786,18 +808,17 @@ const announcements = [
 
 
 
-export 
-{ 
-    director, 
-    departments, 
-    teachers, 
-    columns, 
-    depatmentsColumns, 
-    students, 
-    studentColumns, 
-    sectors, 
-    sectorsColumns, 
-    courses, 
+export {
+    director,
+    departments,
+    teachers,
+    columns,
+    depatmentsColumns,
+    students,
+    studentColumns,
+    sectors,
+    sectorsColumns,
+    courses,
     quizzes,
     announcements
 };
