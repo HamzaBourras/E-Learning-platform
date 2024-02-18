@@ -10,20 +10,31 @@ use App\Http\Requests\AuthentificationRequest;
 class AuthentificationController extends Controller
 {
     public function login (AuthentificationRequest $request) {
-        
-        $user = User::where('username',$request->username);
-        
-        if (password_verify($request->password, $user->password)) {
-            $user = Auth::uesr();
-            return response()->json([
-                "data" => $user
-            ]);
 
-        } else {
+            // vérifier si les informations sont corrects
+        if(!Auth::attempt($request->only('username','password'))){
             return response()->json([
-                "data" => "no user found"
+                'user invalid'
             ]);
         }
+
+        
+        $user = $request->user();  
+
+        $token = $user->createToken('token')->plainTextToken();  // generate Token
+        $cookie = cookie('jwt',$token,60*24);  // enregistrer token dans cookie
+
+            // refactor user
+        $userAuth = [
+            "id" => $user->id,
+            "username" => $user->username,
+            "role" => $user->role->name
+        ];
+
+        return response()->json([
+            "data" => $userAuth
+        ])->withCookie($cookie);
+
 
         
     }
