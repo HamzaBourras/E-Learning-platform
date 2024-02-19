@@ -22,8 +22,7 @@ class AuthentificationController extends Controller
         $user = $request->user();  
 
         // $token = $user->createToken('token')->plainTextToken();  // generate Token
-        // $cookie = cookie('jwt',$token,60*24);  // enregistrer token dans cookie
-
+        
         $userAuth = [
             "id" => $user->id,
             "firstName" => $user->firstName,
@@ -31,10 +30,14 @@ class AuthentificationController extends Controller
             "username" => $user->username,
             "email" => $user->email,
             "role" => $user->role->name,
-
+            
         ];
 
-        return response()->json($userAuth);
+        $cookie = cookie('user',$userAuth,60*24);  // enregistrer token dans cookie
+
+        return response()->json(
+            
+        )->withCookie($cookie);
 
 
         
