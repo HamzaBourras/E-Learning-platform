@@ -16,8 +16,8 @@ class ProfessorController extends Controller
     /*************** Course ***************/
 
     /**** return All courses ****/
-    public function indexCourse () {
-        $user_id=3; // à refaire
+    public function indexCourse (int $user_id) {
+        // $user_id=3; // à refaire
 
         $cous = Document::with("sector","user")->where(["user_id"=>$user_id])->get();
 
@@ -219,7 +219,9 @@ class ProfessorController extends Controller
 
     /**** return All Quizzes ****/
 
-    
+    public function indexQuizze () {
+
+    }
 
 
 

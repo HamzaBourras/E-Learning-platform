@@ -71,7 +71,7 @@ Route::prefix("auth/director/")->controller(DirectorController::class)->name("di
 Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("professor.")->group(function () {
 
     //--------- - --- courses -----------------------
-    Route::prefix("course/")->name("course.")->group(function () {
+    Route::prefix("courses/")->name("course.")->group(function () {
         Route::get("index","indexCourse")->name("indexCourse");
         Route::post("store","storeCourse")->name("storeCourse");
         Route::put("edit/{id}","editCourse")->where(["id"=>"[0-9]+"])->name("editCourse");
@@ -81,14 +81,14 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
 
 
     //--------- - --- students -----------------------
-    Route::prefix("student/")->name("student.")->group(function () {
-        Route::get("index","indexStudent")->name("indexStudent");
+    Route::prefix("students/")->name("student.")->group(function () {
+        Route::get("index/{user_id}","indexStudent")->name("indexStudent");
 
     });
 
 
     //--------- - --- Announcements -----------------------
-    Route::prefix("announcement/")->name("announcement.")->group(function () {
+    Route::prefix("announcements/")->name("announcement.")->group(function () {
         Route::get("index","indexAnnouncement")->name("indexAnnouncement");
         Route::post("store","storeAnnouncement")->name("storeAnnouncement");
         Route::put("edit/{id}","editAnnouncement")->where(["id"=>"[0-9]+"])->name("editAnnouncement");
@@ -97,7 +97,10 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
 
 
     //--------- - --- Quizzes -----------------------
-    
+    Route::prefix("quizzes/")->name("quizze")->group(function () {
+        Route::get("index","indexQuizze")->name("indexQuizze");
+
+    });
 
 });
 
