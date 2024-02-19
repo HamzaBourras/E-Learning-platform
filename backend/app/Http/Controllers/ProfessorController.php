@@ -215,5 +215,12 @@ class ProfessorController extends Controller
     }
 
 
+    /**************** Quizzes ***************/
+
+    /**** return All Quizzes ****/
+
+    
+
+
 
 }
