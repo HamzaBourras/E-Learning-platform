@@ -9,6 +9,7 @@ use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Requests\CourseRequest;
 use App\Models\Announcement;
+use App\Models\Qcm;
 
 class ProfessorController extends Controller
 {
@@ -43,8 +44,8 @@ class ProfessorController extends Controller
 
     /**** store a course ****/
 
-    public function storeCourse (CourseRequest $request) {
-        $user_id = 5;  // à refaire
+    public function storeCourse (CourseRequest $request, int $user_id) {
+        // $user_id = 5;  // à refaire
 
         $sector_id = Sector::where('name',$request->sector)->first()->id;
 
@@ -72,7 +73,7 @@ class ProfessorController extends Controller
 
     /**** edit a course ****/
 
-    public function editCourse (CourseRequest $request, int $id) {
+    public function editCourse (CourseRequest $request, int $user_id, int $id) {
 
         $sector_id = Sector::where('name',$request->sector)->first()->id;
 
@@ -83,7 +84,7 @@ class ProfessorController extends Controller
             $filename = $file->store("courses", "public");
         }
 
-        Document::where(["id"=>$id])->update([
+        Document::where(["id"=>$id, "user_id"=>$user_id])->update([
             "title" => $request->title,
             "sector_id" => $sector_id,
             "description" => $request->description,
@@ -98,8 +99,8 @@ class ProfessorController extends Controller
 
     /**** delete a course ****/
 
-    public function destroyCourse (int $id) {
-        Document::where(["id"=>$id])->delete();
+    public function destroyCourse ( int $user_id, int $id) {
+        Document::where(["id"=>$id,"user_id"=>$user_id])->delete();
 
         return response()->json( [
             "message" => "course deleted succesfully"
@@ -112,8 +113,8 @@ class ProfessorController extends Controller
 
     /**** return All students for professor ****/
 
-    public function indexStudent () {
-        $user_id = 3; // à refaire
+    public function indexStudent (int $user_id) {
+        // $user_id = 3; // à refaire
 
             // selectioné le prof avec ses filières
         $user = User::with("sectors","sectors.departement")->where('id',$user_id)->first();
@@ -138,9 +139,9 @@ class ProfessorController extends Controller
             }
         }
 
-        return [
+        return response()->json( [
             "data" => $profStudents
-        ];
+        ]);
     }
 
 
@@ -149,8 +150,8 @@ class ProfessorController extends Controller
 
     /**** return All Announcements ****/
 
-    public function indexAnnouncement () {
-        $user_id = 3; // à refaire
+    public function indexAnnouncement (int $user_id) {
+        // $user_id = 3; // à refaire
 
         $allAnnouncements = Announcement::where('user_id',$user_id)->with("sector")->get();
 
@@ -173,8 +174,8 @@ class ProfessorController extends Controller
 
     /**** store an Announcement ****/
 
-    public function storeAnnouncement (AnnouncementRequest $request) {
-        $user_id = 3;  // à refaire
+    public function storeAnnouncement (AnnouncementRequest $request, int $user_id) {
+        // $user_id = 3;  // à refaire
 
         $sector_id = Sector::where('name',$request->sector)->first()->id;
 
@@ -191,10 +192,10 @@ class ProfessorController extends Controller
 
     /**** edit an Announcement ****/
 
-    public function editAnnouncement (AnnouncementRequest $request, int $id) {
+    public function editAnnouncement (AnnouncementRequest $request, int $user_id, int $id) {
         $sector_id = Sector::where('name',$request->sector)->first()->id;
 
-        Announcement::where('id',$id)->update([
+        Announcement::where(["id"=>$id, "user_id"=>$user_id])->update([
             "announcement" => $request->announcementName,
             "sector_id" => $sector_id,
         ]);
@@ -206,8 +207,8 @@ class ProfessorController extends Controller
 
     /**** delete an Announcement ****/
 
-    public function destroyAnnouncement (int $id) {
-        Announcement::where('id',$id)->delete();
+    public function destroyAnnouncement (int $user_id, int $id) {
+        Announcement::where(["id"=>$id, "user_id"=>$user_id])->delete();
 
         return response()->json( [
             "message" => "Announcement deleted succesfully"
@@ -219,8 +220,26 @@ class ProfessorController extends Controller
 
     /**** return All Quizzes ****/
 
-    public function indexQuizze () {
+    public function indexQuizze (int $user_id) {
+            // get all quizzes for professor with question and choices
+        $allQuizzes = Qcm::with("questions","questions.choices")->where('user_id',$user_id)->get();
 
+        $professorQuizzes = [];
+
+        foreach($allQuizzes as $quizze) {
+            foreach ($quizze->questions as $question) {
+                foreach ($question->choices as $choice) {
+                    $formatQuizze = [
+                        "quizzeName" => $quizze->title,
+                        
+                    ];
+                }
+            }
+        }
+
+        return response()->json([
+            "data" =>$professorQuizzes
+        ]);
     }
 
 
