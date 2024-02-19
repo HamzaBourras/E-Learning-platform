@@ -125,6 +125,7 @@ class ProfessorController extends Controller
             foreach ($sector->users as $student) {   // $sector->users représente tous les étudiants de chaque filère
                 if($student->role->id == 3) {   // vérifer si c'est un étudiant
                     $formatProfStudent = [
+                        "id" => $student->id,
                         "username" => $student->username,
                         "firstName" => $student->firstName,
                         "lastName" => $student->lastName,
