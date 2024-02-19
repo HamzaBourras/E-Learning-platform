@@ -14,7 +14,7 @@ class AuthentificationController extends Controller
             // vérifier si les informations sont corrects
         if(!Auth::attempt($request->only('username','password'))){
             return response()->json([
-                'user invalid'
+                "message" => "Username or Password is invalid"
             ]);
         }
 
