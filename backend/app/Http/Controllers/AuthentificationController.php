@@ -33,11 +33,11 @@ class AuthentificationController extends Controller
             
         ];
 
-        $cookie = cookie('user',$userAuth,60*24);  // enregistrer user dans cookie
+        // $cookie = cookie('user',$userAuth,60*24);  // enregistrer user dans cookie
 
         return response()->json(
             
-        )->withCookie($cookie);
+        )->cookie('user',$userAuth,60*24);
 
 
         
