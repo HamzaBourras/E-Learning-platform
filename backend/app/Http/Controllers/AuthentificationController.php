@@ -33,7 +33,7 @@ class AuthentificationController extends Controller
             
         ];
 
-        $cookie = cookie('user',$userAuth,60*24);  // enregistrer token dans cookie
+        $cookie = cookie('user',$userAuth,60*24);  // enregistrer user dans cookie
 
         return response()->json(
             
