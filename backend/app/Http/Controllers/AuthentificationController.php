@@ -31,9 +31,7 @@ class AuthentificationController extends Controller
             "role" => $user->role->name
         ];
 
-        return response()->json([
-            "data" => $userAuth
-        ]);
+        return response()->json($userAuth);
 
 
         
