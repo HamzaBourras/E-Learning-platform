@@ -95,6 +95,10 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
         Route::delete("destroy/{id}","destroyAnnouncement")->where(["id"=>"[0-9]+"])->name("destroyAnnouncement");
     });
 
+
+    //--------- - --- Quizzes -----------------------
+    
+
 });
 
 
