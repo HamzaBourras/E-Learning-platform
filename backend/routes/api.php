@@ -93,4 +93,11 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
         Route::put("edit/{id}","editAnnouncement")->where(["id"=>"[0-9]+"])->name("editAnnouncement");
         Route::delete("destroy/{id}","destroyAnnouncement")->where(["id"=>"[0-9]+"])->name("destroyAnnouncement");
     });
+
+
+    //--------- - --- Quizzes -----------------------
+    Route::prefix("quizzes/")->name("quizze")->group(function () {
+        Route::get("index","indexQuizze")->name("indexQuizze");
+
+    });
 });

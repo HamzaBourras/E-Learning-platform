@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 14 fév. 2024 à 14:49
+-- Généré le : lun. 19 fév. 2024 à 12:24
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -20,6 +20,35 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `e-learning-platform`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `announcements`
+--
+
+CREATE TABLE `announcements` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `announcement` varchar(255) NOT NULL,
+  `sector_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `announcements`
+--
+
+INSERT INTO `announcements` (`id`, `announcement`, `sector_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'TP 1 in langage C ', 1, 6, NULL, NULL),
+(2, 'TP 2 in C', 2, 6, NULL, NULL),
+(3, 'TP 1 in files ', 1, 3, NULL, NULL),
+(4, 'TP 1 in PHP', 1, 4, NULL, NULL),
+(5, 'TP1 in laravel', 1, 4, NULL, NULL),
+(6, 'TP1 in network', 2, 5, NULL, NULL),
+(7, 'TP2 in network', 1, 5, NULL, NULL),
+(8, 'TP1 in managemant', 3, 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -90,7 +119,6 @@ INSERT INTO `documents` (`id`, `title`, `description`, `file`, `user_id`, `creat
 (3, 'tp 1 C', 'un tp sur le langage de programmation C', 'path 3', 3, NULL, NULL, 2),
 (4, 'gestion des fichiers', 'un cours sur la gestion des fichiers pour le langage C', 'path 4', 3, NULL, NULL, 1),
 (5, 'les pointeurs', 'un cours sur les pointeurs dans le langage c', 'path 5', 6, NULL, NULL, 1),
-(6, 'réponse de tp 1 c', 'réponse de tp 1 du langage C', 'path 1-1', 1, NULL, NULL, 1),
 (7, 'réponse du tp 2 c', 'un réponse du tp 2 sur le langage c', 'path 1-2', 2, NULL, NULL, 1),
 (9, 'transmission numérique', 'un cours sur les transmissions numérique dans le réseau informatique un cours sur les transmissions numérique dans le réseau informatique un cours sur les transmissions numérique dans le réseau informatique', 'courses/hshMMKae69568xCblmup6xwSmSd1FMrxJgNAwV3L.bin', 5, '2024-02-12 09:30:53', '2024-02-12 09:30:53', 1);
 
@@ -125,7 +153,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (14, '2024_02_01_204453_create_sectors_users_table', 11),
 (15, '2024_02_03_114054_add_departement_id_users_table', 12),
 (16, '2024_02_08_101859_add_sector_id_to_documents', 13),
-(17, '2024_02_14_104545_add_first_name_last_name_to_users', 14);
+(17, '2024_02_14_104545_add_first_name_last_name_to_users', 14),
+(18, '2024_02_14_144455_create_announcements_table', 15),
+(19, '2024_02_19_105705_add_sector_id_to_qcm_table', 16);
 
 -- --------------------------------------------------------
 
@@ -137,20 +167,6 @@ CREATE TABLE `notes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `note` double NOT NULL,
   `qcm_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `notices`
---
-
-CREATE TABLE `notices` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `content` varchar(255) NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -186,7 +202,8 @@ CREATE TABLE `qcms` (
   `title` varchar(255) NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `sector_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -275,10 +292,11 @@ CREATE TABLE `sectors_users` (
 
 INSERT INTO `sectors_users` (`id`, `sectors_id`, `users_id`, `created_at`, `updated_at`) VALUES
 (1, 2, 3, NULL, '2024-02-12 16:56:46'),
-(3, 2, 3, NULL, '2024-02-12 16:56:46'),
+(3, 1, 3, NULL, '2024-02-12 16:56:46'),
 (4, 1, 5, NULL, NULL),
 (5, 1, 4, NULL, NULL),
-(6, 2, 6, NULL, NULL);
+(6, 2, 6, NULL, NULL),
+(46, 1, 20, '2024-02-14 16:14:20', '2024-02-14 16:14:20');
 
 -- --------------------------------------------------------
 
@@ -306,17 +324,26 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `bio`, `role_id`, `sector_id`, `created_at`, `updated_at`, `departement_id`, `firstName`, `lastName`) VALUES
-(1, 'H.Bourras', 'hamzabour2004@gmail.com', '1234', NULL, 3, 1, NULL, NULL, NULL, 'hamza', 'bourras'),
+(1, 'h.bourras', 'hamza@gmail.com', '$2y$12$Lw56q8aXOa50wysjsHGDPeaShzox.hBk6i5CoHuXvWllZrXXcxipC', NULL, 3, 1, '2024-02-18 16:58:53', '2024-02-18 16:58:53', NULL, 'Hamza', 'Bourras'),
 (2, 'M.Slaoui', 'mohamed@gmail.com', '1111', NULL, 3, 1, NULL, NULL, NULL, 'mohamed', 'slaoui'),
 (3, 'F.karami', 'fahd@gmail.com', 'fahd@gmail.com', NULL, 2, NULL, NULL, '2024-02-12 16:56:46', 3, 'fahd', 'karami'),
 (4, 's.gounane', 'said@gmail.com', '9999', NULL, 2, NULL, NULL, NULL, 8, 'said', 'gounane'),
 (5, 'l.ziad', 'lamia@gmail.com', '0000', NULL, 2, NULL, NULL, NULL, 3, 'lamia', 'ziad'),
 (6, 'n.chouhad', 'nadia@gmail.com', '0000', NULL, 2, NULL, NULL, NULL, 3, 'nadia', 'chouhad'),
-(8, 'aF.adminL', 'admin@gmail.com', '3333', 'I am the admin', 1, NULL, NULL, NULL, NULL, 'adminF', 'adminL');
+(8, 'aF.adminL', 'admin@gmail.com', '3333', 'I am the admin', 1, NULL, NULL, NULL, NULL, 'adminF', 'adminL'),
+(20, 'y.bourfiaa', 'youssef@gmail.com', '$2y$12$mEYDmswF/0h2u4UDET1v5u6hEb2o913uxcSrcEGQ0D2xLYXipAnYq', NULL, 2, NULL, '2024-02-14 16:14:20', '2024-02-14 16:14:20', 3, 'youssef', 'bourfiaa');
 
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `announcements`
+--
+ALTER TABLE `announcements`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `announcements_sector_id_foreign` (`sector_id`),
+  ADD KEY `announcements_user_id_foreign` (`user_id`);
 
 --
 -- Index pour la table `choices`
@@ -354,13 +381,6 @@ ALTER TABLE `notes`
   ADD KEY `notes_user_id_foreign` (`user_id`);
 
 --
--- Index pour la table `notices`
---
-ALTER TABLE `notices`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `notices_user_id_foreign` (`user_id`);
-
---
 -- Index pour la table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
@@ -373,7 +393,8 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `qcms`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `qcms_user_id_foreign` (`user_id`);
+  ADD KEY `qcms_user_id_foreign` (`user_id`),
+  ADD KEY `qcms_sector_id_foreign` (`sector_id`);
 
 --
 -- Index pour la table `questions`
@@ -418,6 +439,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT pour la table `announcements`
+--
+ALTER TABLE `announcements`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT pour la table `choices`
 --
 ALTER TABLE `choices`
@@ -439,7 +466,7 @@ ALTER TABLE `documents`
 -- AUTO_INCREMENT pour la table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `notes`
@@ -448,16 +475,10 @@ ALTER TABLE `notes`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `notices`
---
-ALTER TABLE `notices`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `qcms`
@@ -487,17 +508,24 @@ ALTER TABLE `sectors`
 -- AUTO_INCREMENT pour la table `sectors_users`
 --
 ALTER TABLE `sectors_users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `announcements`
+--
+ALTER TABLE `announcements`
+  ADD CONSTRAINT `announcements_sector_id_foreign` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `announcements_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `choices`
@@ -520,15 +548,10 @@ ALTER TABLE `notes`
   ADD CONSTRAINT `notes_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `notices`
---
-ALTER TABLE `notices`
-  ADD CONSTRAINT `notices_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
 -- Contraintes pour la table `qcms`
 --
 ALTER TABLE `qcms`
+  ADD CONSTRAINT `qcms_sector_id_foreign` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `qcms_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
