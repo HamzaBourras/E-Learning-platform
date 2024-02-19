@@ -30,7 +30,7 @@ class ProfessorController extends Controller
                 "title" => $cou->title,
                 "sector" => $cou->sector->name,
                 "file" => $cou->file,
-                "username" => $cou->user->name
+                "username" => $cou->user->username
             ];
 
             array_push($courses,$formatCourse);
