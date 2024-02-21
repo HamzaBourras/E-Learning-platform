@@ -63,7 +63,7 @@ class DirectorController extends Controller
         // selectioné l'id du departement
         $departement_id = Departement::where('name', $request->department)->first()->id;
 
-        User::create([
+        $professorCree = User::create([
             "firstName" =>$request->firstName,
             "lastName" =>$request->lastName,
             "username" => $request->username,
@@ -72,9 +72,6 @@ class DirectorController extends Controller
             "departement_id" => $departement_id,
             "password" => $request->email
         ]);
-
-        // selectioné l'id du professor crée
-        $professorCreeId = User::orderBy('id', 'desc')->where('role_id', 2)->first()->id;
 
         // enregistré les ids des sectors selectioné
         $sectors_id = [];
@@ -85,7 +82,7 @@ class DirectorController extends Controller
         // inserer les ids des sectors et du professor dans la table de relation many to many
         foreach ($sectors_id as $sector_id) {
             SectorsUsers::create([
-                "users_id" => $professorCreeId,
+                "users_id" => $professorCree->id,
                 "sectors_id" => $sector_id
             ]);
         }

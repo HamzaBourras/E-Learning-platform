@@ -63,6 +63,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Sector::class, 'sectors_users', 'users_id', 'sectors_id');
     }
 
+    public function qcms () {
+        return $this->hasMany(Qcm::class);
+    }
+
     // if user is a student
     public function sector()
     {

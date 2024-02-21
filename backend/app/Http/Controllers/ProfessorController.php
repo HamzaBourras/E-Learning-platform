@@ -8,8 +8,11 @@ use App\Models\Sector;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Requests\CourseRequest;
+use App\Http\Requests\QcmRequest;
 use App\Models\Announcement;
+use App\Models\Choice;
 use App\Models\Qcm;
+use App\Models\Question;
 
 class ProfessorController extends Controller
 {
@@ -66,7 +69,7 @@ class ProfessorController extends Controller
         ]);
 
         return response()->json( [
-            "message" => "course added succesfully"
+            "message" => "course added successfully"
         ]);
     }
 
@@ -92,7 +95,7 @@ class ProfessorController extends Controller
         ]);
 
         return response()->json( [
-            "message" => "course updated succesfully"
+            "message" => "course updated successfully"
         ]);
     }
 
@@ -103,7 +106,7 @@ class ProfessorController extends Controller
         Document::where(["id"=>$id,"user_id"=>$user_id])->delete();
 
         return response()->json( [
-            "message" => "course deleted succesfully"
+            "message" => "course deleted successfully"
         ]);
     }
 
@@ -187,7 +190,7 @@ class ProfessorController extends Controller
         ]);
 
         return response()->json( [
-            "message" => "Announcement added succesfully"
+            "message" => "Announcement added successfully"
         ]);
     }
 
@@ -202,7 +205,7 @@ class ProfessorController extends Controller
         ]);
 
         return response()->json( [
-            "message" => "Announcement updated succesfully"
+            "message" => "Announcement updated successfully"
         ]);
     }
 
@@ -212,7 +215,7 @@ class ProfessorController extends Controller
         Announcement::where(["id"=>$id, "user_id"=>$user_id])->delete();
 
         return response()->json( [
-            "message" => "Announcement deleted succesfully"
+            "message" => "Announcement deleted successfully"
         ]);
     }
 
@@ -223,19 +226,37 @@ class ProfessorController extends Controller
 
     public function indexQuizze (int $user_id) {
             // get all quizzes for professor with question and choices
-        $allQuizzes = Qcm::with("questions","questions.choices")->where('user_id',$user_id)->get();
+        $allQuizzes = Qcm::with("sector","questions","questions.choices")->where('user_id',$user_id)->get();
 
         $professorQuizzes = [];
 
         foreach($allQuizzes as $quizze) {
+                //refactor quizze
+            $formatQuizze = [
+                "quizzeName" => $quizze->title,
+                "sector" => $quizze->sector->name,
+                "questions" => []
+            ];
             foreach ($quizze->questions as $question) {
+                    //refactor each question
+                $formatQuestion = [
+                    "id" => $question->id,
+                    "question" => $question->text,
+                    "answers" => []
+                ];
+
                 foreach ($question->choices as $choice) {
-                    $formatQuizze = [
-                        "quizzeName" => $quizze->title,
-                        
+                        //refactor each answer for the question
+                    $formatAnswer = [
+                        "id" => $choice->id,
+                        "answer" => $choice->text,
+                        "isCorrect" =>  $choice->tr_fl
                     ];
+                        array_push($formatQuestion['answers'],$formatAnswer);  // add the answer in the table of answers of question
                 }
+                array_push($formatQuizze['questions'],$formatQuestion);  // add the question in the table of questions 
             }
+            array_push($professorQuizzes,$formatQuizze);  // add quizze in the table of professor quizzes
         }
 
         return response()->json([
@@ -243,6 +264,82 @@ class ProfessorController extends Controller
         ]);
     }
 
+
+    /**** store a Quizze ****/
+
+    public function storeQuizze (QcmRequest $request, int $user_id){
+
+        $sector_id = Sector::where('name',$request->sector)->first()->id;
+        $qcmCree = Qcm::create([
+            "title" => $request->quizzeName,
+            "user_id" => $user_id,
+            "sector_id" => $sector_id
+        ]);
+
+        foreach($request->questions as $question) {
+            $questionCree = Question::create([
+                "text" => $question['question'],
+                "qcm_id" => $qcmCree->id
+            ]);
+
+            foreach($question['answers'] as $answer) {
+                Choice::create([
+                    "text" => $answer['answer'],
+                    "tr_fl" => (int) $answer['isCorrect'],
+                    "question_id" => $questionCree->id
+                ]);
+            }
+
+        }
+
+        return response()->json([
+            "message" => "Quizze added successfully"
+        ]);
+    }
+
+    /**** edit a Quizze ****/
+
+    public function editQuizze (QcmRequest $request, int $user_id, int $id ) {
+
+        $sector_id = Sector::where('name',$request->sector)->first()->id;
+        Qcm::where(["user_id" => $user_id, "id"=>$id])->update([
+            "title" => $request->quizzeName,
+            "sector_id" => $sector_id
+        ]);
+
+        
+        foreach($request->questions as $question) {
+            Question::where(["qcm_id" => $id, "id" => $question['id']])->update([
+                "text" => $question['question'],
+            ]);
+
+            // $questionModifie = Question::where(["qcm_id" => $id, "id" => $question->id])->first();
+
+            foreach($question['answers'] as $answer) {
+                Choice::where(["question_id" => $question['id'], "id" => $answer['id']])->update([
+                    "text" => $answer['answer'],
+                    "tr_fl" => (int) $answer['isCorrect'],
+                ]);
+            }
+
+        }
+
+        return response()->json([
+            "message" => "Quizze updated successfully",
+        ]);
+
+
+    }
+
+    /**** delete a Quizze ****/
+
+    public function destroyQuizze (int $user_id, int $id) {
+        Qcm::where(["user_id" => $user_id, "id" => $id])->delete();
+
+        return response()->json([
+            "message" => "Quizze deleted successfully"
+        ]);
+    }
 
 
 }

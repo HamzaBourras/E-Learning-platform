@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Qcm extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "title",
+        "user_id",
+        "sector_id"
+    ];
+
+    public function sector () {
+        return $this->belongsTo(Sector::class);
+    }
+
+    public function questions () {
+        return $this->hasMany(Question::class);
+    }
+
+
 }
