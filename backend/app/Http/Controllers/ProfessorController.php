@@ -13,6 +13,7 @@ use App\Models\Announcement;
 use App\Models\Choice;
 use App\Models\Qcm;
 use App\Models\Question;
+use Illuminate\Support\Facades\Storage;
 
 class ProfessorController extends Controller
 {
@@ -76,9 +77,13 @@ class ProfessorController extends Controller
 
     /**** edit a course ****/
 
-    public function editCourse (CourseRequest $request, int $user_id, int $id) {
+    public function editCourse (Request $request, int $user_id, int $id) {
 
         $sector_id = Sector::where('name',$request->sector)->first()->id;
+        
+        // supprimer l'ancien document du dossier storage/course
+    $oldFilename = Document::where('id',$id)->first()->file;
+    Storage::delete("public/".$oldFilename);
 
         $filename =null;
 
@@ -95,7 +100,7 @@ class ProfessorController extends Controller
         ]);
 
         return response()->json( [
-            "message" => "course updated successfully"
+            "message" => "course updated successfully",
         ]);
     }
 
