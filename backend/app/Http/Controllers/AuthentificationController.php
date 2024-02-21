@@ -21,16 +21,6 @@ class AuthentificationController extends Controller
 
         $user = $request->user();  
 
-        $allSectors = Sector::where('user_id',$user->id)->get();
-
-        $sectors = [];
-
-        foreach($allSectors as $sector) {
-            array_push($sectors,$sector->name);
-        }
-
-        // $token = $user->createToken('token')->plainTextToken();  // generate Token
-        
         $userAuth = [
             "id" => $user->id,
             "firstName" => $user->firstName,
@@ -38,17 +28,34 @@ class AuthentificationController extends Controller
             "username" => $user->username,
             "email" => $user->email,
             "role" => $user->role->name,
-            "sectors" => $sectors
-            
+            "sectors" => []
         ];
 
-        // $cookie = cookie('user',$userAuth,60*24);  // enregistrer user dans cookie
+        $sectors = [];
 
+            // if user is a professor
+        if($user->role_id == 2) {
+            $allSectors = $user->sectors()->get();
+            foreach($allSectors as $sector){
+                array_push($sectors,$sector->name);
+            }
+        }
+            //if user is a student
+        elseif ($user->role_id == 3){
+            $sector = $user->sector()->first();
+            array_push($sectors,$sector->name);
+        }
+
+            $userAuth['sectors'] = $sectors;  // add sectors in userAuth
+        
+
+        // $cookie = cookie('user',$userAuth,60*24);  // enregistrer user dans cookie
+        
         return response()->json([
             "data" => $userAuth
         ]);
+        
 
-        // ->cookie('user',$userAuth,60*24)
 
 
         
