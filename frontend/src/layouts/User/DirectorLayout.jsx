@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useEffect } from 'react';
 import Sidebar from '../../components/sidebar/Sidebar'
@@ -17,7 +18,6 @@ const DirectorLayout = () => {
 
     const dispatch = useDispatch();
     const reRender = useSelector((state)=> state.director.renderAction);
-    
     
     const { data: professorsData, isLoading: professorsLoading, error: professorsError } = useFetch(ALL_PROFESSORS_API, reRender);
     const { data: departmentsData, isLoading: departmentsLoading, error: departmentsError } = useFetch(ALL_DEPARTMENTS_API, reRender);

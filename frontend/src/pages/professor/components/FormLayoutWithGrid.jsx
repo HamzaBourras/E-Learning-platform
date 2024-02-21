@@ -18,7 +18,7 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
     const [selectedKey, setSelectedKey] = useState('')
 
     const filteredData = getArrayById(data, 'sector', selectedKey)
-    console.log(filteredData);
+    // console.log(filteredData);
 
     const openForm = (id = null) => {
         setSelectedId(id);
@@ -117,7 +117,8 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
             </div>
             <div className={` grid ${isGrid ? 'xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7' : ''} gap-2`}>
                 {
-                    filteredData.map(item => (
+                    filteredData && filteredData.length > 0  ? 
+                    (filteredData.map(item => (
                         <div
                             onClick={() => openForm(item.id)}
                             key={item.id}
@@ -128,7 +129,9 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                             </div>
 
                         </div>
-                    ))
+                    )))
+                    : 
+                    <h1 className="w-full col-span-2 mx-4 text-gray-600">No {name}s were found</h1>
                 }
             </div>
         </div>

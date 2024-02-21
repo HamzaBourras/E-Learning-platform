@@ -18,7 +18,7 @@ import ManageDepartments from './pages/director/ManageDepartments';
 import EditData from './pages/director/EditData';
 import ManageStudents from './pages/director/ManageStudents';
 import ManageSectors from './pages/director/ManageSectors';
-import ManagerProfile from './pages/director/Profile';
+import DirectorProfile from './pages/director/DirectorProfile';
 
 // Professor pages
 import ProfessorDashboard from './pages/professor/ProfessorDashboard';
@@ -27,6 +27,7 @@ import ManageMyStudents from './pages/professor/ManageMyStudents'
 import ManageAnnouncements from './pages/professor/ManageAnnouncements'
 import ManageQuizzes from './pages/professor/ManageQuizzes'
 import ManageSubmissions from './pages/professor/ManageSubmissions'
+import ProfessorProfile from './pages/professor/ProfessorProfile';
 
 // student pages
 import StudentDashboard from './pages/student/StudentDashboard'
@@ -58,6 +59,7 @@ const App = () => {
             <Route path='announcements' element={<ManageAnnouncements />} />
             <Route path='quizzes' element={<ManageQuizzes />} />
             <Route path='submissions' element={<ManageSubmissions />} />
+            <Route path="profile" element={<ProfessorProfile/>} />
           </Route>
 
 
@@ -71,7 +73,7 @@ const App = () => {
             <Route path='sectors' element={<ManageSectors />} />
             <Route path='students' element={<ManageStudents />} />
             <Route path='edit' element={<EditData />} />
-            <Route path='profile' element={<ManagerProfile />} />
+            <Route path='profile' element={<DirectorProfile />} />
           </Route>
         </Route>
 

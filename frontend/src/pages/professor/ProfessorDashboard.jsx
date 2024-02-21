@@ -44,8 +44,8 @@ const ProfessorDashboard = () => {
                     <BarChart data={studentsData} labels={['assignments', 'quizzes', 'courses']} colors={colors} />
                 </div>
 
-                <div className='boreder w-full space-y-2'>
-                    <h1 className='font-medium text-gray-500'>Downloaded Courses</h1>
+                <div className='boreder w-full space-y-2 flex flex-col items-center'>
+                    <h1 className='font-medium text-gray-500 self-start'>Downloaded Courses</h1>
                     <DoughnutChart labels={labels} data={downloads} colors={colors} />
                 </div>
             </div>

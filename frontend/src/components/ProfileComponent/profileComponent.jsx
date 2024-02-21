@@ -1,18 +1,35 @@
+/* eslint-disable react/prop-types */
 import { Avatar, Divider, Input, Textarea, Badge, Button, Spinner } from '@nextui-org/react'
-import { director } from '../../json/data'
 import useForm from '../../hooks/useForm'
-const Profile = () => {
+
+const Profile = ({data}) => {
     const apiKey = 'http://127.0.0.1:8000/api/posts/store';
     const initialState = {
-        'firstname': director.firstname,
-        'lastname': director.lastname,
-        'email': director.email,
-        'bio': director.bio,
-        'role': director.role,
-        'image': director.image
+        'firstname': data.firstname,
+        'lastname': data.lastname,
+        'email': data.email,
+        'bio': data.bio,
+        'role': data.role,
+        'image': data.image
     }
-    const { inputs, errors, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
 
+    let color = ''
+
+    switch (data.role) {
+        case "director":
+            color = 'secondary'
+            break;
+
+        case "professor":
+            color = 'danger'
+            break;
+
+        case "student":
+            color = 'warning'
+            break;
+    }
+
+    const { inputs, errors, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
 
     return (
         <div className='px-1 space-y-3'>
@@ -24,22 +41,22 @@ const Profile = () => {
                 <div className='flex flex-col items-center gap-2'>
                     <h1 className='h1'>{inputs['firstname']} {inputs['lastname']}</h1>
 
-                    <Badge content={director.role} color="secondary" size="sm"></Badge>
+                    <Badge content={data.role} color="secondary" size="sm"></Badge>
 
                     <form onSubmit={handleSubmit}>
                         <div className='flex flex-col items-center'>
                             <label htmlFor="fileInput" className="cursor-pointer relative inline-block">
                                 <Avatar
                                     isBordered
-                                    color="secondary"
+                                    color={color}
                                     name={inputs['lastname']}
                                     className='md:lg:w-32 md:lg:h-32 xs:sm:w-20 xs:sm:h-20'
                                     src={inputs['image']}
                                 />
-                                { isLoading &&  
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <Spinner color='default' />
-                                </div>
+                                {isLoading &&
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <Spinner color='default' />
+                                    </div>
                                 }
                             </label>
                             <input
@@ -91,8 +108,9 @@ const Profile = () => {
 
                             <Textarea
                                 variant='bordered'
+                                placeholder='Your bio goes here'
                                 className='col-span-2'
-                                defaultValue={director.bio}
+                                defaultValue={inputs['bio']}
                                 errorMessage={errors['bio']}
                                 onChange={(e) => handleChange('bio', e.target.value)}
                             >

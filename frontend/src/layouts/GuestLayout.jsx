@@ -6,18 +6,16 @@ import { Button, Input, Spinner } from '@nextui-org/react';
 import useForm from './../hooks/useForm';
 import { LOGIN_API } from '../api/apis';
 import Background from '../assets/images/bg.png'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { EyeFilledIcon } from './../components/EyeFilledIcon';
 import { EyeSlashFilledIcon } from './../components/EyeSlashFilledicon';
+import Alert from './../components/Alert';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveProfessor } from '../state/features/Professor/professorSlice';
 
 
 const GuestLayout = () => {
-    const user = false;
-    if (user) {
-        return <Navigate to="/auth" replace />
-    }
-
     const apiKey = LOGIN_API
     // ----------------------------------------------
     const [isVisible, setIsVisible] = useState(false);
@@ -29,7 +27,24 @@ const GuestLayout = () => {
         'password': ''
     }
 
-    const { inputs, errors, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, "post")
+    const { inputs, errors, data, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, "post")
+
+    // - -- - - - -- -- - -save data to redux-      - - - - - - -- 
+    // const dispatch = useDispatch();
+    // useEffect(()=>{
+    //     // if (data && !data['data']['message']) {
+    //     //     dispatch(saveProfessor(data['data']))
+            
+    //     // }
+
+    // }, [data,dispatch])
+
+
+    // const user = useSelector((state) => state.professor.user);
+    // if (user && Object.keys(user).length > 0) {
+    //     // return <Navigate to="/auth" replace />
+    //     console.log(user);
+    // }
 
     return (
         <main className="w-full h-screen flex flex-col items-center justify-center px-4">
@@ -39,7 +54,7 @@ const GuestLayout = () => {
                     <img src={Logo} width={150} className="mx-auto" />
                     <div className="mt-5 space-y-2">
                         <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Log in to your account</h3>
-
+                        {(data && ['data']['message']) && <Alert message={data['data']['message']} color="danger" />}
                     </div>
                 </div>
                 <form

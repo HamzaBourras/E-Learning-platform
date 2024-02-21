@@ -16,6 +16,7 @@ const teachers = [
         "department": "Management",
         "avatar": "https://i.pravatar.cc/150?u=a042581f4e29026024d",
         "email": "tony.reichert@example.com",
+        "role": "professor",
         "sectors": [
             "TM"
         ]
@@ -27,6 +28,7 @@ const teachers = [
         "department": "Development",
         "avatar": "https://i.pravatar.cc/150?u=a042581f4e29026704d",
         "email": "zoey.lang@example.com",
+        "role": "professor",
         "sectors": [
             "Tech Lead"
         ]
@@ -38,6 +40,7 @@ const teachers = [
         "department": "Development",
         "avatar": "https://i.pravatar.cc/150?u=a04258114e29026702d",
         "email": "jane.fisher@example.com",
+        "role": "professor",
         "sectors": [
             "Computer Science",
             "Data Science"
@@ -50,6 +53,7 @@ const teachers = [
         "department": "Marketing",
         "avatar": "https://i.pravatar.cc/150?u=a048581f4e29026701d",
         "email": "william.howard@example.com",
+        "role": "professor",
         "sectors": [
             "C.M."
         ]
@@ -61,6 +65,7 @@ const teachers = [
         "department": "Sales",
         "avatar": "https://i.pravatar.cc/150?u=a092581d4ef9026700d",
         "email": "kristen.cooper@example.com",
+        "role": "professor",
         "sectors": [
             "TM"
         ]
@@ -72,6 +77,7 @@ const teachers = [
         "department": "Management",
         "avatar": "https://i.pravatar.cc/150?u=a042581f4e29026024d",
         "email": "brian.kim@example.com",
+        "role": "professor",
         "sectors": [
             "P. Manager"
         ]
@@ -244,13 +250,12 @@ const students = [
 
 const studentColumns = [
     { name: "ID", uid: "id", sortable: true },
-    { name: "USERNAME", uid: "username", sortable: true },
     { name: "FIRSTNAME", uid: "firstName", sortable: true },
     { name: "LASTNAME", uid: "lastName", sortable: true },
+    { name: "USERNAME", uid: "username", sortable: true },
     { name: "Department", uid: "department", sortable: true },
     { name: "Sector", uid: "sector", sortable: true },
     { name: "Email", uid: "email" },
-    { name: "Actions", uid: "actions" },
 ];
 
 

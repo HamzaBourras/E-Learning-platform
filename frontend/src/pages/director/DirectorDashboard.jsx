@@ -25,25 +25,11 @@ const DirectorDashboard = () => {
     const [departmentCounter, setDepartmentCounter] = useState(0);
     const [sectorCounter, setSectorCounter] = useState(0);
 
-    const [isLoading, setIsLoading] = useState({
-        'professors': true,
-        'students': true,
-        'departments': true,
-        'sectors': true
-    })
-
     const updateData = () => {
         setProfessorCounter(countData(professors))
         setStudentCounter(countData(students))
         setDepartmentCounter(countData(departments))
         setSectorCounter(countData(sectors))
-
-        setIsLoading(prev => ({
-            'professors': false,
-            'students': false,
-            'departments': false,
-            'sectors': false
-        }));
     }
 
     useEffect(()=>{
@@ -72,13 +58,13 @@ const DirectorDashboard = () => {
             </div>
             <div className="grid xs:sm:grid-cols-2 md:lg:grid-cols-4 gap-2">
 
-                <ProgressComponent isLoading={isLoading.professors} name="Professors" image={ProfImage} number={professorCounter} maxNumber={30} color="secondary" />
+                <ProgressComponent  name="Professors" image={ProfImage} number={professorCounter} maxNumber={15} color="secondary" />
 
-                <ProgressComponent isLoading={isLoading.students} name="Students" image={StudentImage} number={studentCounter} maxNumber={40} color="secondary" />
+                <ProgressComponent  name="Students" image={StudentImage} number={studentCounter} maxNumber={40} color="secondary" />
 
-                <ProgressComponent isLoading={isLoading.departments} name="Departments" image={DepartmentImage} number={departmentCounter} maxNumber={10} color="secondary" />
+                <ProgressComponent  name="Departments" image={DepartmentImage} number={departmentCounter} maxNumber={10} color="secondary" />
 
-                <ProgressComponent isLoading={isLoading.sectors} name="Sectors" image={SectorImage} number={sectorCounter} maxNumber={10} color="secondary" />
+                <ProgressComponent  name="Sectors" image={SectorImage} number={sectorCounter} maxNumber={15} color="secondary" />
 
 
             </div>

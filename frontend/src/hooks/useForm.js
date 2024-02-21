@@ -7,6 +7,7 @@ const useForm = (initialState = {}, api, method) => {
     const [errors, setErrors] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const [message, setMessage] = useState('');
+    const [data, setData] = useState(null);
 
     const handleChange = (name, value) => {
         setInputs((prevInputs) => ({
@@ -25,16 +26,18 @@ const useForm = (initialState = {}, api, method) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-
+        
         try {
             const response = await axios({
-                method: method, // Dynamic method
-                url: api, // API endpoint
-                data: inputs // Data to be sent with the request
+                method: method,
+                url: api, 
+                data: inputs,
+                // withCredentials: true
             });
 
             if (response.status === 200) {
                 setMessage(response.data.message);
+                setData(response);
                 console.log(response);
             }
 
@@ -80,7 +83,7 @@ const useForm = (initialState = {}, api, method) => {
 
     }
 
-    return { inputs, errors, message, isLoading, handleChange, handleSubmit, setMessage }
+    return { inputs, errors, data ,message, isLoading, handleChange, handleSubmit, setMessage }
 }
 
 export default useForm;

@@ -33,7 +33,7 @@ const BarChart = ({ data, labels, colors }) => {
     };
 
     return (
-        <div>
+        <div className=''>
             <Bar data={chartData} options={chartOptions} />
         </div>
     );

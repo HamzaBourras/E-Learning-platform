@@ -65,7 +65,7 @@ const Sidebar = ({ tabs, user }) => {
                                 <span className="absolute z-50 xs:sm:left-14 md:lg:group-hover:hidden hidden p-1 px-1.5 rounded-md whitespace-nowrap text-xs text-white bg-gray-800 group-hover:inline-block group-focus:hidden duration-150">
                                     {i.name}
                                 </span>
-                                <span className='xs:hidden sm:hidden md:block lg:block group-hover:text-white text-gray-800'>
+                                <span className='xs:hidden sm:hidden md:hidden lg:block group-hover:text-white text-gray-800'>
                                     {i.name}
                                 </span>
                             </div>
