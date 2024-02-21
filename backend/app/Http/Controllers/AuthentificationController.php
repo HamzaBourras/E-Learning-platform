@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Sector;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AuthentificationRequest;
@@ -18,8 +19,15 @@ class AuthentificationController extends Controller
             ]);
         }
 
-        
         $user = $request->user();  
+
+        $allSectors = Sector::where('user_id',$user->id)->get();
+
+        $sectors = [];
+
+        foreach($allSectors as $sector) {
+            array_push($sectors,$sector->name);
+        }
 
         // $token = $user->createToken('token')->plainTextToken();  // generate Token
         
@@ -30,14 +38,17 @@ class AuthentificationController extends Controller
             "username" => $user->username,
             "email" => $user->email,
             "role" => $user->role->name,
+            "sectors" => $sectors
             
         ];
 
         // $cookie = cookie('user',$userAuth,60*24);  // enregistrer user dans cookie
 
-        return response()->json(
-            
-        )->cookie('user',$userAuth,60*24);
+        return response()->json([
+            "data" => $userAuth
+        ]);
+
+        // ->cookie('user',$userAuth,60*24)
 
 
         
