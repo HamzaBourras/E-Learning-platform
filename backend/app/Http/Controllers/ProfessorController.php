@@ -31,7 +31,8 @@ class ProfessorController extends Controller
         foreach ($cous as $cou) {
             $formatCourse = [
                 "id" => $cou->id,
-                "title" => $cou->title,
+                "courseName" => $cou->title,
+                "description" => $cou->description,
                 "sector" => $cou->sector->name,
                 "file" => $cou->file,
                 "username" => $cou->user->username
@@ -62,7 +63,7 @@ class ProfessorController extends Controller
         
 
         Document::create([
-            "title" => $request->title,
+            "title" => $request->courseName,
             "sector_id" => $sector_id,
             "user_id" => $user_id,
             "description" => $request->description,
@@ -96,7 +97,7 @@ class ProfessorController extends Controller
         }
 
         Document::where(["id"=>$id, "user_id"=>$user_id])->update([
-            "title" => $request->title,
+            "title" => $request->courseName,
             "sector_id" => $sector_id,
             "description" => $request->description,
             "file" => $filename
