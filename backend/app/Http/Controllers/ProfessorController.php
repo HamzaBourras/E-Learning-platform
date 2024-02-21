@@ -82,8 +82,11 @@ class ProfessorController extends Controller
         $sector_id = Sector::where('name',$request->sector)->first()->id;
         
         // supprimer l'ancien document du dossier storage/course
-    $oldFilename = Document::where('id',$id)->first()->file;
-    Storage::delete("public/".$oldFilename);
+        $oldFile = Document::where('id', $id)->first();
+        if ($oldFile) {
+            $oldFilename = $oldFile->file;
+            Storage::delete("public/" . $oldFilename);
+        }
 
         $filename =null;
 
