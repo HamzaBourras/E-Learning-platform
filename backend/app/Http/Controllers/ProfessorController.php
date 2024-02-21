@@ -77,7 +77,7 @@ class ProfessorController extends Controller
 
     /**** edit a course ****/
 
-    public function editCourse (Request $request, int $user_id, int $id) {
+    public function editCourse (CourseRequest $request, int $user_id, int $id) {
 
         $sector_id = Sector::where('name',$request->sector)->first()->id;
         
