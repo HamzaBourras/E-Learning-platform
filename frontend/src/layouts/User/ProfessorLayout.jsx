@@ -13,7 +13,7 @@ const ProfessorLayout = () => {
     const reRender = useSelector((state) => state.director.renderAction);
 
     const { data: studentsData, isLoading: studentsLoading, error: studentsError } = useFetch(`${PROFESSOR_STUDENTS_API}/4`, reRender);
-    const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useFetch(`${PROFESSOR_COURSES_API}/4`, reRender);
+    const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useFetch(`${PROFESSOR_COURSES_API}/3`, reRender);
     // const { data: departmentsData, isLoading: departmentsLoading, error: departmentsError } = useFetch(ALL_DEPARTMENTS_API, reRender);
     // const { data: studentsData, isLoading: studentsLoading, error: studentsError } = useFetch(ALL_STUDENTS_API, reRender);
 

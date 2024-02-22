@@ -38,6 +38,10 @@ export const DELETE_DEPARTMENT_API = "http://127.0.0.1:8000/api/auth/director/de
 
 // ------------------------PROFESSOR---------------------------------------------------
 export const PROFESSOR_STUDENTS_API = "http://127.0.0.1:8000/api/auth/professor/students/index";
+
+// --------------------------COURSE------------------------------------------------------
 export const PROFESSOR_COURSES_API = "http://127.0.0.1:8000/api/auth/professor/courses/index";
+export const STORE_COURSE_API = "http://127.0.0.1:3000/api/posts/store";
+// export const STORE_COURSE_API = "http://127.0.0.1:8000/api/auth/professor/courses/store";
 
 // ------------------------STUDENT---------------------------------------------------

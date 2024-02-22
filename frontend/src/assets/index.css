@@ -20,6 +20,7 @@
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #6c6c6c;
+  border-radius: 3%;
 }
 
 /* Handle on hover */
@@ -28,12 +29,12 @@
 }
 /* ---------------------------------------------------- */
 
-.h1 {
-  @apply text-2xl font-medium;
+.title {
+  @apply text-lg font-medium text-gray-700;
 }
 
 .h2 {
-  @apply text-3xl font-bold;
+  @apply text-2xl font-bold;
 }
 
 nav a.active{

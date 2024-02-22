@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from 'axios'
 
-const useForm = (initialState = {}, api, method) => {
+const useForm = (initialState = {}, api, method, hasFile = false, isAuth = false) => {
 
     const [inputs, setInputs] = useState(initialState)
     const [errors, setErrors] = useState({})
@@ -21,20 +21,37 @@ const useForm = (initialState = {}, api, method) => {
         }));
     };
 
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        
-        try {
-            const response = await axios({
-                method: method,
-                url: api, 
-                data: inputs,
-                // withCredentials: true
-            });
 
+        try {
+            let config = {
+                method: method,
+                url: api,
+                data: inputs,
+                headers: { 'Content-Type': 'application/json' }
+            }
+
+            if (hasFile) {
+                config.headers = { 'Content-Type': 'multipart/form-data' };
+                // Create a FormData object and append inputs to it
+                let formData = new FormData();
+                for (let key in inputs) {
+                    formData.append(key, inputs[key]);
+                }
+                config.data = formData;
+            }
+
+            if(isAuth){
+                config.headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+            }
+            // ---------------send data ----------------------
+            const response = await axios(config);
+
+            // ------------------------------------------------
             if (response.status === 200) {
                 setMessage(response.data.message);
                 setData(response);
@@ -83,7 +100,7 @@ const useForm = (initialState = {}, api, method) => {
 
     }
 
-    return { inputs, errors, data ,message, isLoading, handleChange, handleSubmit, setMessage }
+    return { inputs, errors, data, message, isLoading, handleChange, handleSubmit, setMessage }
 }
 
 export default useForm;

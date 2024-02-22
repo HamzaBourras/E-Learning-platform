@@ -29,12 +29,18 @@ const GuestLayout = () => {
 
     const { inputs, errors, data, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, "post")
 
+    if (data && !data['data']['message']) {
+        localStorage.setItem('token', data.data.token);
+        localStorage.setItem('user', JSON.stringify(data.data.data));
+        return <Navigate to={`/auth/${data.data.data.role}`} replace />;
+    }
+
     // - -- - - - -- -- - -save data to redux-      - - - - - - -- 
     // const dispatch = useDispatch();
     // useEffect(()=>{
     //     // if (data && !data['data']['message']) {
     //     //     dispatch(saveProfessor(data['data']))
-            
+
     //     // }
 
     // }, [data,dispatch])
@@ -54,7 +60,7 @@ const GuestLayout = () => {
                     <img src={Logo} width={150} className="mx-auto" />
                     <div className="mt-5 space-y-2">
                         <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Log in to your account</h3>
-                        {(data && ['data']['message']) && <Alert message={data['data']['message']} color="danger" />}
+                        {(data && data['data']['message']) && <Alert message={data['data']['message']} color="danger" />}
                     </div>
                 </div>
                 <form

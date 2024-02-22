@@ -4,11 +4,12 @@ import { courses, sectors } from '../../../json/data'
 import useForm from '../../../hooks/useForm';
 import Alert from '../../../components/Alert';
 import { getArrayById } from '../../../utils/utils';
+import { STORE_COURSE_API } from '../../../api/apis';
 
 const CourseForm = ({ id }) => {
 
 
-    const apiKey = 'http://127.0.0.1:8000/api/posts/store';
+    const apiKey = `${STORE_COURSE_API}`;
     const course = getArrayById(courses, 'id', id)[0]
 
     const initialState = {
@@ -17,9 +18,11 @@ const CourseForm = ({ id }) => {
         'description': id ? course['description'] : '',
         'file': null,
     }
-    
-    const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey)
 
+    
+    const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey,"post",true)
+    
+    // console.log(inputs);
     return (
         <div className="border border-dashed grid grid-cols-1 p-2 rounded space-y-2">
             {message && <Alert color='success' message={message} />}
@@ -37,8 +40,7 @@ const CourseForm = ({ id }) => {
                     items={sectors} 
                     label="Sector"
                     variant='bordered'
-                    selectionMode='multiple'
-                    defaultSelectedKeys={[inputs['sector']]}
+                    defaultSelectedKeys={inputs['sector'] !== "" ? [inputs['sector']] : undefined}
                     errorMessage={errors['sector']}
                     onChange={(e) => handleChange('sector', e.target.value)}
                 >
@@ -50,6 +52,7 @@ const CourseForm = ({ id }) => {
                     variant='bordered'
                     label="Your description goes here"
                     value={inputs['description']}
+                    onChange={(e) => handleChange('description', e.target.value)}
                 ></Textarea>
                 <div>
                     <label className="sr-only">Choose file</label>

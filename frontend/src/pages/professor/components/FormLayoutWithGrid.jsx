@@ -6,7 +6,6 @@ import grid from '../../../assets/icons/gridSQ.svg'
 import list from '../../../assets/icons/grid_list.svg'
 import { PlusIcon } from '../../../components/PlusIcon';
 import { getArrayById, uncapitalize } from "../../../utils/utils";
-import { sectors } from "../../../json/data";
 
 
 const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
@@ -16,6 +15,8 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
     const [selectedId, setSelectedId] = useState(null);
 
     const [selectedKey, setSelectedKey] = useState('')
+
+    const sectors = JSON.parse(localStorage.getItem('user')).sectors
 
     const filteredData = getArrayById(data, 'sector', selectedKey)
     // console.log(filteredData);
@@ -105,33 +106,32 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                     selectedKey={selectedKey}
                     onSelectionChange={setSelectedKey}
                 >
-                    {(item) => (
+                    {sectors.map((sector, index) => (
                         <Tab
-                            key={item.sector}
-                            title={item.sector}
+                            key={sector}
+                            title={sector}
                         >
-
                         </Tab>
-                    )}
+                    ))}
                 </Tabs>
             </div>
             <div className={` grid ${isGrid ? 'xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7' : ''} gap-2`}>
                 {
-                    filteredData && filteredData.length > 0  ? 
-                    (filteredData.map(item => (
-                        <div
-                            onClick={() => openForm(item.id)}
-                            key={item.id}
-                            className={`flex  p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border`}>
-                            <img src={image} className='w-12' />
-                            <div>
-                                <h1 className='text-sm font-medium text-balance text-gray-500'>{item[uncapitalize(name) + 'Name']}</h1>
-                            </div>
+                    filteredData && filteredData.length > 0 ?
+                        (filteredData.map(item => (
+                            <div
+                                onClick={() => openForm(item.id)}
+                                key={item.id}
+                                className={`flex  p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border`}>
+                                <img src={image} className='w-12' />
+                                <div>
+                                    <h1 className='text-sm font-medium text-balance text-gray-500'>{item[uncapitalize(name) + 'Name']}</h1>
+                                </div>
 
-                        </div>
-                    )))
-                    : 
-                    <h1 className="w-full col-span-2 mx-4 text-gray-600">No {name}s were found</h1>
+                            </div>
+                        )))
+                        :
+                        <h1 className="w-full col-span-2 mx-4 text-gray-600">No {name}s were found</h1>
                 }
             </div>
         </div>
