@@ -10,16 +10,20 @@ use App\Http\Requests\AuthentificationRequest;
 
 class AuthentificationController extends Controller
 {
-    public function login (AuthentificationRequest $request) {
 
-            // vérifier si les informations sont corrects
-        if(!Auth::attempt($request->only('username','password'))){
+    /************ login ************/
+
+    public function login(AuthentificationRequest $request)
+    {
+
+        // vérifier si les informations sont corrects
+        if (!Auth::attempt($request->only('username', 'password'))) {
             return response()->json([
                 "message" => "Username or Password is invalid"
             ]);
         }
 
-        $user = $request->user();  
+        $user = $request->user();
 
         $userAuth = [
             "id" => $user->id,
@@ -33,31 +37,42 @@ class AuthentificationController extends Controller
 
         $sectors = [];
 
-            // if user is a professor
-        if($user->role_id == 2) {
+        // if user is a professor
+        if ($user->role_id == 2) {
             $allSectors = $user->sectors()->get();
-            foreach($allSectors as $sector){
-                array_push($sectors,$sector->name);
+            foreach ($allSectors as $sector) {
+                array_push($sectors, $sector->name);
             }
         }
-            //if user is a student
-        elseif ($user->role_id == 3){
+        //if user is a student
+        elseif ($user->role_id == 3) {
             $sector = $user->sector()->first();
-            array_push($sectors,$sector->name);
+            array_push($sectors, $sector->name);
         }
 
-            $userAuth['sectors'] = $sectors;  // add sectors in userAuth
-        
+        $userAuth['sectors'] = $sectors;  // add sectors in userAuth
 
-        // $cookie = cookie('user',$userAuth,60*24);  // enregistrer user dans cookie
-        
+        $token = $user->createToken($user->username)->plainTextToken;  // enregistré l'utilisateur dans token
+
         return response()->json([
-            "data" => $userAuth
+            'token' => $token,
+            'data' => $userAuth
         ]);
-        
 
 
-
-        
     }
+
+
+    /******************** logout *****************/
+
+    public function logout()
+{
+    Auth::user()->tokens->each(function ($token) {
+        $token->delete();
+    });
+
+    return response()->json([
+        "message" => "logged out"
+    ]);
+}
 }

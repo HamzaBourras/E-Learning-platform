@@ -22,15 +22,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-    /********************** Authentification **********************/
+/********************** Authentification **********************/
 
- Route::post("/login",[AuthentificationController::class,"login"])->name("login");
+Route::post("/login", [AuthentificationController::class, "login"])->name("login");
+Route::post("logout",[AuthentificationController::class, "logout"])->name("logout")->middleware("auth:sanctum");
 
 
 
 /********************** Director management *************************/
 
-Route::prefix("auth/director/")->controller(DirectorController::class)->name("director.")->group(function () {
+Route::prefix("auth/director/")->middleware("auth.token")->controller(DirectorController::class)->name("director.")->group(function () {
 
     //--------- - --- professor -----------------------
     Route::prefix("professor/")->name("professor.")->group(function () {
@@ -69,7 +70,7 @@ Route::prefix("auth/director/")->controller(DirectorController::class)->name("di
 
 /********************** Professor management *************************/
 
-Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("professor.")->group(function () {
+Route::prefix("auth/professor/")->middleware("auth.token")->controller(ProfessorController::class)->name("professor.")->group(function () {
 
     //--------- - --- courses -----------------------
     Route::prefix("courses/")->name("course.")->group(function () {
@@ -81,26 +82,24 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
 
     //--------- - --- students -----------------------
     Route::prefix("students/")->name("student.")->group(function () {
-        Route::get("index/{user_id}","indexStudent")->where(["user_id" => "[0-9]+"])->name("indexStudent");
-
+        Route::get("index/{user_id}", "indexStudent")->where(["user_id" => "[0-9]+"])->name("indexStudent");
     });
 
 
     //--------- - --- Announcements -----------------------
     Route::prefix("announcements/")->name("announcement.")->group(function () {
-        Route::get("index/{user_id}","indexAnnouncement")->where(["user_id" => "[0-9]+"])->name("indexAnnouncement");
-        Route::post("store/{user_id}","storeAnnouncement")->where(["user_id" => "[0-9]+"])->name("storeAnnouncement");
-        Route::put("edit/{user_id}/{id}","editAnnouncement")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("editAnnouncement");
-        Route::delete("destroy/{user_id}/{id}","destroyAnnouncement")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->where(["id"=>"[0-9]+"])->name("destroyAnnouncement");
+        Route::get("index/{user_id}", "indexAnnouncement")->where(["user_id" => "[0-9]+"])->name("indexAnnouncement");
+        Route::post("store/{user_id}", "storeAnnouncement")->where(["user_id" => "[0-9]+"])->name("storeAnnouncement");
+        Route::put("edit/{user_id}/{id}", "editAnnouncement")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("editAnnouncement");
+        Route::delete("destroy/{user_id}/{id}", "destroyAnnouncement")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->where(["id" => "[0-9]+"])->name("destroyAnnouncement");
     });
 
 
     //--------- - --- Quizzes -----------------------
     Route::prefix("quizzes/")->name("quizze")->group(function () {
-        Route::get("index/{user_id}","indexQuizze")->where(["user_id" => "[0-9]+"])->name("indexQuizze");
-        Route::post("store/{user_id}","storeQuizze")->where(["user_id" => "[0-9]+"])->name("storeQuizze");
-        Route::put("edit/{user_id}/{id}","editQuizze")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("editQuizze");
-        Route::delete("destroy/{user_id}/{id}","destroyQuizze")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("destroyQuizze");
-
+        Route::get("index/{user_id}", "indexQuizze")->where(["user_id" => "[0-9]+"])->name("indexQuizze");
+        Route::post("store/{user_id}", "storeQuizze")->where(["user_id" => "[0-9]+"])->name("storeQuizze");
+        Route::put("edit/{user_id}/{id}", "editQuizze")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("editQuizze");
+        Route::delete("destroy/{user_id}/{id}", "destroyQuizze")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("destroyQuizze");
     });
 });
