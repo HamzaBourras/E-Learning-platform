@@ -45,3 +45,9 @@ export const STORE_COURSE_API = "http://127.0.0.1:3000/api/posts/store";
 // export const STORE_COURSE_API = "http://127.0.0.1:8000/api/auth/professor/courses/store";
 
 // ------------------------STUDENT---------------------------------------------------
+
+
+
+
+
+export const LOGOUT_API = "http://127.0.0.1:8000/api/logout"

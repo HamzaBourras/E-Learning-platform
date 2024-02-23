@@ -1,8 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/prop-types */
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, Navigate } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png'
-import { Divider, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@nextui-org/react";
+import { Divider, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Button } from "@nextui-org/react";
 import classNames from 'classnames';
+import useForm from '../../hooks/useForm';
+import { LOGOUT_API } from '../../api/apis';
 
 
 const Sidebar = ({ tabs, user }) => {
@@ -32,6 +35,16 @@ const Sidebar = ({ tabs, user }) => {
             break;
     }
 
+    const auth = JSON.parse(localStorage.getItem('user'))
+    const { data, handleSubmit } = useForm({}, LOGOUT_API, 'post', false, true)
+
+    const handleLogout = () => {
+        if (data) {
+            // localStorage.clear()
+            // return <Navigate to={'/'} replace />;
+            console.log(data);
+        }
+    }
 
 
     return (
@@ -91,21 +104,24 @@ const Sidebar = ({ tabs, user }) => {
                             />
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Profile Actions" variant="flat">
-                            <DropdownItem key="profile" className="h-14 gap-2">
+                            <DropdownItem
+                                key="my info"
+                                className="h-14 gap-2"
+                                textValue='info'
+                            >
                                 <p className="font-semibold">Signed in as</p>
-                                <p className="font-semibold">zoey@example.com</p>
+                                <p className="font-semibold">{auth.email}</p>
                             </DropdownItem>
-                            <DropdownItem key="settings">
+                            <DropdownItem key="profile" textValue="My Profile">
                                 <Link to={`../${user}/profile`} replace>My Profile</Link>
                             </DropdownItem>
                             <DropdownItem
-                                key="logout"
-                                color="danger">
-                                Log Out
+                            >
+                                Logout
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
-                    <span className='xs:sm:hidden md:lg:block'>John Doe</span>
+                    <span className='xs:sm:hidden md:lg:block'>{auth.firstName} {auth.lastName}</span>
                 </div>
             </div>
         </nav>

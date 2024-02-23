@@ -3,9 +3,9 @@ import { Outlet, Navigate } from 'react-router-dom'
 import Background from '../assets/images/bg.png'
 
 const AuthLayout = () => {
-    const user = true;
-    if (!user) {
-        return <Navigate to="/" replace/>;
+
+    if (!localStorage.getItem('token') && !localStorage.getItem('user')) {
+        return <Navigate to='/' replace />;
     }
 
     return (

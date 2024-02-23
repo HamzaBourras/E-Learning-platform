@@ -6,16 +6,16 @@ import { Button, Input, Spinner } from '@nextui-org/react';
 import useForm from './../hooks/useForm';
 import { LOGIN_API } from '../api/apis';
 import Background from '../assets/images/bg.png'
-import { useEffect, useState } from 'react';
-
 import { EyeFilledIcon } from './../components/EyeFilledIcon';
 import { EyeSlashFilledIcon } from './../components/EyeSlashFilledicon';
 import Alert from './../components/Alert';
-import { useDispatch, useSelector } from 'react-redux';
-import { saveProfessor } from '../state/features/Professor/professorSlice';
-
+import { useState } from 'react';
 
 const GuestLayout = () => {
+    if (localStorage.getItem('token') && localStorage.getItem('user')) {
+        const userRole = JSON.parse(localStorage.getItem('user')).role;
+        return <Navigate to={`/auth/${userRole}`} replace />;
+    }
     const apiKey = LOGIN_API
     // ----------------------------------------------
     const [isVisible, setIsVisible] = useState(false);
