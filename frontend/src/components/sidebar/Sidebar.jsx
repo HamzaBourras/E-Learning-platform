@@ -2,10 +2,11 @@
 /* eslint-disable react/prop-types */
 import { Link, NavLink, Navigate } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png'
-import { Divider, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Button } from "@nextui-org/react";
+import { Divider, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@nextui-org/react";
 import classNames from 'classnames';
 import useForm from '../../hooks/useForm';
 import { LOGOUT_API } from '../../api/apis';
+import LoadingPage from './../LoadingPage';
 
 
 const Sidebar = ({ tabs, user }) => {
@@ -36,19 +37,18 @@ const Sidebar = ({ tabs, user }) => {
     }
 
     const auth = JSON.parse(localStorage.getItem('user'))
-    const { data, handleSubmit } = useForm({}, LOGOUT_API, 'post', false, true)
+    const { isLoading, handleSubmit } = useForm({}, LOGOUT_API, 'post', false, true)
 
     const handleLogout = () => {
-        if (data) {
-            // localStorage.clear()
-            // return <Navigate to={'/'} replace />;
-            console.log(data);
-        }
+        handleSubmit();
+        localStorage.clear()
+        return window.location.reload()
     }
 
 
     return (
         <nav className='fixed flex flex-col gap-3 items-center h-dvh xs:sm:w-20 md:lg:w-52 border-r-1'>
+            {isLoading && <LoadingPage />}
             <div className="h-[10vh] grow-0 flex items-center justify-center px-8 my-3">
                 <Link
                     to={`/auth/${user}`}
@@ -110,18 +110,19 @@ const Sidebar = ({ tabs, user }) => {
                                 textValue='info'
                             >
                                 <p className="font-semibold">Signed in as</p>
-                                <p className="font-semibold">{auth.email}</p>
+                                <p className="font-semibold">{auth && auth.email}</p>
                             </DropdownItem>
                             <DropdownItem key="profile" textValue="My Profile">
                                 <Link to={`../${user}/profile`} replace>My Profile</Link>
                             </DropdownItem>
                             <DropdownItem
+                                onClick={handleLogout}
                             >
                                 Logout
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
-                    <span className='xs:sm:hidden md:lg:block'>{auth.firstName} {auth.lastName}</span>
+                    <span className='xs:sm:hidden md:lg:block'>{auth && auth.firstName} {auth && auth.lastName}</span>
                 </div>
             </div>
         </nav>

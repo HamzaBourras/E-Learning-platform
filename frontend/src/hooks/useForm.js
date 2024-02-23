@@ -24,7 +24,7 @@ const useForm = (initialState = {}, api, method, hasFile = false, isAuth = false
 
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e && e.preventDefault();
         setIsLoading(true);
 
         try {
@@ -55,7 +55,7 @@ const useForm = (initialState = {}, api, method, hasFile = false, isAuth = false
             if (response.status === 200) {
                 setMessage(response.data.message);
                 setData(response);
-                console.log(response);
+                // console.log(response);
             }
 
         } catch (error) {
