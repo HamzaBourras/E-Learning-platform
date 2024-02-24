@@ -25,7 +25,7 @@ const SectorForm = ({ id }) => {
         'department': id ? sector[0]['department'] : '',
     }
 
-    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method);
+    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method,false, true);
 
 
     return (

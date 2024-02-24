@@ -9,8 +9,8 @@ const DoughnutChart = ({ labels, data, colors }) => {
         datasets: [
             {
                 data: data,
-                backgroundColor: colors.map(color => color.replace(/[^,]+(?=\))/, '0.6')),
-                borderColor: colors.map(color => color.replace(/[^,]+(?=\))/, '1')),
+                backgroundColor: colors.map(color => color.replace(/[^,]+(?=\))/, '0.3')),
+                borderColor: colors.map(color => color.replace(/[^,]+(?=\))/, '0.6')),
                 borderWidth: 1,
             },
         ],

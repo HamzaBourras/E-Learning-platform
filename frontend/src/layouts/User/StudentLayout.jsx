@@ -1,9 +1,15 @@
-import { Outlet } from "react-router"
+import { Navigate, Outlet } from "react-router"
 import Sidebar from "../../components/sidebar/Sidebar"
 import StudentStructure from '../../components/sidebar/StudentStructure';
 
+import { uncapitalize } from '../../utils/utils'
 
 const StudentLayout = () => {
+    const user = uncapitalize(JSON.parse(localStorage.getItem('user')).role);
+    if (user !== 'student') {
+        return <Navigate to={`/auth/${user}`} replace />;
+    }
+    
     return (
         <div className='flex'>
             <div className='grow-0'>

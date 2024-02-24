@@ -218,7 +218,7 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
                         className='w-20'
                         src={imageLogo}
                     />
-                    <h1 className='h1 text-blue-600'>{title}</h1>
+                    <h1 className='font-semibold text-2xl text-blue-600'>{title}</h1>
                 </div>
                 <div className="flex justify-between gap-3 items-center px-3">
                     <Input

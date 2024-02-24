@@ -10,6 +10,7 @@ import StudentImage from '../../assets/images/student-logo.png'
 import DepartmentImage from '../../assets/images/department.png'
 import SectorImage from '../../assets/images/sector.png'
 import { useSelector } from "react-redux";
+import { COLORS } from './../../../constants/COLORS';
 
 
 
@@ -49,7 +50,7 @@ const DirectorDashboard = () => {
         professor4: { assignments: 2, quizzes: 5, courses: 4 },
         professor5: { assignments: 5, quizzes: 8, courses: 13 },
     };
-    const colors = ['rgba(75,192,192,0.4)', 'rgba(255,99,132,0.4)', 'rgba(255,206,86,0.4)'];
+    
     // --- -- - -- - - - - - - -- - -- - -- - - - - - - - - -- - - - -  -- - - - - - - - - - - - - -- - -- -  - -
     return (
         <div className="space-y-3">
@@ -71,7 +72,7 @@ const DirectorDashboard = () => {
 
             <div>
                 <h1>Active Professors</h1>
-                <BarChart data={professorData} labels={['assignments', 'quizzes', 'courses']} colors={colors} />
+                <BarChart data={professorData} labels={['assignments', 'quizzes', 'courses']} colors={COLORS} />
             </div>
             {/* <div className="space-y-2">
                 <h1>Recentaly added students</h1>

@@ -30,7 +30,7 @@ const StudentForm = ({ id }) => {
         'sector': id ? student[0]['sector'] : '',
     }
 
-    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method)
+    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method,false, true)
 
     const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department']);
 

@@ -5,7 +5,7 @@ const LoadingPage = () => {
         <div className="absolute w-screen inset-0 flex justify-center items-center">
             <Spinner 
                 size='lg'
-                color='warning'/>
+                color='primary'/>
         </div>
     )
 }

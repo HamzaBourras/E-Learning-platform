@@ -1,13 +1,18 @@
 /* eslint-disable react/prop-types */
 import { Progress, Spinner } from "@nextui-org/react"
+import { useState } from "react"
 
 const ProgressComponent = ({ image, name, number, maxNumber, color }) => {
+    const [isLoaded, setIsLoaded] = useState(false)
+    setTimeout(()=>{    
+        setIsLoaded(true)
+    },500)
     return (
         <div className="border p-2 shadow-sm text-lg h-20 rounded-md flex flex-col justify-center space-y-1">
             <div className="flex space-x-2 justify-between items-center">
                 <div>
                     <h1 className="text-gray-600 text-sm font-medium">{name}</h1>
-                    {number == 0 ? <Spinner size="sm" color={color}/> : (
+                    {!isLoaded ? <Spinner size="sm" color={color}/> : (
                         <h1 className="text-gray-500 font-bold mx-4">{number}/{maxNumber}</h1>
                     )}
                 </div>
