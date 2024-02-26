@@ -20,7 +20,7 @@ const CourseForm = ({ id }) => {
     }
 
     
-    const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey,"post",true)
+    const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey,"post",true, true)
     
     // console.log(inputs);
     return (
@@ -64,7 +64,7 @@ const CourseForm = ({ id }) => {
                     {errors['file'] && <p className='text-xs text-pink-500'>{errors['file']}</p>}
                 </div>
                 <Button type='submit' variant='shadow' className='bg-foreground text-background'>
-                    {id ? 'Update' : 'Upload'} {isLoading && <Spinner />}
+                    {id ? 'Update' : 'Upload'} {isLoading && <Spinner color='default'/>}
                 </Button>
             </form>
 

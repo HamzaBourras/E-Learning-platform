@@ -33,6 +33,8 @@ import ProfessorProfile from './pages/professor/ProfessorProfile';
 import StudentDashboard from './pages/student/StudentDashboard'
 import StudentTasks from './pages/student/StudentTasks'
 import StudentCourses from './pages/student/StudentCourses'
+import StudentProfile from './pages/student/StudentProfile';
+
 
 
 const App = () => {
@@ -48,6 +50,7 @@ const App = () => {
             <Route path="dashboard" element={<StudentDashboard />} />
             <Route path="tasks" element={<StudentTasks />} />
             <Route path="courses" element={<StudentCourses />} />
+            <Route path="profile" element={<StudentProfile/>} />
           </Route>
 
           {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}

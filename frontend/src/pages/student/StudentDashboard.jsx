@@ -5,14 +5,15 @@ import ProgressComponent from '../../components/ProgressComponent';
 import DoneHW from '../../assets/images/done.png'
 import Assignment from '../../assets/images/assignment.png'
 import CalendarComponent from './../../components/CalendarComponent';
+import WelcomeBanner from './../../components/WelcomeBanner';
 
 const StudentDashboard = () => {
+    const authUser = JSON.parse(localStorage.getItem('user'));
     return (
         <div>
-            <div className="flex justify-between items-center rounded mx-2">
-                <h1 className="h2">Welcome back, <span className="font-normal"> John !</span></h1>
+            <WelcomeBanner user={authUser.firstName}>
                 <NotificationComponent />
-            </div>
+            </WelcomeBanner>
             <Divider />
             <div className='grid xs:sm:grid-cols-1 md:lg:grid-cols-12 py-1 gap-3'>
                 <div className="col-span-10 space-y-3">

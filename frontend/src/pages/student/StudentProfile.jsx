@@ -1,10 +1,10 @@
 import ProfileComponent from "../../components/ProfileComponent/profileComponent"
 
-const ProfessorProfile = () => {
+const StudentProfile = () => {
     return (
         <div>
-            <ProfileComponent/>
+            <ProfileComponent />
         </div>
     )
 }
-export default ProfessorProfile
+export default StudentProfile

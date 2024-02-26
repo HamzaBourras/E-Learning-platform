@@ -4,8 +4,13 @@ import { Modal, ModalContent, ModalHeader, ModalBody, Divider, ModalFooter, useD
 import { useState } from 'react';
 import grid from '../../../assets/icons/gridSQ.svg'
 import list from '../../../assets/icons/grid_list.svg'
+import remove from '../../../assets/icons/delete.svg'
+import edit from '../../../assets/icons/edit.svg'
+
 import { PlusIcon } from '../../../components/PlusIcon';
 import { getArrayById, uncapitalize } from "../../../utils/utils";
+import { useDispatch } from "react-redux";
+import { handleRenderAction } from "../../../state/features/Professor/professorSlice";
 
 
 const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
@@ -15,24 +20,31 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
     const [selectedId, setSelectedId] = useState(null);
 
     const [selectedKey, setSelectedKey] = useState('')
+    const [deleteClicked, setDeleteClicked] = useState(false)
+
 
     const sectors = JSON.parse(localStorage.getItem('user')).sectors
-
     const filteredData = getArrayById(data, 'sector', selectedKey)
-    // console.log(filteredData);
+    const dispatch = useDispatch()
 
     const openForm = (id = null) => {
         setSelectedId(id);
         onOpen();
     };
+
+    const handleDelete = (id) => {
+        setSelectedId(id);
+        setDeleteClicked(true);
+        onOpen();
+    }
     return (
         <div className="space-y-2 m-2">
-            <div className="flex items-center space-x-4 p-2 m-1 w-full bg-blue-50 bg-opacity-65 rounded-md border border-blue-300">
+            <div className="flex items-center space-x-4 p-2 m-1 w-full bg-blue-50 bg-opacity-15 rounded-md border">
                 <img
                     className='w-20'
                     src={imageLogo}
                 />
-                <h1 className='h1 text-blue-500'>{name}s</h1>
+                <h1 className='font-semibold text-2xl text-blue-600'>{name == "Quiz" ? "Quizzes" : `${name}s`}</h1>
             </div>
             <Divider />
             <div className='flex justify-end gap-1'>
@@ -58,6 +70,8 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                 onClose={() => {
                     setSelectedId(null);
                     onClose();
+                    dispatch(handleRenderAction())
+                    setDeleteClicked(false)
                 }}
                 className="overflow-auto"
                 motionProps={{
@@ -84,9 +98,12 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="text-center">{selectedId ? 'Update' : 'Create'} {name}</ModalHeader>
+                            <ModalHeader className="text-center">{selectedId ? deleteClicked ? "Delete" : 'Update' : 'Create'} {name}</ModalHeader>
                             <ModalBody>
-                                <Component id={selectedId} />
+                                {!deleteClicked && <Component id={selectedId} />}
+                                {deleteClicked &&<div>
+                                    <p className="text-sm text-gray-600">Are you sure you want to delete this {name} ?</p>
+                                </div>}
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="danger" variant="solid" onPress={onClose}>
@@ -120,18 +137,43 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                     filteredData && filteredData.length > 0 ?
                         (filteredData.map(item => (
                             <div
-                                onClick={() => openForm(item.id)}
                                 key={item.id}
-                                className={`flex  p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border`}>
+                                className={`flex p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border`}>
                                 <img src={image} className='w-12' />
-                                <div>
-                                    <h1 className='text-sm font-medium text-balance text-gray-500'>{item[uncapitalize(name) + 'Name']}</h1>
-                                </div>
 
+                                <div className={`flex items-center ${isGrid ? 'flex-col' : ''} w-full`}>
+                                    <h1 className='text-sm font-medium text-balance flex-1 text-gray-500'>{item[uncapitalize(name) + 'Name']}</h1>
+                                    <div className="space-x-1 flex">
+                                        <Button
+                                            variant="solid"
+                                            isIconOnly
+                                            color="warning"
+                                            size="sm"
+                                            onClick={() => openForm(item.id)}
+                                        >
+                                            <img
+                                                src={edit}
+                                                className="size-4 invert"
+                                            />
+                                        </Button>
+                                        <Button
+                                            variant="solid"
+                                            isIconOnly
+                                            color="danger"
+                                            size="sm"
+                                            onClick={() => handleDelete(item.id)}
+                                        >
+                                            <img
+                                                src={remove}
+                                                className="size-4 invert"
+                                            />
+                                        </Button>
+                                    </div>
+                                </div>
                             </div>
                         )))
                         :
-                        <h1 className="w-full col-span-2 mx-4 text-gray-600">No {name}s were found</h1>
+                        <h1 className="w-full col-span-2 mx-4 text-gray-600">No {name == "Quiz" ? "Quizzes" : `${name}s`} were found</h1>
                 }
             </div>
         </div>

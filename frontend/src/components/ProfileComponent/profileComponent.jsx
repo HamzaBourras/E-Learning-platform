@@ -2,20 +2,21 @@
 import { Avatar, Divider, Input, Textarea, Badge, Button, Spinner } from '@nextui-org/react'
 import useForm from '../../hooks/useForm'
 
-const Profile = ({data}) => {
+const Profile = () => {
+    const authUser = JSON.parse(localStorage.getItem('user'));
     const apiKey = 'http://127.0.0.1:8000/api/posts/store';
     const initialState = {
-        'firstname': data.firstname,
-        'lastname': data.lastname,
-        'email': data.email,
-        'bio': data.bio,
-        'role': data.role,
-        'image': data.image
+        'firstname': authUser.firstName,
+        'lastname': authUser.lastName,
+        'email': authUser.email,
+        'bio': authUser.bio,
+        'role': authUser.role,
+        'image': authUser.image
     }
 
     let color = ''
 
-    switch (data.role) {
+    switch (authUser.role) {
         case "director":
             color = 'secondary'
             break;
@@ -39,9 +40,16 @@ const Profile = ({data}) => {
 
             <div className='flex xs:sm:flex-col md:lg:flex-row items-center gap-3 justify-center'>
                 <div className='flex flex-col items-center gap-2'>
-                    <h1 className='h1'>{inputs['firstname']} {inputs['lastname']}</h1>
 
-                    <Badge content={data.role} color="secondary" size="sm"></Badge>
+                    <Badge
+                        content={authUser.role}
+                        color={color}
+                        className="font-semibold px-2"
+                        shape="rectangle"
+                        size="sm"
+                        variant="flat"
+                        
+                    />
 
                     <form onSubmit={handleSubmit}>
                         <div className='flex flex-col items-center'>
@@ -49,8 +57,8 @@ const Profile = ({data}) => {
                                 <Avatar
                                     isBordered
                                     color={color}
-                                    name={inputs['lastname']}
-                                    className='md:lg:w-32 md:lg:h-32 xs:sm:w-20 xs:sm:h-20'
+                                    name={inputs['lastName']}
+                                    className='md:lg:w-32 md:lg:h-32 xs:sm:w-20 xs:sm:h-20 my-2'
                                     src={inputs['image']}
                                 />
                                 {isLoading &&

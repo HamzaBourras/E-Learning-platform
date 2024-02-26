@@ -275,7 +275,7 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span className="text-default-400 text-small">Total {data.length} {user}s</span>
+                    <span className="text-default-400 text-small">Total {data.length} {user == "my-students" ? "students" : `${user}s`}</span>
                     <label className="flex items-center text-default-400 text-small">
                         Rows per page:
                         <select

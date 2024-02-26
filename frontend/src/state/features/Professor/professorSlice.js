@@ -40,6 +40,6 @@ export const professorSlice = createSlice({
     }
 })
 
-export const {saveProfessor, saveAnnouncements, saveCourses, saveQuizzes, saveMyStudents } = professorSlice.actions;
+export const {saveProfessor, saveAnnouncements, saveCourses, saveQuizzes, saveMyStudents, handleRenderAction } = professorSlice.actions;
 
 export default createSlice.reducer
