@@ -24,7 +24,7 @@ class ProfessorController extends Controller
     public function indexCourse (int $user_id) {
         // $user_id=3; // à refaire
 
-        $cous = Document::with("sector","user")->where(["user_id"=>$user_id])->get();
+        $cous = Document::with("sector","user")->where(["user_id"=>$user_id])->orderBy('id','desc')->get();
 
         $courses = [];
 
@@ -129,7 +129,7 @@ class ProfessorController extends Controller
         // $user_id = 3; // à refaire
 
             // selectioné le prof avec ses filières
-        $user = User::with("sectors","sectors.departement")->where('id',$user_id)->first();
+        $user = User::with("sectors","sectors.departement")->where('id',$user_id)->orderBy('id','desc')->first();
 
         $profStudents = [];
 
@@ -166,7 +166,7 @@ class ProfessorController extends Controller
     public function indexAnnouncement (int $user_id) {
         // $user_id = 3; // à refaire
 
-        $allAnnouncements = Announcement::where('user_id',$user_id)->with("sector")->get();
+        $allAnnouncements = Announcement::where('user_id',$user_id)->with("sector")->orderBy('id','desc')->get();
 
         $announcements = [];
 
@@ -235,14 +235,14 @@ class ProfessorController extends Controller
 
     public function indexQuizze (int $user_id) {
             // get all quizzes for professor with question and choices
-        $allQuizzes = Qcm::with("sector","questions","questions.choices")->where('user_id',$user_id)->get();
+        $allQuizzes = Qcm::with("sector","questions","questions.choices")->where('user_id',$user_id)->orderBy('id','desc')->get();
 
         $professorQuizzes = [];
 
         foreach($allQuizzes as $quizze) {
                 //refactor quizze
             $formatQuizze = [
-                "quizzeName" => $quizze->title,
+                "quizName" => $quizze->title,
                 "sector" => $quizze->sector->name,
                 "questions" => []
             ];
@@ -280,7 +280,7 @@ class ProfessorController extends Controller
 
         $sector_id = Sector::where('name',$request->sector)->first()->id;
         $qcmCree = Qcm::create([
-            "title" => $request->quizzeName,
+            "title" => $request->quizName,
             "user_id" => $user_id,
             "sector_id" => $sector_id
         ]);
@@ -312,7 +312,7 @@ class ProfessorController extends Controller
 
         $sector_id = Sector::where('name',$request->sector)->first()->id;
         Qcm::where(["user_id" => $user_id, "id"=>$id])->update([
-            "title" => $request->quizzeName,
+            "title" => $request->quizName,
             "sector_id" => $sector_id
         ]);
 

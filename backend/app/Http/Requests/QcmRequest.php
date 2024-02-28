@@ -22,7 +22,7 @@ class QcmRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "quizzeName" => "required",
+            "quizName" => "required",
             "sector" => "required",
             "questions" => "required",
             "questions.*.question" => "required",
