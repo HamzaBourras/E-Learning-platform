@@ -79,22 +79,31 @@ class ProfessorController extends Controller
     /**** edit a course ****/
 
     public function editCourse (CourseRequest $request, int $user_id, int $id) {
-
         $sector_id = Sector::where('name',$request->sector)->first()->id;
         
-        // supprimer l'ancien document du dossier storage/course
-        $oldFile = Document::where('id', $id)->first();
-        if ($oldFile) {
-            $oldFilename = $oldFile->file;
-            Storage::delete("public/" . $oldFilename);
-        }
-
         $filename =null;
 
-        if($request->hasFile('file')){
-            $file = $request->validated(["file"]);
-            $filename = $file->store("courses", "public");
+            /** Tester sur le document **/
+        $oldFile = Document::where('id', $id)->first();
+        if($request->hasFile('file')) { 
+            $newFile = $request->file;  
+
+            // si l'ancien document est diffirent au nouveau
+        if ($oldFile->file != $newFile) {
+            // supprimer l'ancien document du dossier storage/course
+            $oldFilename = $oldFile->file;
+            Storage::delete("public/" . $oldFilename);
+            // inserer le nouveau document
+                $file = $request->validated(["file"]);
+                $filename = $file->store("courses", "public");
+            
         }
+            // si l'ancien document est le meme qu'au noveau
+        else{
+            $filename = $oldFile->file;
+        }
+
+    }
 
         Document::where(["id"=>$id, "user_id"=>$user_id])->update([
             "title" => $request->courseName,
@@ -242,6 +251,7 @@ class ProfessorController extends Controller
         foreach($allQuizzes as $quizze) {
                 //refactor quizze
             $formatQuizze = [
+                "id" => $quizze->id,
                 "quizName" => $quizze->title,
                 "sector" => $quizze->sector->name,
                 "questions" => []
