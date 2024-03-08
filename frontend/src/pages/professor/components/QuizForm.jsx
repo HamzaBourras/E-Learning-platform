@@ -1,23 +1,37 @@
 /* eslint-disable react/prop-types */
-import { Input, Button, Spinner, Checkbox, Divider } from '@nextui-org/react'
+import { Input, Button, Spinner, Checkbox, Divider, Select, SelectItem } from '@nextui-org/react'
 import useForm from '../../../hooks/useForm';
 import remove from '../../../assets/icons/delete.svg'
 import Alert from '../../../components/Alert';
 import { getArrayById } from '../../../utils/utils';
-import { quizzes } from '../../../json/data';
+import { STORE_QUIZ_API, UPDATE_QUIZ_API } from '../../../api/apis';
+import { useSelector } from 'react-redux';
 
 const QuizCreator = ({ id }) => {
 
+    const user = JSON.parse(localStorage.getItem('user'));
+    // ------------------------API-----------------------------------------
+    const method = id ? "put" : "post";
+    let apiKey = id ? `${UPDATE_QUIZ_API}/${user.id}/${id}` : `${STORE_QUIZ_API}/${user.id}`
+    // ---------------------------------------------------------------------
+
+    // -------------------------------DATA----------------------------------
+
+
+    const quizzes = useSelector((state)=> state.professor.quizzes);
 
     const Quiz = getArrayById(quizzes, 'id', id)[0];
 
-    const apiKey = 'http://127.0.0.1:8000/api/posts/store';
+    console.log(id);
+
     const initialState = {
         quizName: id ? Quiz['quizName'] : '',
+        sector: id ? Quiz['sector'] : '',
         questions: id ? Quiz['questions'] : [],
     };
 
-    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
+    const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method, false, true);
+
 
     const handleAddQuestion = () => {
         handleChange('questions', [...inputs.questions, { question: '', answers: [] }]);
@@ -72,6 +86,18 @@ const QuizCreator = ({ id }) => {
                         errorMessage={errors['quizName']}
                         onChange={(e) => handleChange('quizName', e.target.value)}
                     />
+                    <Select
+                    items={user.sectors}
+                    label="Sector"
+                    variant='bordered'
+                    defaultSelectedKeys={inputs['sector'] !== "" ? [inputs['sector']] : undefined}
+                    errorMessage={errors['sector']}
+                    onChange={(e) => handleChange('sector', e.target.value)}
+                >
+                    {(user.sectors).map((sector) => (
+                        <SelectItem key={sector} >{sector}</SelectItem>
+                    ))}
+                </Select>
                     <Divider />
                     {inputs.questions.map((q, questionIndex) => (
                         <div key={questionIndex} className='space-y-2'>
@@ -88,9 +114,9 @@ const QuizCreator = ({ id }) => {
                                         color='default'
                                         size="lg"
                                         isSelected={a.isCorrect}
+                                        
                                         onChange={(e) => handleCheckboxChange(e, questionIndex, answerIndex)}
                                     />
-                                    {console.log(a)}
                                     <Input
                                         type='text'
                                         className=''
@@ -100,7 +126,7 @@ const QuizCreator = ({ id }) => {
                                         onChange={(e) => handleAnswerChange(e, questionIndex, answerIndex)}
                                     />
                                     <div
-                                        className='absolute right-2 cursor-pointer border hover:opacity-55 border-gray-500 rounded-full'
+                                        className='absolute right-2 cursor-pointer hover:opacity-55 rounded-full'
                                         onClick={() => handleRemoveAnswer(questionIndex, answerIndex)}>
                                         <img src={remove} width={18} />
                                     </div>

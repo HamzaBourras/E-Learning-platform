@@ -2,6 +2,7 @@
 import { countData } from '../../utils/utils'
 import StduentImage from '../../assets/images/student-logo.png'
 import CourseImage from '../../assets/images/folder-Logo.png'
+import QuizImage from '../../assets/images/quizLogo.png'
 import BarChart from '../../components/BarChart'
 import DoughnutChart from '../../components/DoughnutChart'
 import { sortArray } from './../../utils/utils';
@@ -33,8 +34,6 @@ const ProfessorDashboard = () => {
     const labels = topCourses.map(course => course.courseName);
     const downloads = topCourses.map(download => download.downloads);
 
-    console.log(downloads);
-
 
 
     return (
@@ -43,7 +42,10 @@ const ProfessorDashboard = () => {
 
             <div className="grid xs:sm:grid-cols-2 md:lg:grid-cols-2 gap-4 h-fit">
                 <ProgressComponent name="Students" image={StduentImage} number={numberOfStudents} maxNumber={40} />
-                <ProgressComponent name="Courses" image={CourseImage} number={numberOfCourses} maxNumber={numberOfCourses} color="danger" />
+                <ProgressComponent name="Courses" image={CourseImage} number={numberOfCourses} maxNumber={numberOfCourses} />
+                <div className="col-span-2">
+                    <ProgressComponent name="Quizzes" image={QuizImage} number={numberOfCourses} maxNumber={3} />
+                </div>
             </div>
 
             <div className='flex flex-col items-center'>
@@ -53,14 +55,14 @@ const ProfessorDashboard = () => {
                     <BarChart data={studentsData} labels={['assignments', 'quizzes', 'courses']} colors={COLORS} />
                 </div>
 
-                <div className='boreder w-full space-y-2 flex flex-col items-center'>
+                {/* <div className='boreder w-full space-y-2 flex flex-col items-center'>
                     <h1 className='font-medium text-gray-500 self-start'>Downloaded Courses</h1>
                     {downloads.length > 0 ?
 
                         (<DoughnutChart labels={labels} data={downloads} colors={COLORS} />) :
                         <h1 className="w-full col-span-2 mx-4 text-gray-600">No data was found</h1>
                     }
-                </div>
+                </div> */}
             </div>
         </div>
     )

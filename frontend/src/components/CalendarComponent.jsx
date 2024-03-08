@@ -1,18 +1,20 @@
+/* eslint-disable react/prop-types */
 import Paper from '@mui/material/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
     Scheduler,
     WeekView,
     Appointments,
-    AllDayPanel,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { appointments } from '../json/data';
 
 
 const currentDate = '2018-06-27';
 
+
+
 const CalendarComponent = () => (
-    <div className='p-2 h-96 border rounded-md overflow-auto'>
+    <div className='h-36 overflow-y-auto border rounded-md'>
         <Paper>
             <Scheduler
                 data={appointments}
@@ -21,11 +23,12 @@ const CalendarComponent = () => (
                     defaultCurrentDate={currentDate}
                 />
                 <WeekView
+
                     startDayHour={9}
                     endDayHour={18}
+
                 />
                 <Appointments />
-                <AllDayPanel />
             </Scheduler>
         </Paper>
     </div>

@@ -15,13 +15,15 @@ const AnnouncementForm = ({ id }) => {
     // ------------------------API-----------------------------------------
 
     const method = id ? "put" : "post";
-    let apiKey = id ? `${UPDATE_ANNOUNCEMENT_API}/${user.id}/${id}` : `${STORE_ANNOUNCEMENTS_API}`
+    let apiKey = id ? `${UPDATE_ANNOUNCEMENT_API}/${user.id}/${id}` : `${STORE_ANNOUNCEMENTS_API}/${user.id}`
 
-    const course = getArrayById(announcements, 'id', id)[0]
+    const announcement = getArrayById(announcements, 'id', id)[0]
 
     const initialState = {
-        'announcementName': id ? course['announcementName'] : '',
-        'sector': id ? course['sector'] : '',
+        'announcementName': id ? announcement['announcementName'] : '',
+        'sector': id ? announcement['sector'] : '',
+        'startDate': id ? announcement['startDate'] : '',
+        'endDate': id ? announcement['endDate'] : '',
     }
 
 
@@ -52,6 +54,23 @@ const AnnouncementForm = ({ id }) => {
                         <SelectItem key={sector} >{sector}</SelectItem>
                     ))}
                 </Select>
+
+                <div className='grid grid-cols-2 gap-1'>
+                    <Input
+                        type='datetime-local'
+                        variant='bordered'
+                        value={inputs['announcementName']}
+                        errorMessage={errors['announcementName']}
+                        onChange={(e) => handleChange('announcementName', e.target.value)}
+                    />
+                    <Input
+                        type='datetime-local'
+                        variant='bordered'
+                        value={inputs['announcementName']}
+                        errorMessage={errors['announcementName']}
+                        onChange={(e) => handleChange('announcementName', e.target.value)}
+                    />
+                </div>
 
                 <Button type='submit' variant='shadow' className='bg-foreground text-background'>
                     {id ? 'Update' : 'Submit'} {isLoading && <Spinner />}

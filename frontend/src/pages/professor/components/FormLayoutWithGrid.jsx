@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Modal, ModalContent, ModalHeader, ModalBody, Divider, ModalFooter, useDisclosure, ButtonGroup, Button, Tab, Tabs, Card, CardBody } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Divider, ModalFooter, useDisclosure, ButtonGroup, Button, Tab, Tabs, Card, CardBody, Spinner } from "@nextui-org/react";
 import { useState } from 'react';
 import grid from '../../../assets/icons/gridSQ.svg'
 import list from '../../../assets/icons/grid_list.svg'
@@ -11,9 +11,15 @@ import { PlusIcon } from '../../../components/PlusIcon';
 import { getArrayById, uncapitalize } from "../../../utils/utils";
 import { useDispatch } from "react-redux";
 import { handleRenderAction } from "../../../state/features/Professor/professorSlice";
+import useForm from "../../../hooks/useForm";
+import { DELETE_ANNOUNCEMENT_API, DELETE_COURSE_API, DELETE_QUIZ_API } from "../../../api/apis";
+import Alert from "../../../components/Alert";
+import CardImage from "../../../components/CardImage";
 
 
 const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
+
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
     const [isGrid, setIsGrid] = useState(name == "Announcement" || name == "Students" ? false : true);
@@ -32,24 +38,41 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
         onOpen();
     };
 
+    const [apiKey, setApiKey] = useState(null)
+
+
     const handleDelete = (id) => {
         setSelectedId(id);
         setDeleteClicked(true);
         onOpen();
+
+        switch (uncapitalize(name)) {
+            case "course":
+                setApiKey(`${DELETE_COURSE_API}/${user.id}/${id}`)
+                break;
+
+            case "announcement":
+                setApiKey(`${DELETE_ANNOUNCEMENT_API}/${user.id}/${id}`)
+                break;
+
+            case "quiz":
+                setApiKey(`${DELETE_QUIZ_API}/${user.id}/${id}`)
+                break;
+
+            default:
+                break;
+        }
     }
+
+
+    const { handleSubmit, isLoading, errors, message, setMessage } = useForm({}, apiKey, 'delete', false, true)
     return (
         <div className="space-y-2 m-2">
-            <div className="flex items-center space-x-4 p-2 m-1 w-full bg-blue-50 bg-opacity-15 rounded-md border">
-                <img
-                    className='w-20'
-                    src={imageLogo}
-                />
-                <h1 className='font-semibold text-2xl text-blue-600'>{name == "Quiz" ? "Quizzes" : `${name}s`}</h1>
-            </div>
+            <CardImage image={imageLogo} title={name == "Quiz" ? "Quizzes" : `${name}s`} />
             <Divider />
             <div className='flex justify-end gap-1'>
                 <ButtonGroup size='sm' radius='sm' variant='bordered'>
-                    <Button onClick={() => setIsGrid(true)}>
+                    <Button onClick={() => setIsGrid(true)} color="default">
                         <img src={grid} className='w-4' alt="Grid Icon" />
                     </Button>
                     <Button onClick={() => setIsGrid(false)}>
@@ -72,6 +95,7 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                     onClose();
                     dispatch(handleRenderAction())
                     setDeleteClicked(false)
+                    setMessage(null)
                 }}
                 className="overflow-auto"
                 motionProps={{
@@ -99,16 +123,38 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                     {(onClose) => (
                         <>
                             <ModalHeader className="text-center">{selectedId ? deleteClicked ? "Delete" : 'Update' : 'Create'} {name}</ModalHeader>
+                            <div className="px-3">
+                                {message && <Alert color="success" message={message} />}
+                            </div>
                             <ModalBody>
                                 {!deleteClicked && <Component id={selectedId} />}
-                                {deleteClicked &&<div>
+
+                                {deleteClicked && <div>
                                     <p className="text-sm text-gray-600">Are you sure you want to delete this {name} ?</p>
+
                                 </div>}
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="danger" variant="solid" onPress={onClose}>
-                                    Close
-                                </Button>
+                                {deleteClicked &&
+                                    <div className="space-x-2 flex">
+                                        <Button variant="faded" onPress={onClose}>
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            color="danger"
+                                            variant="solid"
+                                            onClick={handleSubmit}
+                                            isDisabled={isLoading}
+                                        >
+                                            {isLoading ? (<div className='flex items-center gap-1'><Spinner color="white" /> Loading...</div>) : 'Delete'}
+                                        </Button>
+                                    </div>
+                                }
+                                {!deleteClicked && (
+                                    <div>
+                                    </div>
+                                )}
+
                             </ModalFooter>
                         </>
                     )}
@@ -132,18 +178,18 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                     ))}
                 </Tabs>
             </div>
-            <div className={` grid ${isGrid ? 'xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7' : ''} gap-2`}>
+            <div className={`grid ${isGrid ? 'xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7' : ''} gap-2`}>
                 {
                     filteredData && filteredData.length > 0 ?
                         (filteredData.map(item => (
                             <div
                                 key={item.id}
-                                className={`flex p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border`}>
+                                className={`flex group animate-appearance-in p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border`}>
                                 <img src={image} className='w-12' />
 
-                                <div className={`flex items-center ${isGrid ? 'flex-col' : ''} w-full`}>
+                                <div className={`flex items-center ${isGrid ? 'flex-col space-y-1 h-full' : ''} w-full`}>
                                     <h1 className='text-sm font-medium text-balance flex-1 text-gray-500'>{item[uncapitalize(name) + 'Name']}</h1>
-                                    <div className="space-x-1 flex">
+                                    <div className="space-x-1 hidden group-hover:flex group-hover:animate-appearance-in group-hover:transform group-hover:transition-all group-hover:delay-500 transition duration-400 ease-in-out">
                                         <Button
                                             variant="solid"
                                             isIconOnly
@@ -173,7 +219,7 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                             </div>
                         )))
                         :
-                        <h1 className="w-full col-span-2 mx-4 text-gray-600">No {name == "Quiz" ? "Quizzes" : `${name}s`} were found</h1>
+                        <h1 className="w-full col-span-2 mx-4 text-gray-600">No {name == "Quiz" ? "Quizzes" : `${name}s`} at the moment</h1>
                 }
             </div>
         </div>

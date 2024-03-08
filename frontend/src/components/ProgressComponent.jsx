@@ -13,7 +13,7 @@ const ProgressComponent = ({ image, name, number, maxNumber, color }) => {
                 <div>
                     <h1 className="text-gray-600 text-sm font-medium">{name}</h1>
                     {!isLoaded ? <Spinner size="sm" color={color}/> : (
-                        <h1 className="text-gray-500 font-bold mx-4">{number}/{maxNumber}</h1>
+                        <h1 className="text-gray-500 font-bold mx-4">{number}</h1>
                     )}
                 </div>
                 <div>
