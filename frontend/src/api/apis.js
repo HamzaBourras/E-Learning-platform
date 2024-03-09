@@ -37,16 +37,28 @@ export const DELETE_DEPARTMENT_API = "http://127.0.0.1:8000/api/auth/director/de
 
 
 // ------------------------PROFESSOR---------------------------------------------------
-export const PROFESSOR_STUDENTS_API = "http://127.0.0.1:8000/api/auth/professor/students/index";
 
 // --------------------------COURSE------------------------------------------------------
-export const PROFESSOR_COURSES_API = "http://127.0.0.1:8000/api/auth/professor/courses/index";
-export const STORE_COURSE_API = "http://127.0.0.1:3000/api/posts/store";
-// export const STORE_COURSE_API = "http://127.0.0.1:8000/api/auth/professor/courses/store";
+export const ALL_COURSES_API = "http://127.0.0.1:8000/api/auth/professor/courses/index";
+export const STORE_COURSE_API = "http://127.0.0.1:8000/api/auth/professor/courses/store";
+export const UPDATE_COURSE_API = "http://127.0.0.1:8000/api/auth/professor/courses/edit"
+export const DELETE_COURSE_API = "http://127.0.0.1:8000/api/auth/professor/courses/destroy"
 
-// ------------------------STUDENT---------------------------------------------------
+// -----------------------------STUDENT---------------------------------------------------
+export const PROFESSOR_STUDENTS_API = "http://127.0.0.1:8000/api/auth/professor/students/index";
 
 
+// -----------------------------ANNOUNCMENTS---------------------------------------------------
+export const ALL_ANNOUNCEMENTS_API = "http://127.0.0.1:8000/api/auth/professor/announcements/index"
+export const STORE_ANNOUNCEMENTS_API = "http://127.0.0.1:8000/api/auth/professor/announcements/store"
+export const UPDATE_ANNOUNCEMENT_API = "http://127.0.0.1:8000/api/auth/professor/announcements/edit"
+export const DELETE_ANNOUNCEMENT_API = "http://127.0.0.1:8000/api/auth/professor/announcements/destroy"
+
+// -----------------------------QUIZZES---------------------------------------------------
+export const ALL_QUIZZES_API = "http://127.0.0.1:8000/api/auth/professor/quizzes/index"
+export const STORE_QUIZ_API = "http://127.0.0.1:8000/api/auth/professor/quizzes/store"
+export const UPDATE_QUIZ_API = "http://127.0.0.1:8000/api/auth/professor/quizzes/edit"
+export const DELETE_QUIZ_API = "http://127.0.0.1:8000/api/auth/professor/quizzes/destroy"
 
 
 

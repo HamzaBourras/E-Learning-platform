@@ -21,7 +21,7 @@ const useFetch = (url, reRender = null) => {
                 })
 
                 .catch(error => {
-                    setError(error.response.data.message)
+                    setError(error.response?.data?.message)
                     console.error(error)
                 })
 

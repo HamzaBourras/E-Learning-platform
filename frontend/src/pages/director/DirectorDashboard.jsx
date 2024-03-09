@@ -11,10 +11,13 @@ import DepartmentImage from '../../assets/images/department.png'
 import SectorImage from '../../assets/images/sector.png'
 import { useSelector } from "react-redux";
 import { COLORS } from './../../../constants/COLORS';
+import WelcomeBanner from './../../components/WelcomeBanner';
 
 
 
 const DirectorDashboard = () => {
+
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const professors = useSelector((state) => state.director.professors);
     const students = useSelector((state) => state.director.students);
@@ -54,9 +57,8 @@ const DirectorDashboard = () => {
     // --- -- - -- - - - - - - -- - -- - -- - - - - - - - - -- - - - -  -- - - - - - - - - - - - - -- - -- -  - -
     return (
         <div className="space-y-3">
-            <div className="bg-purple-50 p-2 rounded">
-                <h1 className="h1">Welcome back, <span className="font-normal"> Tony !</span></h1>
-            </div>
+            
+            <WelcomeBanner user={user.firstName}/>
             <div className="grid xs:sm:grid-cols-2 md:lg:grid-cols-4 gap-2">
 
                 <ProgressComponent  name="Professors" image={ProfImage} number={professorCounter} maxNumber={15} color="secondary" />

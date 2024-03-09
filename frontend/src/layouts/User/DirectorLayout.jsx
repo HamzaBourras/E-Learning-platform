@@ -3,15 +3,17 @@
 import { useEffect } from 'react';
 import Sidebar from '../../components/sidebar/Sidebar'
 import DirectorStructre from '../../components/sidebar/DirectorStructure';
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import useFetch from '../../hooks/useFetch'
+import {uncapitalize} from '../../utils/utils'
 
 // -- --- APIs------------
 import { ALL_PROFESSORS_API, ALL_DEPARTMENTS_API, ALL_SECTORS_API, ALL_STUDENTS_API } from '../../api/apis'
 import { saveDepartments, saveProfessors, saveSectors, saveStudents } from '../../state/features/Director/directorSlice';
 import LoadingPage from '../../components/LoadingPage';
 // import Alert from './../../components/Alert';
+
 
 
 const DirectorLayout = () => {
@@ -39,6 +41,11 @@ const DirectorLayout = () => {
         }
     }, [professorsData, departmentsData, studentsData, sectorsData, reRender , dispatch]);
 
+
+    const user = uncapitalize(JSON.parse(localStorage.getItem('user')).role);
+    if (user !== 'director') {
+        return <Navigate to={`/auth/${user}`} replace />;
+    }
     return (
         <div>
             <div className='flex'>

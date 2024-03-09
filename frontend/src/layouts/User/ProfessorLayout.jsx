@@ -4,25 +4,28 @@ import { Navigate, Outlet } from 'react-router-dom'
 import ProfessorStructure from '../../components/sidebar/ProfessorStructure';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { PROFESSOR_COURSES_API, PROFESSOR_STUDENTS_API } from "../../api/apis";
+import { ALL_ANNOUNCEMENTS_API, ALL_COURSES_API, ALL_QUIZZES_API, PROFESSOR_STUDENTS_API } from "../../api/apis";
 import useFetch from "../../hooks/useFetch";
 import LoadingPage from "../../components/LoadingPage";
-import { saveCourses, saveMyStudents } from "../../state/features/Professor/professorSlice";
-import { uncapitalize } from "../../utils/utils";
+import { saveAnnouncements, saveCourses, saveMyStudents, saveQuizzes } from "../../state/features/Professor/professorSlice";
+import Alert from './../../components/Alert';
+
+
 const ProfessorLayout = () => {
-    
+
     const user = JSON.parse(localStorage.getItem('user'));
-    
+
     const dispatch = useDispatch();
-    const reRender = useSelector((state) => state.director.renderAction);
+    const reRender = useSelector((state) => state.professor.renderAction);
 
     const { data: studentsData, isLoading: studentsLoading, error: studentsError } = useFetch(`${PROFESSOR_STUDENTS_API}/${user.id}`, reRender);
-    const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useFetch(`${PROFESSOR_COURSES_API}/${user.id}`, reRender);
-    // const { data: announcementssData, isLoading: announcementssLoading, error: announcementssError } = useFetch(`${PROFESS}`, reRender);
-    // const { data: studentsData, isLoading: studentsLoading, error: studentsError } = useFetch(ALL_STUDENTS_API, reRender);
+    const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useFetch(`${ALL_COURSES_API}/${user.id}`, reRender);
+    const { data: announcementsData, isLoading: announcementsLoading, error: announcementsError } = useFetch(`${ALL_ANNOUNCEMENTS_API}/${user.id}`, reRender);
+    const { data: quizzesData, isLoading: quizzesLoading, error: quizzesError } = useFetch(`${ALL_QUIZZES_API}/${user.id}`, reRender);
 
-    
+
     useEffect(() => {
+
         if (studentsData) {
             dispatch(saveMyStudents(studentsData.data));
         }
@@ -30,17 +33,23 @@ const ProfessorLayout = () => {
             dispatch(saveCourses(coursesData.data));
         }
 
-        // if (studentsData) {
-        //     dispatch(saveStudents(studentsData.data));
-        // }
-        // if (sectorsData) {
-        //     dispatch(saveSectors(sectorsData.data));
-        // }
-    }, [studentsData, reRender, coursesData, dispatch]);
+        if (announcementsData) {
+            dispatch(saveAnnouncements(announcementsData.data));
+        }
 
+        if (quizzesData) {
+            dispatch(saveQuizzes(quizzesData.data));
+        }
+
+    }, [studentsData, reRender, coursesData, dispatch, announcementsData, quizzesData]);
+
+
+    if ((user.role) !== 'professor') {
+        return <Navigate to={`/auth/${user}`} replace />;
+    }
 
     return (
-        <div className='flex'>
+        <div className='flex relative animate-appearance-in transition-all duration-300 delay-300 transform'>
             <div className='grow-0'>
                 <Sidebar tabs={ProfessorStructure} user="professor" />
             </div>

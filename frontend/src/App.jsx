@@ -33,6 +33,10 @@ import ProfessorProfile from './pages/professor/ProfessorProfile';
 import StudentDashboard from './pages/student/StudentDashboard'
 import StudentTasks from './pages/student/StudentTasks'
 import StudentCourses from './pages/student/StudentCourses'
+import StudentProfile from './pages/student/StudentProfile';
+import StudentGrades from './pages/student/StudentGrades';
+import StudentQuizzes from './pages/student/StudentQuizzes';
+
 
 
 const App = () => {
@@ -42,15 +46,18 @@ const App = () => {
         <Route path="/" index element={<GuestLayout />} />
 
         <Route path="/auth" element={<AuthLayout />}>
-          {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
+          {/* --------- --  -- - -- -Student Part -- - -- - - - -- - - - --  --  */}
           <Route path="student" element={<StudentLayout />} >
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<StudentDashboard />} />
             <Route path="tasks" element={<StudentTasks />} />
             <Route path="courses" element={<StudentCourses />} />
+            <Route path="quizzes" element={<StudentQuizzes/>} />
+            <Route path="grades" element={<StudentGrades />} />
+            <Route path="profile" element={<StudentProfile/>} />
           </Route>
 
-          {/* --------- --  -- - -- - -- - -- - - - -- - - - --  --  */}
+          {/* --------- --  -- - -- -Professor Part -- - -- - - - -- - - - --  --  */}
           <Route path="professor" element={<ProfessorLayout />} >
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path='dashboard' element={<ProfessorDashboard />} />

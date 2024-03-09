@@ -248,7 +248,18 @@ const students = [
 ];
 
 
-const studentColumns = [
+const directorStudents = [
+    { name: "ID", uid: "id", sortable: true },
+    { name: "FIRSTNAME", uid: "firstName", sortable: true },
+    { name: "LASTNAME", uid: "lastName", sortable: true },
+    { name: "USERNAME", uid: "username", sortable: true },
+    { name: "Department", uid: "department", sortable: true },
+    { name: "Sector", uid: "sector", sortable: true },
+    { name: "Email", uid: "email" },
+    { name: "ACTIONS", uid: "actions" },
+];
+
+const professorStudents = [
     { name: "ID", uid: "id", sortable: true },
     { name: "FIRSTNAME", uid: "firstName", sortable: true },
     { name: "LASTNAME", uid: "lastName", sortable: true },
@@ -259,109 +270,192 @@ const studentColumns = [
 ];
 
 
+// const courses = [
+//     {
+//         id: 1,
+//         courseName: 'Laravel',
+//         description: 'Discover the power of Laravel, a PHP web application framework, and learn to build elegant and scalable web applications. Dive into features like Eloquent ORM, Blade templating, and more. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis, provident dolorum. Atque expedita soluta temporibus, eveniet repellendus animi voluptate harum?',
+//         tags: ['web', 'laravel', 'backend'],
+//         downloads: 12,
+//         sector: 'Computer Science',
+//         filePath: '',
+//         thumbnailImage: ''
+//     },
+//     {
+//         id: 2,
+//         courseName: 'React.js',
+//         description: 'A comprehensive guide to the fundamentals of React.js for building modern user interfaces.',
+//         tags: ['web', 'react', 'frontend'],
+//         downloads: 2,
+//         sector: 'Computer Science',
+//         filePath: '',
+//         thumbnailImage: ''
+//     },
+//     {
+//         id: 3,
+//         courseName: 'Node.js Basics',
+//         description: 'Learn the basics of Node.js and server-side JavaScript programming.',
+//         tags: ['web', 'node', 'backend'],
+//         downloads: 6,
+//         sector: 'Computer Science',
+//         filePath: '',
+//         thumbnailImage: ''
+//     },
+//     {
+//         id: 4,
+//         courseName: 'Python for Data Science',
+//         description: 'Explore Python programming for data science and analysis with real-world examples.',
+//         tags: ['python', 'data-science'],
+//         downloads: 9,
+//         sector: 'Data Science',
+//         filePath: '',
+//         thumbnailImage: ''
+//     },
+//     {
+//         id: 5,
+//         courseName: 'Angular Framework',
+//         description: 'An in-depth tutorial on building web applications with the Angular framework.',
+//         tags: ['web', 'angular', 'frontend'],
+//         downloads: 0,
+//         sector: 'Computer Science',
+//         filePath: '',
+//         thumbnailImage: ''
+//     },
+//     {
+//         id: 6,
+//         courseName: 'Databases and SQL',
+//         description: 'Master the concepts of databases and SQL for efficient data storage and retrieval.',
+//         tags: ['database', 'sql', 'backend'],
+//         downloads: 4,
+//         sector: 'Data Science',
+//         filePath: '',
+//         thumbnailImage: ''
+//     },
+//     {
+//         id: 7,
+//         courseName: 'Mobile App Development with Flutter',
+//         description: 'Create cross-platform mobile applications with Flutter and Dart programming language.',
+//         tags: ['mobile', 'flutter', 'dart'],
+//         downloads: 3,
+//         sector: 'Computer Science',
+//         filePath: '',
+//         thumbnailImage: ''
+//     },
+//     {
+//         id: 8,
+//         courseName: 'JavaScript Design Patterns',
+//         description: 'Understand common design patterns in JavaScript for writing scalable and maintainable code.',
+//         tags: ['javascript', 'design-patterns'],
+//         downloads: 7,
+//         sector: 'Computer Science',
+//         filePath: '',
+//         thumbnailImage: ''
+//     },
+//     {
+//         id: 9,
+//         courseName: 'Cybersecurity Essentials',
+//         description: 'Learn the essential concepts and techniques in cybersecurity for securing digital systems.',
+//         tags: ['cybersecurity'],
+//         downloads: 3,
+//         sector: 'Data Science',
+//         filePath: '',
+//         thumbnailImage: ''
+//     },
+//     {
+//         id: 10,
+//         courseName: 'GraphQL in Practice',
+//         description: 'Implement GraphQL for efficient data fetching and manipulation in modern web applications.',
+//         tags: ['web', 'graphql', 'backend'],
+//         downloads: 2,
+//         sector: 'Data Science',
+//         filePath: '',
+//         thumbnailImage: ''
+//     }
+// ];
+
+
 const courses = [
     {
-        id: 1,
-        courseName: 'Laravel',
-        description: 'Discover the power of Laravel, a PHP web application framework, and learn to build elegant and scalable web applications. Dive into features like Eloquent ORM, Blade templating, and more. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis, provident dolorum. Atque expedita soluta temporibus, eveniet repellendus animi voluptate harum?',
-        tags: ['web', 'laravel', 'backend'],
-        downloads: 12,
-        sector: 'Computer Science',
-        filePath: '',
-        thumbnailImage: ''
+        "id": 1,
+        "courseName": "Laravel Basics",
+        "description": "Learn the basics of Laravel, a PHP web application framework. Explore features like routing, views, controllers, and database interactions.",
+        "downloads": 20,
+        "sector": "Computer Science",
+        "categoryId": 1
     },
     {
-        id: 2,
-        courseName: 'React.js',
-        description: 'A comprehensive guide to the fundamentals of React.js for building modern user interfaces.',
-        tags: ['web', 'react', 'frontend'],
-        downloads: 2,
-        sector: 'Computer Science',
-        filePath: '',
-        thumbnailImage: ''
+        "id": 2,
+        "courseName": "Introduction to Networking",
+        "description": "Get introduced to networking essentials. Cover topics such as TCP/IP, network devices, protocols, and basic troubleshooting.",
+        "downloads": 15,
+        "sector": "Computer Science",
+        "categoryId": 2
     },
     {
-        id: 3,
-        courseName: 'Node.js Basics',
-        description: 'Learn the basics of Node.js and server-side JavaScript programming.',
-        tags: ['web', 'node', 'backend'],
-        downloads: 6,
-        sector: 'Computer Science',
-        filePath: '',
-        thumbnailImage: ''
+        "id": 3,
+        "courseName": "UML Modeling Techniques",
+        "description": "Explore various UML modeling techniques. Learn to create use case diagrams, class diagrams, sequence diagrams, and more.",
+        "downloads": 12,
+        "sector": "Computer Science",
+        "categoryId": 3
     },
     {
-        id: 4,
-        courseName: 'Python for Data Science',
-        description: 'Explore Python programming for data science and analysis with real-world examples.',
-        tags: ['python', 'data-science'],
-        downloads: 9,
-        sector: 'Data Science',
-        filePath: '',
-        thumbnailImage: ''
+        "id": 4,
+        "courseName": "Mathematics for Programming",
+        "description": "Discover essential mathematical concepts for programming. Topics include logic, sets, functions, and basic algorithms.",
+        "downloads": 18,
+        "sector": "Computer Science",
+        "categoryId": 4
     },
     {
-        id: 5,
-        courseName: 'Angular Framework',
-        description: 'An in-depth tutorial on building web applications with the Angular framework.',
-        tags: ['web', 'angular', 'frontend'],
-        downloads: 0,
-        sector: 'Computer Science',
-        filePath: '',
-        thumbnailImage: ''
+        "id": 5,
+        "courseName": "Advanced Laravel Development",
+        "description": "Take your Laravel skills to the next level. Learn advanced features such as middleware, authentication, testing, and deployment.",
+        "downloads": 10,
+        "sector": "Computer Science",
+        "categoryId": 1
     },
     {
-        id: 6,
-        courseName: 'Databases and SQL',
-        description: 'Master the concepts of databases and SQL for efficient data storage and retrieval.',
-        tags: ['database', 'sql', 'backend'],
-        downloads: 4,
-        sector: 'Data Science',
-        filePath: '',
-        thumbnailImage: ''
+        "id": 6,
+        "courseName": "Network Security Fundamentals",
+        "description": "Gain insights into network security fundamentals. Cover topics such as encryption, firewalls, intrusion detection, and security protocols.",
+        "downloads": 8,
+        "sector": "Computer Science",
+        "categoryId": 2
     },
     {
-        id: 7,
-        courseName: 'Mobile App Development with Flutter',
-        description: 'Create cross-platform mobile applications with Flutter and Dart programming language.',
-        tags: ['mobile', 'flutter', 'dart'],
-        downloads: 3,
-        sector: 'Computer Science',
-        filePath: '',
-        thumbnailImage: ''
+        "id": 7,
+        "courseName": "Practical UML Applications",
+        "description": "Apply UML concepts to real-world scenarios. Learn to model complex systems, analyze requirements, and communicate effectively with stakeholders.",
+        "downloads": 11,
+        "sector": "Computer Science",
+        "categoryId": 3
     },
     {
-        id: 8,
-        courseName: 'JavaScript Design Patterns',
-        description: 'Understand common design patterns in JavaScript for writing scalable and maintainable code.',
-        tags: ['javascript', 'design-patterns'],
-        downloads: 7,
-        sector: 'Computer Science',
-        filePath: '',
-        thumbnailImage: ''
+        "id": 8,
+        "courseName": "Discrete Mathematics Basics",
+        "description": "Understand the basics of discrete mathematics. Cover topics such as sets, relations, functions, and combinatorics.",
+        "downloads": 14,
+        "sector": "Computer Science",
+        "categoryId": 4
     },
     {
-        id: 9,
-        courseName: 'Cybersecurity Essentials',
-        description: 'Learn the essential concepts and techniques in cybersecurity for securing digital systems.',
-        tags: ['cybersecurity'],
-        downloads: 3,
-        sector: 'Data Science',
-        filePath: '',
-        thumbnailImage: ''
+        "id": 9,
+        "courseName": "Building RESTful APIs with Laravel",
+        "description": "Learn to build RESTful APIs using Laravel. Explore concepts like resource routing, request handling, authentication, and API testing.",
+        "downloads": 9,
+        "sector": "Computer Science",
+        "categoryId": 1
     },
     {
-        id: 10,
-        courseName: 'GraphQL in Practice',
-        description: 'Implement GraphQL for efficient data fetching and manipulation in modern web applications.',
-        tags: ['web', 'graphql', 'backend'],
-        downloads: 2,
-        sector: 'Data Science',
-        filePath: '',
-        thumbnailImage: ''
+        "id": 10,
+        "courseName": "Wireless Networking Essentials",
+        "description": "Discover the essentials of wireless networking. Cover topics such as Wi-Fi standards, security, roaming, and troubleshooting.",
+        "downloads": 13,
+        "sector": "Computer Science",
+        "categoryId": 2
     }
-];
-
+]
 
 const quizzes = [
     {
@@ -777,35 +871,39 @@ const quizzes = [
 ];
 
 
-
 const announcements = [
     {
         "id": 1,
         "announcementName": "New course on Quantum Computing starting next week!",
+        "professor": "Tony",
         "sector": "Computer Science",
         "status": true
     },
     {
         "id": 2,
         "announcementName": "Reminder: Marketing seminar on brand management tomorrow.",
+        "professor": "Tony",
         "sector": "TM",
         "status": true
     },
     {
         "id": 3,
         "announcementName": "Scheduled maintenance on the network this weekend.",
+        "professor": "William",
         "sector": "Data Science",
         "status": true
     },
     {
         "id": 4,
         "announcementName": "Welcome to our new students joining the Biology department!",
+        "professor": "Zoey",
         "sector": "ER",
         "status": true
     },
     {
         "id": 5,
         "announcementName": "Leadership training workshop postponed to next month.",
+        "professor": "Jane",
         "sector": "Computer Science",
         "status": false
     }
@@ -864,6 +962,73 @@ const appointments = [
     }
 ]
 
+
+const categories = [
+    {
+        id: 1,
+        title: "Web"
+    },
+    {
+        id: 2,
+        title: "Network"
+    },
+    {
+        id: 3,
+        title: "Conception UML"
+    },
+    {
+        id: 4,
+        title: "Math"
+    },
+]
+
+const grades = [
+    {
+        "categoryId": 1,
+        "title": "Web",
+        "grades": [
+            { "quizName": "Quiz 1", "grade": 85 },
+            { "quizName": "Quiz 2", "grade": 92 },
+            { "quizName": "Quiz 3", "grade": 78 },
+            { "quizName": "Quiz 4", "grade": 90 },
+            { "quizName": "Quiz 5", "grade": 88 }
+        ]
+    },
+    {
+        "categoryId": 2,
+        "title": "Network",
+        "grades": [
+            { "quizName": "Quiz 1", "grade": 75 },
+            { "quizName": "Quiz 2", "grade": 80 },
+            { "quizName": "Quiz 3", "grade": 85 },
+            { "quizName": "Quiz 4", "grade": 70 },
+            { "quizName": "Quiz 5", "grade": 88 }
+        ]
+    },
+    {
+        "categoryId": 3,
+        "title": "Conception UML",
+        "grades": [
+            { "quizName": "Quiz 1", "grade": 90 },
+            { "quizName": "Quiz 2", "grade": 92 },
+            { "quizName": "Quiz 3", "grade": 88 },
+            { "quizName": "Quiz 4", "grade": 85 },
+            { "quizName": "Quiz 5", "grade": 80 }
+        ]
+    },
+    {
+        "categoryId": 4,
+        "title": "Math",
+        "grades": [
+            { "quizName": "Quiz 1", "grade": 80 },
+            { "quizName": "Quiz 2", "grade": 85 },
+            { "quizName": "Quiz 3", "grade": 75 },
+            { "quizName": "Quiz 4", "grade": 90 },
+            { "quizName": "Quiz 5", "grade": 82 }
+        ]
+    }
+]
+
 export {
     director,
     departments,
@@ -871,11 +1036,14 @@ export {
     columns,
     depatmentsColumns,
     students,
-    studentColumns,
+    directorStudents,
+    professorStudents,
     sectors,
     sectorsColumns,
     courses,
     quizzes,
     announcements,
-    appointments
+    appointments,
+    categories,
+    grades
 };

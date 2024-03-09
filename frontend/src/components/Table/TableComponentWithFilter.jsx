@@ -33,10 +33,11 @@ import { PlusIcon } from "../PlusIcon";
 import useForm from "../../hooks/useForm";
 // --  -- - - --APIs-------- - - - - - - 
 
-import { DELETE_DEPARTMENT_API, DELETE_PROFESSOR_API, DELETE_SECTOR_API, DELETE_STUDENT_API } from "../../api/apis"; 
+import { DELETE_DEPARTMENT_API, DELETE_PROFESSOR_API, DELETE_SECTOR_API, DELETE_STUDENT_API } from "../../api/apis";
 import Alert from "../Alert";
 import { handleRenderAction } from '../../state/features/Director/directorSlice';
 import { useDispatch } from "react-redux";
+import CardImage from "../CardImage";
 DELETE_SECTOR_API
 
 
@@ -56,26 +57,20 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
 
     const handleDelete = (userId) => {
         // console.log(`Delete ${user} with ID: ${userId}`);
+        onOpen();
+        setDeleteAction(true)
         switch (user) {
             case 'professor':
                 setApiKey(`${DELETE_PROFESSOR_API}/${userId}`)
-                onOpen();
-                setDeleteAction(true)
                 break;
             case 'student':
                 setApiKey(`${DELETE_STUDENT_API}/${userId}`)
-                onOpen();
-                setDeleteAction(true)
                 break;
             case 'sector':
                 setApiKey(`${DELETE_SECTOR_API}/${userId}`)
-                onOpen();
-                setDeleteAction(true)
                 break;
             case 'department':
                 setApiKey(`${DELETE_DEPARTMENT_API}/${userId}`)
-                onOpen();
-                setDeleteAction(true)
                 break;
 
             default:
@@ -83,7 +78,7 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
         }
     };
 
-    const { handleSubmit, isLoading, errors, message, setMessage } = useForm({}, apiKey, 'delete')
+    const { handleSubmit, isLoading, errors, message, setMessage } = useForm({}, apiKey, 'delete', false, true)
     // ---------------------------------------------
 
     const INITIAL_VISIBLE_COLUMNS = [];
@@ -213,13 +208,7 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
     const topContent = useMemo(() => {
         return (
             <div className="flex flex-col gap-4 m-2">
-                <div className="flex items-center space-x-4 p-2 m-1 w-full bg-blue-50 bg-opacity-15 rounded-md border">
-                    <img
-                        className='w-20'
-                        src={imageLogo}
-                    />
-                    <h1 className='font-semibold text-2xl text-blue-600'>{title}</h1>
-                </div>
+                <CardImage image={imageLogo} title={title} />
                 <div className="flex justify-between gap-3 items-center px-3">
                     <Input
                         isClearable
@@ -263,19 +252,19 @@ const TableComponentWithFilter = ({ data, columns, user, Component, imageLogo, t
                             </DropdownMenu>
                         </Dropdown>
 
-                        {user == 'my-students' ? null : 
-                        <Button
-                            onPress={onOpen}
-                            className="bg-foreground text-background"
-                            endContent={<PlusIcon />}
-                            size="sm">Add New
-                        </Button>
+                        {user == 'my-students' ? null :
+                            <Button
+                                onPress={onOpen}
+                                className="bg-foreground text-background"
+                                endContent={<PlusIcon />}
+                                size="sm">Add New
+                            </Button>
                         }
 
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span className="text-default-400 text-small">Total {data.length} {user}s</span>
+                    <span className="text-default-400 text-small">Total {data.length} {user == "my-students" ? "students" : `${user}s`}</span>
                     <label className="flex items-center text-default-400 text-small">
                         Rows per page:
                         <select

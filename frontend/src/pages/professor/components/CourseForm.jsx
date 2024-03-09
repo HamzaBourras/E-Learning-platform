@@ -1,28 +1,34 @@
 /* eslint-disable react/prop-types */
 import { Input, Textarea, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
-import { courses, sectors } from '../../../json/data'
 import useForm from '../../../hooks/useForm';
 import Alert from '../../../components/Alert';
 import { getArrayById } from '../../../utils/utils';
-import { STORE_COURSE_API } from '../../../api/apis';
+import { STORE_COURSE_API, UPDATE_COURSE_API } from '../../../api/apis';
+import { useSelector } from 'react-redux';
 
 const CourseForm = ({ id }) => {
 
+    const courses = useSelector((state)=>state.professor.courses)
+    const user = JSON.parse(localStorage.getItem('user'));
 
-    const apiKey = `${STORE_COURSE_API}`;
+    const method = id ? "put" : "post";
+
+    let apiKey = id ? `${UPDATE_COURSE_API}/${user.id}/${id}` : `${STORE_COURSE_API}/${user.id}`
+
     const course = getArrayById(courses, 'id', id)[0]
 
+    
     const initialState = {
-        'courseName': id ? course['courseName'] : '' ,
+        'courseName': id ? course['courseName'] : '',
         'sector': id ? course['sector'] : '',
         'description': id ? course['description'] : '',
-        'file': null,
+        'file': id ? course['file'] : {},
     }
-
     
-    const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey,"post",true)
     
-    // console.log(inputs);
+    const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey, method, true, true)
+    
+    
     return (
         <div className="border border-dashed grid grid-cols-1 p-2 rounded space-y-2">
             {message && <Alert color='success' message={message} />}
@@ -37,21 +43,24 @@ const CourseForm = ({ id }) => {
                 />
 
                 <Select
-                    items={sectors} 
+                    items={user.sectors}
                     label="Sector"
                     variant='bordered'
                     defaultSelectedKeys={inputs['sector'] !== "" ? [inputs['sector']] : undefined}
                     errorMessage={errors['sector']}
                     onChange={(e) => handleChange('sector', e.target.value)}
                 >
-                    {(sector) => <SelectItem key={sector.sector} >{sector.sector}</SelectItem>}
+                    {(user.sectors).map((sector) => (
+                        <SelectItem key={sector} >{sector}</SelectItem>
+                    ))}
                 </Select>
 
-                
+
                 <Textarea
                     variant='bordered'
                     label="Your description goes here"
                     value={inputs['description']}
+                    errorMessage={errors['description']}
                     onChange={(e) => handleChange('description', e.target.value)}
                 ></Textarea>
                 <div>
@@ -64,7 +73,7 @@ const CourseForm = ({ id }) => {
                     {errors['file'] && <p className='text-xs text-pink-500'>{errors['file']}</p>}
                 </div>
                 <Button type='submit' variant='shadow' className='bg-foreground text-background'>
-                    {id ? 'Update' : 'Upload'} {isLoading && <Spinner />}
+                    {id ? 'Update' : 'Upload'} {isLoading && <Spinner color='default' />}
                 </Button>
             </form>
 
