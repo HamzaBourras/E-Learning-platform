@@ -1,15 +1,28 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Divider, Tab, Tabs } from "@nextui-org/react"
+import { Button, Divider, Modal, ModalBody, ModalContent, ModalFooter, Spinner, Tab, Tabs, useDisclosure } from "@nextui-org/react"
 import CardImage from "../../../components/CardImage"
 import { useState } from "react";
-import { getArrayById } from "../../../utils/utils";
+import { getArrayById, uncapitalize } from "../../../utils/utils";
+import downloadIcon from '../../../assets/icons/download.svg'
+import viewIcon from '../../../assets/icons/eye.svg'
+import { ModalHeader } from '@nextui-org/react';
+import StudentQuizForm from './StudentQuizForm';
 
-const StudentLayoutForm = ({ data, tabs, imageLogo, image, title }) => {
+const StudentLayoutForm = ({ data, tabs, imageLogo, image, title, name }) => {
+    const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
     const [isGrid, setIsGrid] = useState(false);
     const [selectedKey, setSelectedKey] = useState('')
+    const [selectedQuiz, setSelectedQuiz] = useState(null)
 
     const filteredData = getArrayById(data, 'categoryId', selectedKey)
+
+    const handleQuizClick = (id) => {
+        if (name == "quiz") {
+            setSelectedQuiz(id)
+            onOpen()
+        }
+    }
 
     return (
         <div className="w-full">
@@ -48,7 +61,7 @@ const StudentLayoutForm = ({ data, tabs, imageLogo, image, title }) => {
                                                 className={`flex group animate-appearance-in p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border`}
                                             >
                                                 <img src={image} className='w-12' />
-                                                <div className="flex justify-between w-full">
+                                                <div className={`flex justify-between w-full`}>
                                                     <h1 className='text-sm font-medium text-balance flex-1 text-gray-500'>{grade.quizName}</h1>
                                                     <h1 className='text-sm font-medium text-balance text-gray-500'>{grade.grade}/100</h1>
                                                 </div>
@@ -58,10 +71,31 @@ const StudentLayoutForm = ({ data, tabs, imageLogo, image, title }) => {
                                         <div
                                             key={item.id}
                                             className={`flex group animate-appearance-in my-1 p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border`}
+                                            onClick={() => handleQuizClick(item.id)}
                                         >
                                             <img src={image} className='w-12' />
                                             <div className="flex justify-between w-full">
-                                                <h1 className='text-sm font-medium text-balance flex-1 text-gray-500'>{item.courseName}</h1>
+                                                <h1 className='text-sm font-medium text-balance flex-1 text-gray-500'>{item[uncapitalize(name) + 'Name']}</h1>
+
+                                                {name != "quiz" &&
+                                                    <div className="space-x-1">
+                                                        <button className="bg-blue-600 hover:bg-blue-800 p-2 rounded">
+                                                            <img
+                                                                src={viewIcon}
+                                                                alt=""
+                                                                className="size-3 invert"
+                                                            />
+                                                        </button>
+
+                                                        <button className="bg-blue-600 hover:bg-blue-800 p-2 rounded">
+                                                            <img
+                                                                src={downloadIcon}
+                                                                alt=""
+                                                                className="size-3 invert"
+                                                            />
+                                                        </button>
+                                                    </div>
+                                                }
                                             </div>
                                         </div>
                                     )
@@ -69,8 +103,56 @@ const StudentLayoutForm = ({ data, tabs, imageLogo, image, title }) => {
                             </div>
                         )))
                         :
-                        <h1 className="w-full col-span-2 mx-4 text-gray-600">No {title == "Quiz" ? "Quizzes" : `${title}s`} at the moment</h1>
+                        <h1 className="w-full col-span-2 mx-4 mt-4 text-gray-600">No {name == "quiz" ? "Quizzes" : `${title}s`} available at the moment</h1>
                 }
+
+                <Modal
+                    // size="5xl"
+                    isOpen={isOpen}
+                    scrollBehavior="inside"
+                    onOpenChange={onOpenChange}
+                    size="full"
+                    className="overflow-auto"
+                    motionProps={{
+                        variants: {
+                            enter: {
+                                y: 0,
+                                opacity: 1,
+                                transition: {
+                                    duration: 0.3,
+                                    ease: "easeOut",
+                                },
+                            },
+                            exit: {
+                                y: -20,
+                                opacity: 0,
+                                transition: {
+                                    duration: 0.2,
+                                    ease: "easeIn",
+                                },
+                            },
+                        }
+                    }}
+                >
+                    <ModalContent>
+                        {(onClose) => (
+                            <>
+                                {name === 'quiz' && selectedQuiz && (
+                                    <>
+                                        <ModalBody>
+                                            <StudentQuizForm id={selectedQuiz} />
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Button variant="faded" onPress={onClose}>
+                                                Cancel
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                )}
+                            </>
+                        )}
+                    </ModalContent>
+                </Modal>
             </div>
         </div>
     )

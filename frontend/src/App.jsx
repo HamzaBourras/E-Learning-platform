@@ -36,6 +36,7 @@ import StudentCourses from './pages/student/StudentCourses'
 import StudentProfile from './pages/student/StudentProfile';
 import StudentGrades from './pages/student/StudentGrades';
 import StudentQuizzes from './pages/student/StudentQuizzes';
+import ProfessorMeeting from './pages/professor/ProfessorMeeting';
 
 
 
@@ -67,6 +68,7 @@ const App = () => {
             <Route path='quizzes' element={<ManageQuizzes />} />
             <Route path='submissions' element={<ManageSubmissions />} />
             <Route path="profile" element={<ProfessorProfile/>} />
+            <Route path="meeting" element={<ProfessorMeeting/>} />
           </Route>
 
 

@@ -4,11 +4,12 @@ import { NotificationComponent } from './../../components/NotificationComponent'
 import ProgressComponent from '../../components/ProgressComponent';
 import DoneHW from '../../assets/images/done.png'
 import Assignment from '../../assets/images/assignment.png'
-import CalendarComponent from './../../components/CalendarComponent';
 import WelcomeBanner from './../../components/WelcomeBanner';
-import { announcements, courses, teachers } from '../../json/data';
+import { announcements, categories, courses, teachers } from '../../json/data';
 import Card from './components/Card';
 import courseImage from '../../assets/images/file.png'
+import RadarChart from './../../components/RadarChart';
+import CardImage from './../../components/CardImage';
 
 
 const StudentDashboard = () => {
@@ -16,6 +17,9 @@ const StudentDashboard = () => {
     const someProfessors = teachers.slice(0, 5)
     const someNotifications = announcements.slice(0, 5)
     const someCourses = courses.slice(3, 6)
+
+    const grades = [80, 85, 85, 61, 83, 78]
+    
 
     return (
         <div>
@@ -30,13 +34,14 @@ const StudentDashboard = () => {
                         <ProgressComponent name="Done Homeworks" image={DoneHW} number={12} maxNumber={40} />
                         <ProgressComponent name="Assignments" image={Assignment} number={6} maxNumber={40} color="warning" />
                     </div>
-                    {/* <div>
-                        <h1 className='title'>Scheduled Events </h1>
-                        <CalendarComponent />
-                    </div> */}
+                    <div className='flex flex-col items-center'>
+                        <h1 className='title self-start'>Grades Report</h1>
+                        <RadarChart data={grades} tabs={categories}/>
+
+                    </div>
 
 
-                    
+
                 </div>
 
                 <div className="h-svh col-span-3 xs:sm:hidden md:lg:flex border-l-1 px-3 flex flex-col space-y-3">
@@ -56,10 +61,11 @@ const StudentDashboard = () => {
                     <h1 className='title'>Latest courses</h1>
                     {
                         someCourses.map(course => (
-                            <Card 
+                            <CardImage
                                 key={course.id}
                                 title={course.courseName}
                                 image={courseImage}
+                                size="10"
                             />
                         ))
                     }

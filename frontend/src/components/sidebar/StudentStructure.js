@@ -4,7 +4,6 @@ import grade from '../../assets/icons/grade.svg';
 import books from '../../assets/icons/books.svg';
 import quizzes from '../../assets/icons/quizzes.svg';
 import meeting from '../../assets/icons/meeting.svg';
-import submissions from '../../assets/icons/submissions.svg';
 
 const Tabs = [
     {
@@ -12,6 +11,12 @@ const Tabs = [
         name: "Home",
         icon: home,
         path: "/auth/student/dashboard"
+    },
+    {
+        id: 6,
+        name: "Courses",
+        icon: books,
+        path: "/auth/student/courses"
     },
     {
         id: 2,
@@ -30,18 +35,6 @@ const Tabs = [
         name: "Tasks",
         icon: tasks,
         path: "/auth/student/tasks"
-    },
-    {
-        id: 6,
-        name: "Courses",
-        icon: books,
-        path: "/auth/student/courses"
-    },
-    {
-        id: 7,
-        name: "Submissions",
-        icon: submissions,
-        path: "/auth/student/submissions"
     },
     {
         id: 8,
