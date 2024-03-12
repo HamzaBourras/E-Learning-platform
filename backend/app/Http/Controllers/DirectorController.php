@@ -104,8 +104,7 @@ class DirectorController extends Controller
             "lastName" =>$request->lastName,
             "username" => $request->username,
             "email" => $request->email,
-            "departement_id" => $departement_id,
-            "password" => $request->email
+            "departement_id" => $departement_id
         ]);
 
         // enregistré les ids des sectors selectioné
@@ -205,8 +204,7 @@ class DirectorController extends Controller
             "lastName" =>$request->lastName,
             "username" => $request->username,
             "email" => $request->email,
-            "sector_id" => $sector_id,
-            "password" => $request->email
+            "sector_id" => $sector_id
         ]);
 
         return response()->json([

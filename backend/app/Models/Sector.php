@@ -18,7 +18,19 @@ class Sector extends Model
         return $this->belongsTo(Departement::class);
     }
 
+    //if user is a professor 
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'sectors_users', 'sectors_id', 'users_id');
+    }
+
+
+    // if user is astudent
     public function users() {
         return $this->hasMany(User::class);
+    }
+
+    public function documents () {
+        return $this->hasMany(Document::class);
     }
 }

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AuthentificationController;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,12 +69,13 @@ Route::prefix("auth/director/")->middleware("auth.token")->controller(DirectorCo
 
 
 
+
 /********************** Professor management *************************/
 
 Route::prefix("auth/professor/")->middleware("auth.token")->controller(ProfessorController::class)->name("professor.")->group(function () {
 
     //--------- - --- courses -----------------------
-    Route::prefix("courses/")->name("course.")->group(function () {
+    Route::prefix("courses/")->name("courses.")->group(function () {
         Route::get("index/{user_id}", "indexCourse")->where(["user_id" => "[0-9]+"])->name("indexCourse");
         Route::post("store/{user_id}", "storeCourse")->where(["user_id" => "[0-9]+"])->name("storeCourse");
         Route::put("edit/{user_id}/{id}", "editCourse")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->where(["id" => "[0-9]+"])->name("editCourse");
@@ -81,13 +83,13 @@ Route::prefix("auth/professor/")->middleware("auth.token")->controller(Professor
     });
 
     //--------- - --- students -----------------------
-    Route::prefix("students/")->name("student.")->group(function () {
+    Route::prefix("students/")->name("students.")->group(function () {
         Route::get("index/{user_id}", "indexStudent")->where(["user_id" => "[0-9]+"])->name("indexStudent");
     });
 
 
     //--------- - --- Announcements -----------------------
-    Route::prefix("announcements/")->name("announcement.")->group(function () {
+    Route::prefix("announcements/")->name("announcements.")->group(function () {
         Route::get("index/{user_id}", "indexAnnouncement")->where(["user_id" => "[0-9]+"])->name("indexAnnouncement");
         Route::post("store/{user_id}", "storeAnnouncement")->where(["user_id" => "[0-9]+"])->name("storeAnnouncement");
         Route::put("edit/{user_id}/{id}", "editAnnouncement")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("editAnnouncement");
@@ -96,10 +98,30 @@ Route::prefix("auth/professor/")->middleware("auth.token")->controller(Professor
 
 
     //--------- - --- Quizzes -----------------------
-    Route::prefix("quizzes/")->name("quizze")->group(function () {
+    Route::prefix("quizzes/")->name("quizzes.")->group(function () {
         Route::get("index/{user_id}", "indexQuizze")->where(["user_id" => "[0-9]+"])->name("indexQuizze");
         Route::post("store/{user_id}", "storeQuizze")->where(["user_id" => "[0-9]+"])->name("storeQuizze");
         Route::put("edit/{user_id}/{id}", "editQuizze")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("editQuizze");
         Route::delete("destroy/{user_id}/{id}", "destroyQuizze")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("destroyQuizze");
     });
 });
+
+
+
+/********************** Student management *************************/
+
+Route::prefix("auth/student")->controller(StudentController::class)->name("student.")->group(function () {
+
+    //--------- - --- professors -----------------------
+    Route::prefix("professors/")->name("professor.")->group(function () {
+        Route::get("index/{user_id}","indexProfessor")->where(["user_id" => "[0-9]+"])->name("indexProfessor");
+    });
+
+    //--------- - --- coursess -----------------------
+    Route::prefix("courses/")->name("course.")->group(function () {
+        Route::get("index/{user_id}","indexCourse")->where(["user_id" => "[0-9]+"])->name("indexCourse");
+    });
+
+
+});
+
