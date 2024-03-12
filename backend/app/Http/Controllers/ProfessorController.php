@@ -23,7 +23,6 @@ class ProfessorController extends Controller
     /**** return All courses ****/
     public function indexCourse(int $user_id)
     {
-        // $user_id=3; // à refaire
 
         $cous = Document::with("sector", "user")->where(["user_id" => $user_id])->orderBy('id', 'desc')->get();
 
@@ -35,7 +34,7 @@ class ProfessorController extends Controller
                 "courseName" => $cou->title,
                 "description" => $cou->description,
                 "sector" => $cou->sector->name,
-                "file" =>"/storage/".$cou->file,
+                "file" => $cou->file ? Storage::url($cou->file) : null ,
                 "username" => $cou->user->username
             ];
 
@@ -52,7 +51,6 @@ class ProfessorController extends Controller
 
     public function storeCourse(CourseRequest $request, int $user_id)
     {
-        // $user_id = 5;  // à refaire
 
         $sector_id = Sector::where('name', $request->sector)->first()->id;
 
@@ -139,7 +137,6 @@ class ProfessorController extends Controller
 
     public function indexStudent(int $user_id)
     {
-        // $user_id = 3; // à refaire
 
         // selectioné le prof avec ses filières
         $user = User::with("sectors", "sectors.departement")->where('id', $user_id)->orderBy('id', 'desc')->first();
@@ -177,7 +174,6 @@ class ProfessorController extends Controller
 
     public function indexAnnouncement(int $user_id)
     {
-        // $user_id = 3; // à refaire
 
         $allAnnouncements = Announcement::where('user_id', $user_id)->with("sector")->orderBy('id', 'desc')->get();
 
@@ -202,7 +198,6 @@ class ProfessorController extends Controller
 
     public function storeAnnouncement(AnnouncementRequest $request, int $user_id)
     {
-        // $user_id = 3;  // à refaire
 
         $sector_id = Sector::where('name', $request->sector)->first()->id;
 
