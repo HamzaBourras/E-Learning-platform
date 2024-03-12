@@ -13,6 +13,7 @@ const StudentCourses = () => {
                 tabs={categories}
                 data={courses}
                 image={courseImage}
+                name="course"
             />
         </div>
     )

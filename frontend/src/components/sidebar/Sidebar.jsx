@@ -113,7 +113,7 @@ const Sidebar = ({ tabs, user }) => {
                                 <p className="font-semibold">{auth && auth.email}</p>
                             </DropdownItem>
                             <DropdownItem key="profile" textValue="My Profile">
-                                <Link to={`/auth/${user}/profile`} replace>My Profile</Link>
+                                <Link to={`/auth/${auth.role}/profile`} replace>My Profile</Link>
                             </DropdownItem>
                             <DropdownItem
                                 onClick={handleLogout}

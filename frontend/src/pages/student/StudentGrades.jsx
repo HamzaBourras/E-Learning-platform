@@ -1,6 +1,6 @@
 import { categories, grades } from "../../json/data"
 import gradeImage from '../../assets/images/grades.png'
-import result from '../../assets/images/quiz.png'
+import result from '../../assets/images/result.png'
 import StudentLayoutForm from './components/StudentLayoutForm';
 const StudentGrades = () => {
     return (
@@ -11,6 +11,7 @@ const StudentGrades = () => {
                 tabs={categories}
                 data={grades}
                 image={result}
+                name="grade"
             />
         </div>
     )

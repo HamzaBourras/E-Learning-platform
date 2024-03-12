@@ -47,7 +47,7 @@ const Tabs = [
         id: 7,
         name: "Meetings",
         icon: meeting,
-        path: "/auth/professor/meetings"
+        path: "/auth/professor/meeting"
     },
 
     
