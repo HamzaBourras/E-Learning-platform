@@ -19,7 +19,7 @@ const ProfessorLayout = () => {
     const reRender = useSelector((state) => state.professor.renderAction);
 
     const { data: studentsData, isLoading: studentsLoading, error: studentsError } = useFetch(`${PROFESSOR_STUDENTS_API}/${user.id}`, reRender);
-    const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useFetch(`${ALL_COURSES_API}/${user.id}`, reRender);
+    const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useFetch(`${ALL_COURSES_API}/${user.id}`, reRender, true);
     const { data: announcementsData, isLoading: announcementsLoading, error: announcementsError } = useFetch(`${ALL_ANNOUNCEMENTS_API}/${user.id}`, reRender);
     const { data: quizzesData, isLoading: quizzesLoading, error: quizzesError } = useFetch(`${ALL_QUIZZES_API}/${user.id}`, reRender);
 

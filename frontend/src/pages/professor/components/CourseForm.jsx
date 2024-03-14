@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 const CourseForm = ({ id }) => {
 
-    const courses = useSelector((state)=>state.professor.courses)
+    const courses = useSelector((state) => state.professor.courses)
     const user = JSON.parse(localStorage.getItem('user'));
 
     const method = id ? "put" : "post";
@@ -17,18 +17,25 @@ const CourseForm = ({ id }) => {
 
     const course = getArrayById(courses, 'id', id)[0]
 
-    
+
     const initialState = {
         'courseName': id ? course['courseName'] : '',
         'sector': id ? course['sector'] : '',
         'description': id ? course['description'] : '',
         'file': id ? course['file'] : {},
     }
+
     
     
     const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey, method, true, true)
     
-    
+    const handlePreviousCourse = () => {
+        const baseUrl = 'http://localhost:8000'; // Adjust the base URL accordingly
+        const fullUrl = `${baseUrl}${inputs['file']}`;
+
+        console.log(fullUrl);
+    };
+
     return (
         <div className="border border-dashed grid grid-cols-1 p-2 rounded space-y-2">
             {message && <Alert color='success' message={message} />}
@@ -72,9 +79,19 @@ const CourseForm = ({ id }) => {
                     />
                     {errors['file'] && <p className='text-xs text-pink-500'>{errors['file']}</p>}
                 </div>
-                <Button type='submit' variant='shadow' className='bg-foreground text-background'>
-                    {id ? 'Update' : 'Upload'} {isLoading && <Spinner color='default' />}
-                </Button>
+                <div className='space-x-3'>
+                    <Button type='submit' variant='shadow' className='bg-foreground text-background'>
+                        {id ? 'Update' : 'Upload'} {isLoading && <Spinner color='default' />}
+                    </Button>
+                    {id && (
+                        <a
+                            className='bg-blue-600 rounded-md py-2 px-2 text-white cursor-pointer'
+                            onClick={handlePreviousCourse}
+                        >
+                            View previous
+                        </a>
+                    )}
+                </div>
             </form>
 
 

@@ -1,5 +1,7 @@
-// ------------------------Login------------------------------------------------------
+// ------------------------Authentification------------------------------------------------------
 export const LOGIN_API = "http://127.0.0.1:8000/api/login"
+export const LOGOUT_API = "http://127.0.0.1:8000/api/logout"
+
 // ------------------------DIRECTOR---------------------------------------------------
 //------------PROFESSORS-------------------------------------
 export const ALL_PROFESSORS_API = "http://127.0.0.1:8000/api/auth/director/professor/index";
@@ -35,9 +37,6 @@ export const DELETE_DEPARTMENT_API = "http://127.0.0.1:8000/api/auth/director/de
 
 
 
-
-// ------------------------PROFESSOR---------------------------------------------------
-
 // --------------------------COURSE------------------------------------------------------
 export const ALL_COURSES_API = "http://127.0.0.1:8000/api/auth/professor/courses/index";
 export const STORE_COURSE_API = "http://127.0.0.1:8000/api/auth/professor/courses/store";
@@ -61,5 +60,19 @@ export const UPDATE_QUIZ_API = "http://127.0.0.1:8000/api/auth/professor/quizzes
 export const DELETE_QUIZ_API = "http://127.0.0.1:8000/api/auth/professor/quizzes/destroy"
 
 
+// ------------------------Student---------------------------------------------------
 
-export const LOGOUT_API = "http://127.0.0.1:8000/api/logout"
+
+
+
+
+
+
+
+
+
+
+
+
+
+

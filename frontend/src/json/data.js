@@ -1006,9 +1006,9 @@ const grades = [
         "categoryId": 1,
         "title": "Web",
         "grades": [
-            { "quizName": "Quiz 1", "grade": 85 },
-            { "quizName": "Quiz 4", "grade": 90 },
-            { "quizName": "Quiz 5", "grade": 88 }
+            { "quizName": "PHP", "grade": 85 },
+            { "quizName": "LARAVEL", "grade": 90 },
+            { "quizName": "JAVA", "grade": 88 }
         ]
     },
     {
@@ -1041,6 +1041,24 @@ const grades = [
     }
 ]
 
+const tasks = [
+    {
+        id:140,
+        taskName: 'Bernice Black',
+        description: "Lorem,c kdskds lew jsd lcs lfdsjie is djds ieij flsd "
+    },
+    {
+        id:23,
+        taskName: 'Emma Nunez',
+        description: "Lorem,c kdskds lew jsd lcs lfdsjie is djds ieij flsd "
+    },
+    {
+        id:110,
+        taskName: 'Norman Mullins',
+        description: "Lorem,c kdskds lew jsd lcs lfdsjie is djds ieij flsd "
+    },
+]
+
 export {
     director,
     departments,
@@ -1057,5 +1075,6 @@ export {
     announcements,
     appointments,
     categories,
-    grades
+    grades,
+    tasks
 };

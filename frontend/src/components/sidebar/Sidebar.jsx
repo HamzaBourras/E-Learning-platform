@@ -47,7 +47,7 @@ const Sidebar = ({ tabs, user }) => {
 
 
     return (
-        <nav className='fixed flex flex-col gap-3 items-center h-dvh xs:sm:w-20 md:lg:w-52 border-r-1'>
+        <nav className='fixed flex flex-col gap-3 items-center h-dvh xs:sm:w-20 md:lg:w-52 border-r-1 z-50'>
             {isLoading && <LoadingPage />}
             <div className="h-[10vh] grow-0 flex items-center justify-center px-8 my-3">
                 <Link

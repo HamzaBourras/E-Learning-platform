@@ -1,19 +1,21 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Button, Checkbox, ModalFooter, ModalHeader } from '@nextui-org/react'
+import { Button, Checkbox, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/react'
 import { quizzes } from '../../../json/data'
 import { getArrayById, shuffleArray } from '../../../utils/utils'
 import { ModalBody } from '@nextui-org/react';
 const StudentQuizForm = ({ id }) => {
 
+    const { onClose } = useDisclosure();
+
     const quiz = getArrayById(quizzes, "id", id)[0]
 
     return (
-        <div>
+        <div className='h-full flex flex-col'>
             <ModalHeader className='text-2xl'>
                 {quiz && quiz.quizName}
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className='flex-1'>
                 {quiz && quiz.questions && quiz.questions.map((question, index) => (
                     <div key={index}>
                         <p>
@@ -28,7 +30,7 @@ const StudentQuizForm = ({ id }) => {
                                             color='primary'
                                             size="md"
                                         />
-                                            {answer.answer}
+                                        {answer.answer}
                                     </div>
                                 </li>
                             ))}
@@ -36,6 +38,10 @@ const StudentQuizForm = ({ id }) => {
                     </div>
                 ))}
             </ModalBody>
+
+            <ModalFooter>
+                <Button className='bg-black text-white'>Submit</Button>
+            </ModalFooter>
         </div>
     )
 }

@@ -18,7 +18,7 @@ const StudentDashboard = () => {
     const someNotifications = announcements.slice(0, 5)
     const someCourses = courses.slice(3, 6)
 
-    const grades = [80, 85, 85, 61, 83, 78]
+    const grades = [60, 95, 85, 91, 33, 78]
     
 
     return (
