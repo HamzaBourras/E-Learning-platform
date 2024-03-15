@@ -293,7 +293,7 @@ class ProfessorController extends Controller
     {
         $sector_id = Sector::where('name', $request->sector)->first()->id;
 
-        Task::where(["id"=>$id, "user_id"=>$user_id])->update([
+        Task::where(["id" => $id, "user_id" => $user_id])->update([
             "taskName" => $request->taskName,
             "user_id" => $user_id,
             "sector_id" => $sector_id,
@@ -310,11 +310,33 @@ class ProfessorController extends Controller
     /**** delete a task ****/
     public function destroyTask(int $user_id, int $id)
     {
-        Task::where(["id"=>$id, "user_id"=>$user_id])->delete();
+        Task::where(["id" => $id, "user_id" => $user_id])->delete();
 
         return response()->json([
             "message" => "Task deleted successfully",
         ]);
+    }
+
+    /**** return all submissions of the task ****/
+    public function showTaskSubmissions(int $id)
+    {
+        $task = Task::with("submissions.user")->where('id',$id)->first();
+        $taskSubms = $task->submissions->sortByDesc('id');
+
+        $taskSubmissions = [];
+
+        foreach ($taskSubms as $taskSubm) {
+            $formatSubmission = [
+                "id" => $taskSubm->id,
+                "studentName" => $taskSubm->user->username,
+                "file" => $taskSubm->file ? Storage::url($taskSubm->file) : null,
+            ];
+            array_push($taskSubmissions, $formatSubmission);
+        }
+
+        return response()->json([
+            "data" => $taskSubmissions
+        ]); 
     }
 
 

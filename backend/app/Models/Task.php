@@ -21,4 +21,8 @@ class Task extends Model
     public function sector () {
         return $this->belongsTo(Sector::class);
     }
+
+    public function submissions () {
+        return $this->hasMany(Submission::class);
+    }
 }
