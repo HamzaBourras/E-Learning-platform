@@ -11,9 +11,9 @@ class StudentController extends Controller
 
     public function indexProfessor(int $user_id)
     {
-        $student = User::with("sector.user")->where('id', $user_id)->first();
+        $studentProf = User::with("sector.user")->where('id', $user_id)->first();  //all professor for student
 
-        $allProfessors = $student->sector->user->sortByDesc('id');
+        $allProfessors = $studentProf->sector->user->sortByDesc('id');
 
         $studProfessors = [];
 
@@ -35,9 +35,9 @@ class StudentController extends Controller
     /************ return latest 4 courses of the student ******************/
     public function indexCourse(int $user_id)
     {
-        $student = User::with("sector.documents")->where('id', $user_id)->first();
+        $studentCour = User::with("sector.documents")->where('id', $user_id)->first();
 
-        $latestCourses = $student->sector->documents->sortByDesc('id')->take(4);
+        $latestCourses = $studentCour->sector->documents->sortByDesc('id')->take(4);
 
         $studCourses = [];
 
@@ -52,6 +52,49 @@ class StudentController extends Controller
 
         return response()->json([
             "data" => $studCourses
+        ]);
+    }
+
+    /************ return all quizzes of the student ******************/
+    public function indexQuiz(int $user_id)
+    {
+        $allStudentQuiz = User::with("sector.qcms.questions.choices",)->where('id', $user_id)->first();  // all quizzes of the student
+
+        $studentQuizzes = [];
+
+        foreach ($allStudentQuiz->sector->qcms as $quizze) {
+            //refactor quizze
+            $formatQuizze = [
+                "id" => $quizze->id,
+                "quizName" => $quizze->title,
+                "sector" => $allStudentQuiz->sector->name,
+                "questions" => []
+            ];
+
+            foreach ($quizze->questions as $question) {
+                //refactor each question
+                $formatQuestion = [
+                    "id" => $question->id,
+                    "question" => $question->text,
+                    "answers" => []
+                ];
+
+                foreach ($question->choices as $choice) {
+                    //refactor each answer for the question
+                    $formatAnswer = [
+                        "id" => $choice->id,
+                        "answer" => $choice->text,
+                        "isCorrect" =>  $choice->tr_fl
+                    ];
+                    array_push($formatQuestion['answers'], $formatAnswer);  // add the answer in the table of answers of question
+                }
+                array_push($formatQuizze['questions'], $formatQuestion);  // add the question in the table of questions 
+            }
+            array_push($studentQuizzes, $formatQuizze);  // add quizze in the table of professor quizzes
+        }
+
+        return response()->json([
+            "data" => $studentQuizzes
         ]);
     }
 }
