@@ -9,16 +9,19 @@ use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Requests\CourseRequest;
 use App\Http\Requests\QcmRequest;
+use App\Http\Requests\TaskRequest;
 use App\Models\Announcement;
 use App\Models\Choice;
 use App\Models\Qcm;
 use App\Models\Question;
+use App\Models\Task;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Carbon;
 
 class ProfessorController extends Controller
 {
 
-    /*************** Course ***************/
+    /********************************** Course *************************************/
 
     /**** return All courses ****/
     public function indexCourse(int $user_id)
@@ -34,7 +37,7 @@ class ProfessorController extends Controller
                 "courseName" => $cou->title,
                 "description" => $cou->description,
                 "sector" => $cou->sector->name,
-                "file" => $cou->file ? Storage::url($cou->file) : null ,
+                "file" => $cou->file ? Storage::url($cou->file) : null,
                 "username" => $cou->user->username
             ];
 
@@ -48,7 +51,6 @@ class ProfessorController extends Controller
 
 
     /**** store a course ****/
-
     public function storeCourse(CourseRequest $request, int $user_id)
     {
 
@@ -77,7 +79,6 @@ class ProfessorController extends Controller
 
 
     /**** edit a course ****/
-
     public function editCourse(CourseRequest $request, int $user_id, int $id)
     {
 
@@ -119,7 +120,6 @@ class ProfessorController extends Controller
 
 
     /**** delete a course ****/
-
     public function destroyCourse(int $user_id, int $id)
     {
         Document::where(["id" => $id, "user_id" => $user_id])->delete();
@@ -131,10 +131,9 @@ class ProfessorController extends Controller
 
 
 
-    /**************** Student ***************/
+    /***************************************** Student ***************/
 
     /**** return All students of professor ****/
-
     public function indexStudent(int $user_id)
     {
 
@@ -168,10 +167,9 @@ class ProfessorController extends Controller
 
 
 
-    /**************** Announcement ***************/
+    /************************************* Announcement ************************************/
 
     /**** return All Announcements ****/
-
     public function indexAnnouncement(int $user_id)
     {
 
@@ -194,8 +192,8 @@ class ProfessorController extends Controller
         ];
     }
 
-    /**** store an Announcement ****/
 
+    /**** store an Announcement ****/
     public function storeAnnouncement(AnnouncementRequest $request, int $user_id)
     {
 
@@ -213,7 +211,6 @@ class ProfessorController extends Controller
     }
 
     /**** edit an Announcement ****/
-
     public function editAnnouncement(AnnouncementRequest $request, int $user_id, int $id)
     {
         $sector_id = Sector::where('name', $request->sector)->first()->id;
@@ -229,7 +226,6 @@ class ProfessorController extends Controller
     }
 
     /**** delete an Announcement ****/
-
     public function destroyAnnouncement(int $user_id, int $id)
     {
         Announcement::where(["id" => $id, "user_id" => $user_id])->delete();
@@ -240,10 +236,92 @@ class ProfessorController extends Controller
     }
 
 
-    /**************** Quizzes ***************/
+
+    /************************************* Tasks *************************************/
+
+    /**** return all tasks ****/
+    public function indexTask(int $user_id)
+    {
+
+        $alltasks = Task::with("sector")->where('user_id', $user_id)->orderBy('id', 'desc')->get();
+
+        $profTasks = [];
+        $dateActuel = Carbon::now();
+
+        foreach ($alltasks as $task) {
+            $dateDeadline = Carbon::createFromFormat('Y-m-d H:i:s', $task->deadline);
+
+            $formatTask = [
+                "id" => $task->id,
+                "taskName" => $task->taskName,
+                "description" => $task->description,
+                "sector" => $task->sector->name,
+                "differenceDateActuel" => $dateActuel->diff($dateDeadline)->days,  // le nombre de jours entre le deadline et la dateactuel
+                "deadline" => $task->deadline,
+            ];
+
+            array_push($profTasks, $formatTask);
+        }
+
+        return response()->json([
+            "data" => $profTasks
+        ]);
+    }
+
+
+    /**** store a task  *****/
+    public function storeTask(TaskRequest $request, int $user_id)
+    {
+        $sector_id = Sector::where('name', $request->sector)->first()->id;
+
+        Task::create([
+            "taskName" => $request->taskName,
+            "user_id" => $user_id,
+            "sector_id" => $sector_id,
+            "description" => $request->description,
+            "deadline" => $request->deadline
+        ]);
+
+        return response()->json([
+            "message" => "Task added successfully"
+        ]);
+    }
+
+
+    /**** edit a task ****/
+    public function editTask(TaskRequest $request, int $user_id, int $id)
+    {
+        $sector_id = Sector::where('name', $request->sector)->first()->id;
+
+        Task::where(["id"=>$id, "user_id"=>$user_id])->update([
+            "taskName" => $request->taskName,
+            "user_id" => $user_id,
+            "sector_id" => $sector_id,
+            "description" => $request->description,
+            "deadline" => $request->deadline
+        ]);
+
+        return response()->json([
+            "message" => "Task updated successfully",
+        ]);
+    }
+
+
+    /**** delete a task ****/
+    public function destroyTask(int $user_id, int $id)
+    {
+        Task::where(["id"=>$id, "user_id"=>$user_id])->delete();
+
+        return response()->json([
+            "message" => "Task deleted successfully",
+        ]);
+    }
+
+
+
+    /************************************* Quizzes *************************************/
 
     /**** return All Quizzes ****/
-
     public function indexQuizze(int $user_id)
     {
         // get all quizzes for professor with question and choices
@@ -288,7 +366,6 @@ class ProfessorController extends Controller
 
 
     /**** store a Quizze ****/
-
     public function storeQuizze(QcmRequest $request, int $user_id)
     {
 
@@ -319,8 +396,8 @@ class ProfessorController extends Controller
         ]);
     }
 
-    /**** edit a Quizze ****/
 
+    /**** edit a Quizze ****/
     public function editQuizze(QcmRequest $request, int $user_id, int $id)
     {
 
@@ -352,7 +429,6 @@ class ProfessorController extends Controller
     }
 
     /**** delete a Quizze ****/
-
     public function destroyQuizze(int $user_id, int $id)
     {
         Qcm::where(["user_id" => $user_id, "id" => $id])->delete();
