@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Input, Textarea, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
+import { Input, Textarea, Button, Spinner, Select, SelectItem, ModalBody } from '@nextui-org/react'
 import useForm from '../../../hooks/useForm';
 import Alert from '../../../components/Alert';
 import { getArrayById } from '../../../utils/utils';
@@ -28,16 +28,10 @@ const CourseForm = ({ id }) => {
     
     
     const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey, method, true, true)
-    
-    const handlePreviousCourse = () => {
-        const baseUrl = 'http://localhost:8000'; // Adjust the base URL accordingly
-        const fullUrl = `${baseUrl}${inputs['file']}`;
-
-        console.log(fullUrl);
-    };
 
     return (
-        <div className="border border-dashed grid grid-cols-1 p-2 rounded space-y-2">
+        <div>
+        <ModalBody className='flex-1'>
             {message && <Alert color='success' message={message} />}
             <form onSubmit={handleSubmit} className='space-y-1.5'>
                 <Input
@@ -83,16 +77,9 @@ const CourseForm = ({ id }) => {
                     <Button type='submit' variant='shadow' className='bg-foreground text-background'>
                         {id ? 'Update' : 'Upload'} {isLoading && <Spinner color='default' />}
                     </Button>
-                    {id && (
-                        <a
-                            className='bg-blue-600 rounded-md py-2 px-2 text-white cursor-pointer'
-                            onClick={handlePreviousCourse}
-                        >
-                            View previous
-                        </a>
-                    )}
                 </div>
             </form>
+            </ModalBody>
 
 
 

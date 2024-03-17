@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Modal, ModalContent, ModalHeader, ModalBody, Divider, ModalFooter, useDisclosure, ButtonGroup, Button, Tab, Tabs, Card, CardBody, Spinner } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Divider, ModalFooter, useDisclosure, ButtonGroup, Button, Tab, Tabs, Card, CardBody, Spinner, Chip } from "@nextui-org/react";
 import { useState } from 'react';
 import grid from '../../../assets/icons/gridSQ.svg'
 import list from '../../../assets/icons/grid_list.svg'
@@ -57,6 +57,9 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
 
             case "quiz":
                 setApiKey(`${DELETE_QUIZ_API}/${user.id}/${id}`)
+                break;
+            case "task":
+                // setApiKey(`${DELETE_QUIZ_API}/${user.id}/${id}`)
                 break;
 
             default:
@@ -151,8 +154,7 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                                     </div>
                                 }
                                 {!deleteClicked && (
-                                    <div>
-                                    </div>
+                                    <></>
                                 )}
 
                             </ModalFooter>
@@ -172,7 +174,9 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                     {sectors.map((sector, index) => (
                         <Tab
                             key={sector}
-                            title={sector}
+                            title={
+                                <span>{sector}</span>
+                            }
                         >
                         </Tab>
                     ))}

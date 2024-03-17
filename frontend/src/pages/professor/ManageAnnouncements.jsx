@@ -13,7 +13,13 @@ const ManageAnnouncements = () => {
 
     return (
         <div>
-            <FormLayoutWithGrid data={announcements} imageLogo={AnnounceImage} image={Ad} Component={AnnouncementForm} name="Announcement" />
+            <FormLayoutWithGrid 
+                data={announcements} 
+                imageLogo={AnnounceImage} 
+                image={Ad} 
+                Component={AnnouncementForm} 
+                name="Announcement"     
+            />
         </div>
     )
 }

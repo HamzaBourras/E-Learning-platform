@@ -1,10 +1,6 @@
 const ProfessorMeeting = () => {
-
-
-    return (
-        <div className="h-screen w-screen">
-            k
-        </div>
-    )
+  return (
+    <div>ProfessorMeeting</div>
+  )
 }
 export default ProfessorMeeting

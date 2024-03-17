@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Input, Button, Spinner, Select, SelectItem } from '@nextui-org/react'
+import { Input, Button, Spinner, Select, SelectItem, ModalFooter } from '@nextui-org/react'
 
 import useForm from '../../../hooks/useForm';
 import Alert from '../../../components/Alert';
@@ -55,7 +55,7 @@ const AnnouncementForm = ({ id }) => {
                     ))}
                 </Select>
 
-                <div className='grid grid-cols-2 gap-1'>
+                {/* <div className='grid grid-cols-2 gap-1'>
                     <Input
                         type='datetime-local'
                         variant='bordered'
@@ -70,11 +70,16 @@ const AnnouncementForm = ({ id }) => {
                         errorMessage={errors['announcementName']}
                         onChange={(e) => handleChange('announcementName', e.target.value)}
                     />
-                </div>
+                </div> */}
 
-                <Button type='submit' variant='shadow' className='bg-foreground text-background'>
-                    {id ? 'Update' : 'Submit'} {isLoading && <Spinner />}
-                </Button>
+                <ModalFooter>
+                    <Button
+                        type='submit'
+                        className='bg-foreground text-background'
+                        onClick={handleSubmit} disabled={isLoading}>
+                        {isLoading ? (<div className='flex items-center'><Spinner size='sm' color="default" /> {id ? 'updating ...' : 'creating ...'} </div>) : id ? 'Update' : 'Create'}
+                    </Button>
+                </ModalFooter>
             </form>
 
 

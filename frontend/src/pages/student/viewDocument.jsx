@@ -1,6 +1,4 @@
 
-import doc from '../../../public/test.pdf'
-
 const ViewDocument = () => {
     return (
         <div>

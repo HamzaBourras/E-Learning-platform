@@ -1,5 +1,5 @@
 import home from '../../assets/icons/home.svg';
-import tasks from '../../assets/icons/tasks.svg';
+import submission from '../../assets/icons/submission.png';
 import grade from '../../assets/icons/grade.svg';
 import books from '../../assets/icons/books.svg';
 import quizzes from '../../assets/icons/quizzes.svg';
@@ -33,8 +33,8 @@ const Tabs = [
     {
         id: 4,
         name: "Tasks",
-        icon: tasks,
-        path: "/auth/student/tasks"
+        icon: submission,
+        path: "/auth/student/submissions"
     },
     {
         id: 8,

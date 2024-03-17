@@ -147,7 +147,7 @@ const QuizCreator = ({ id }) => {
                             type='submit'
                             className='bg-foreground text-background'
                             onClick={handleSubmit} disabled={isLoading}>
-                            {isLoading ? (<div className='flex items-center gap-1'><Spinner size='sm' color="default" /> {id ? 'updating ...' : 'creating ...'} </div>) :  id ? 'Update quiz' : 'Submit quiz' }
+                            {isLoading ? (<div className='flex items-center gap-1'><Spinner size='sm' color="default" /> {id ? 'updating ...' : 'creating ...'} </div>) :  id ? 'Update' : 'Submit' }
                         </Button>
                     </div>
                 </form>

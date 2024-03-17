@@ -13,6 +13,7 @@
     "@devexpress/dx-react-core": "^4.0.8",
     "@devexpress/dx-react-scheduler": "^4.0.8",
     "@devexpress/dx-react-scheduler-material-ui": "^4.0.8",
+    "@jitsi/react-sdk": "^1.4.0",
     "@nextui-org/react": "^2.2.9",
     "@reduxjs/toolkit": "^2.1.0",
     "apexcharts": "^3.47.0",

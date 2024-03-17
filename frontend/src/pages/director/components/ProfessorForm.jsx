@@ -107,7 +107,7 @@ const ProfessorForm = ({ id }) => {
                     type='submit'
                     className="bg-foreground text-background mt-1"
                 >
-                    {isLoading ? (<div className='flex items-center gap-1'><Spinner color="default" /> Loading...</div>) : id ? 'Update' : 'Submit'}
+                    {isLoading ? (<div className='flex items-center gap-1'><Spinner color="default" /> Loading...</div>) : id ? 'Update' : 'Create'}
                 </Button>
 
             </form>

@@ -1045,16 +1045,19 @@ const tasks = [
     {
         id:140,
         taskName: 'Bernice Black',
+        sector: "GI",
         description: "Lorem,c kdskds lew jsd lcs lfdsjie is djds ieij flsd "
     },
     {
         id:23,
         taskName: 'Emma Nunez',
+        sector: "GI",
         description: "Lorem,c kdskds lew jsd lcs lfdsjie is djds ieij flsd "
     },
     {
         id:110,
         taskName: 'Norman Mullins',
+        sector: "IDSD",
         description: "Lorem,c kdskds lew jsd lcs lfdsjie is djds ieij flsd "
     },
 ]

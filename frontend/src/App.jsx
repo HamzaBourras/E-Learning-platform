@@ -26,7 +26,7 @@ import ManageCourses from './pages/professor/ManageCourses';
 import ManageMyStudents from './pages/professor/ManageMyStudents'
 import ManageAnnouncements from './pages/professor/ManageAnnouncements'
 import ManageQuizzes from './pages/professor/ManageQuizzes'
-import ManageSubmissions from './pages/professor/ManageSubmissions'
+import ManageSubmissions from './pages/professor/ManageTasks'
 import ProfessorProfile from './pages/professor/ProfessorProfile';
 
 // student pages
@@ -51,7 +51,7 @@ const App = () => {
           <Route path="student" element={<StudentLayout />} >
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<StudentDashboard />} />
-            <Route path="tasks" element={<StudentTasks />} />
+            <Route path="submissions" element={<StudentTasks />} />
             <Route path="courses" element={<StudentCourses />} />
             <Route path="quizzes" element={<StudentQuizzes/>} />
             <Route path="grades" element={<StudentGrades />} />
@@ -66,7 +66,7 @@ const App = () => {
             <Route path='my-students' element={<ManageMyStudents />} />
             <Route path='announcements' element={<ManageAnnouncements />} />
             <Route path='quizzes' element={<ManageQuizzes />} />
-            <Route path='submissions' element={<ManageSubmissions />} />
+            <Route path='tasks' element={<ManageSubmissions />} />
             <Route path="profile" element={<ProfessorProfile/>} />
             <Route path="meeting" element={<ProfessorMeeting/>} />
           </Route>

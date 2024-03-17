@@ -2,7 +2,8 @@
 export const LOGIN_API = "http://127.0.0.1:8000/api/login"
 export const LOGOUT_API = "http://127.0.0.1:8000/api/logout"
 
-// ------------------------DIRECTOR---------------------------------------------------
+// ****************************** DIRECTOR ****************************************************
+
 //------------PROFESSORS-------------------------------------
 export const ALL_PROFESSORS_API = "http://127.0.0.1:8000/api/auth/director/professor/index";
 export const STORE_PROFESSOR_API = "http://127.0.0.1:8000/api/auth/director/professor/store";
@@ -36,6 +37,7 @@ export const UPDATE_DEPARTMENT_API = "http://127.0.0.1:8000/api/auth/director/de
 export const DELETE_DEPARTMENT_API = "http://127.0.0.1:8000/api/auth/director/department/destroy";
 
 
+// ****************************** PROFESSOR ****************************************************
 
 // --------------------------COURSE------------------------------------------------------
 export const ALL_COURSES_API = "http://127.0.0.1:8000/api/auth/professor/courses/index";
@@ -60,7 +62,35 @@ export const UPDATE_QUIZ_API = "http://127.0.0.1:8000/api/auth/professor/quizzes
 export const DELETE_QUIZ_API = "http://127.0.0.1:8000/api/auth/professor/quizzes/destroy"
 
 
-// ------------------------Student---------------------------------------------------
+// -----------------------------TASKS---------------------------------------------------
+export const ALL_TASKS_API = "http://127.0.0.1:8000/api/auth/professor/tasks/index"
+export const STORE_TASK_API = "http://127.0.0.1:8000/api/auth/professor/tasks/store"
+export const UPDATE_TASK_API = "http://127.0.0.1:8000/api/auth/professor/tasks/edit"
+export const DELETE_TASK_API = "http://127.0.0.1:8000/api/auth/professor/tasks/destroy"
+
+
+// ****************************** STUDENT ****************************************************
+
+// -----------------------------SUBMISSIONS---------------------------------------------------
+export const ALL_SUBMISSIONS_API = "http://127.0.0.1:8000/api/auth/student/submissions/index"
+export const STORE_SUBMISSION_API = "http://127.0.0.1:8000/api/auth/student/submissions/store"
+export const UPDATE_SUBMISSION_API = "http://127.0.0.1:8000/api/auth/student/submissions/edit"
+export const DELETE_SUBMISSION_API = "http://127.0.0.1:8000/api/auth/student/submissions/destroy"
+
+
+// -----------------------------COURSES---------------------------------------------------
+export const STUDENT_COURSES_API = "http://127.0.0.1:8000/api/auth/student/courses/index"
+
+// -----------------------------GRADES---------------------------------------------------
+export const STUDENT_GRADES_API = "http://127.0.0.1:8000/api/auth/student/grades/index"
+
+// -----------------------------QUIZZES---------------------------------------------------
+export const ALL_STUDENT_QUIZZES_API = "http://127.0.0.1:8000/api/auth/student/quizzes/index"
+
+// -----------------------------SUBMISSIONS---------------------------------------------------
+export const SUBMIT_STUDENT_QUIZ = "http://127.0.0.1:8000/api/auth/student/quizzes/edit"
+
+
 
 
 
