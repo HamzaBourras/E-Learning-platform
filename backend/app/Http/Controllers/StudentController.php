@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
-    /************ return all professors of the student ******************/
 
+    /************ return all professors of the student ******************/
     public function indexProfessor(int $user_id)
     {
         $studentProf = User::with("sector.user")->where('id', $user_id)->first();  //all professor for student
@@ -32,19 +34,21 @@ class StudentController extends Controller
         ]);
     }
 
-    /************ return latest 4 courses of the student ******************/
+
+    /************ return all courses of the student ******************/
     public function indexCourse(int $user_id)
     {
         $studentCour = User::with("sector.documents")->where('id', $user_id)->first();
 
-        $latestCourses = $studentCour->sector->documents->sortByDesc('id')->take(4);
+        $latestCourses = $studentCour->sector->documents->sortByDesc('id');
 
         $studCourses = [];
 
         foreach ($latestCourses as $cour) {
             $formatCourse = [
                 "id" => $cour->id,
-                "courseName" => $cour->title
+                "courseName" => $cour->title,
+                "file" => $cour->file ? Storage::url($cour->file) : null,
             ];
 
             array_push($studCourses, $formatCourse);
@@ -95,6 +99,21 @@ class StudentController extends Controller
 
         return response()->json([
             "data" => $studentQuizzes
+        ]);
+    }
+
+
+    /************ Submissions ******************/
+
+    /**** return all tasks for the student ****/
+    public function indexStudentTasks(int $user_id)
+    {
+        $currentDate = Carbon::now();
+        
+        $studentTasks = User::with("sector.tasks")->where('id',$user_id)->whereDate('deadline', '>', $currentDate)->get();
+
+        return response()->json([
+            "data" => $studentTasks
         ]);
     }
 }
