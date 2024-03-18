@@ -23,6 +23,8 @@ class StudentController extends Controller
             $formatProfessor = [
                 "id" => $prof->id,
                 "username" => $prof->username,
+                "firstname" => $prof->firstName,
+                "lastname" => $prof->lastName,
                 "email" => $prof->email
             ];
 
