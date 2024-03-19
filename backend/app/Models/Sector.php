@@ -18,6 +18,10 @@ class Sector extends Model
         return $this->belongsTo(Departement::class);
     }
 
+    public function tasks () {
+        return $this->hasMany(Task::class);
+    }
+
     //if user is a professor 
     public function user()
     {
@@ -30,7 +34,12 @@ class Sector extends Model
         return $this->hasMany(User::class);
     }
 
+
     public function documents () {
         return $this->hasMany(Document::class);
+    }
+
+    public function qcms () {
+        return $this->hasMany(Qcm::class);
     }
 }

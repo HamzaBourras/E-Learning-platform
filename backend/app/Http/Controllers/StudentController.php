@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubmissionRequest;
+use App\Models\Submission;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -61,6 +63,7 @@ class StudentController extends Controller
         ]);
     }
 
+
     /************ return all quizzes of the student ******************/
     public function indexQuiz(int $user_id)
     {
@@ -110,12 +113,86 @@ class StudentController extends Controller
     /**** return all tasks for the student ****/
     public function indexStudentTasks(int $user_id)
     {
-        $currentDate = Carbon::now();
-        
-        $studentTasks = User::with("sector.tasks")->where('id',$user_id)->whereDate('deadline', '>', $currentDate)->get();
+        $currentD = Carbon::now();
+        $currentDate = date('Y-m-d H:i:s', strtotime($currentD));
+
+        $studentTa = User::with(['sector.tasks' => function ($query) use ($currentDate) {
+            $query->where('deadline', '>=', $currentDate);
+        }])
+            ->where('id', $user_id)
+            ->first();
+
+        $studentTasks = [];
+
+        foreach($studentTa->sector->tasks as $task) {
+            $formatTask = [
+                "id" => $task->id,
+                "taskName" => $task->taskName,
+                "description" => $task->description,
+                "deadline" => $task->deadline
+            ];
+
+            array_push($studentTasks, $formatTask);
+        }
 
         return response()->json([
             "data" => $studentTasks
         ]);
     }
+
+
+    /**** return the submissions for a task ****/
+    public function indexSubmission(int $user_id, int $id) {
+        $taskSub = Submission::where(["user_id" => $user_id, "id" => $id])->first();
+
+        $taskSubmission = [
+            "id" => $taskSub->id,
+            "file" => $taskSub->file ? Storage::url($taskSub->file) : null
+        ];
+
+        return response()->json([
+            "data" => $taskSubmission
+        ]);
+    }
+
+
+    /**** store a submission for a task ****/
+    public function storeSubmission(SubmissionRequest $request, int $user_id, int $id) 
+    {
+        Submission::create([
+            "task_id" => $id,
+            "user_id" => $user_id,
+            "file" => $request->file
+        ]);
+
+        return response()->json([
+            "message" => "submission added successfully"
+        ]);
+    }
+
+
+    /**** edit a submission for a task ****/
+    public function editSubmission(SubmissionRequest $request, int $user_id, int $id, int $submission_id) 
+    {
+        Submission::where(["user_id" => $user_id, "task_id" => $id, "id" => $submission_id])->update([
+            "file" => $request->file
+        ]);
+
+        return response()->json([
+            "message" => "submission updated successfully"
+        ]);  
+    }
+
+
+    /**** destroy a submission for a task ****/
+    public function destroySubmission(SubmissionRequest $request, int $user_id, int $id, int $submission_id)
+    {
+        Submission::where(["user_id" => $user_id, "task_id" => $id, "id" => $submission_id])->delete();
+
+        return response()->json([
+            "message" => "submission deleted successfully"
+        ]);  
+    }
+
+
 }

@@ -47,14 +47,16 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function role () {
+    public function role()
+    {
         return $this->belongsTo(Role::class);
     }
 
 
     // if user is a professor
 
-    public function departement () {
+    public function departement()
+    {
         return $this->belongsTo(Departement::class);
     }
 
@@ -63,8 +65,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Sector::class, 'sectors_users', 'users_id', 'sectors_id');
     }
 
-    public function qcms () {
+    public function qcms()
+    {
         return $this->hasMany(Qcm::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 
     // if user is a student
@@ -73,7 +81,8 @@ class User extends Authenticatable
         return $this->belongsTo(Sector::class);
     }
 
-
-
-    
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
+    }
 }

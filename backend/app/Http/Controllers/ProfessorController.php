@@ -295,7 +295,6 @@ class ProfessorController extends Controller
 
         Task::where(["id" => $id, "user_id" => $user_id])->update([
             "taskName" => $request->taskName,
-            "user_id" => $user_id,
             "sector_id" => $sector_id,
             "description" => $request->description,
             "deadline" => $request->deadline
