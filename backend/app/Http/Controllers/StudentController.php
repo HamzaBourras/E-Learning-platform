@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\QcmRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\SubmissionRequest;
+use App\Models\Note;
 
 class StudentController extends Controller
 {
@@ -66,6 +67,7 @@ class StudentController extends Controller
     }
 
 
+
     /*************** Quizzes ***************/
 
     /**** return all quizzes of the student ****/
@@ -99,7 +101,7 @@ class StudentController extends Controller
                     $formatAnswer = [
                         "id" => $choice->id,
                         "answer" => $choice->text,
-                        "isCorrect" =>  $choice->tr_fl
+                        "isCorrect" => false
                     ];
                     array_push($formatQuestion['answers'], $formatAnswer);  // add the answer in the table of answers of question
                 }
@@ -113,6 +115,81 @@ class StudentController extends Controller
         ]);
     }
 
+
+    /**** calcul note for a qcm ****/
+    public function storeQuizNote(QcmRequest $request, int $user_id, int $quiz_id)
+    {
+        $studentQuiz = $request->all();
+        $dataBaseQuiz = Qcm::with("questions.choices")->where("id", $quiz_id)->first();
+
+        $studentNote = 0;
+        $allQuestions = [];
+        $reponsesCommuns = [];
+
+        // reformater les reponses des étudiants
+        foreach ($studentQuiz['questions'] as $studQuestion) {
+                $sFormatQues = [
+                    "questionId" => $studQuestion['id'],
+                    "questionNote" => $studQuestion['note'],
+                    "answers" => []
+                ];
+            foreach ($studQuestion['answers'] as $studAnswers) {
+                $sFormatAnsw = [
+                    "answersId" => $studAnswers['id'],
+                    "answerIsCorrect" => $studAnswers['isCorrect'],
+                ];
+
+                array_push($sFormatQues['answers'], $sFormatAnsw);
+            }
+            
+            $allQuestions[] = $sFormatQues;
+        }
+
+        // reformater les reponses qui est dans la base de données
+        foreach ($dataBaseQuiz['questions'] as $dataBaseQuestion) {
+                $dFormatQues = [
+                    "questionId" => $dataBaseQuestion['id'],
+                    "questionNote" => $dataBaseQuestion['note'],
+                    "answers" => []
+                ];
+            foreach ($dataBaseQuestion['choices'] as $dataBaseAnswers) {
+                $dFormatAnsw = [
+                    "answersId" => $dataBaseAnswers['id'],
+                    "answerIsCorrect" => $dataBaseAnswers['tr_fl']
+                ];
+
+                array_push($dFormatQues['answers'], $dFormatAnsw);
+            }
+            
+            $allQuestions[] = $dFormatQues;
+        }
+
+        // selectioner les reponses corrects des étudiants
+        for($i = 0; $i < count($allQuestions); $i++) {
+            for($j = $i+1; $j < count($allQuestions); $j++) {
+                if($allQuestions[$i] == $allQuestions[$j]) {
+                    $reponsesCommuns[] = $allQuestions[$i];
+                    break;
+                }
+            }
+        }
+
+        // calculer la note d'étudiant
+        foreach ($reponsesCommuns as $reponse) {
+            $studentNote += $reponse['questionNote'];
+        }
+
+        // inserer la note dans la base de données
+        Note::create([
+            "user_id" => $user_id,
+            "qcm_id" => $quiz_id,
+            "note" => $studentNote
+        ]);
+
+        return response()->json([
+            "message" => "quiz submitted successfully"
+        ]);
+    }
 
 
 
@@ -202,4 +279,12 @@ class StudentController extends Controller
             "message" => "submission deleted successfully"
         ]);
     }
+
+
+
+    /*********** return all grades of the students ***********/
+
+
+
+
 }
