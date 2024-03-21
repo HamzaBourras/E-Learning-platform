@@ -283,7 +283,25 @@ class StudentController extends Controller
 
 
     /*********** return all grades of the students ***********/
+    /**** return all grades ****/
+    public function indexGrade (int $student_id) {
+        $allGrades = Note::with("qcm")->where("user_id",$student_id)->get();
 
+        $studentGrades = [];
+
+        foreach($allGrades as $grade) {
+            $formatGrade = [
+                "quizName" => strtoupper($grade->qcm->title),
+                "grade" => $grade->note
+            ];
+            array_push($studentGrades, $formatGrade);
+        }
+
+
+        return response()->json([
+            "data" => $studentGrades
+        ]);
+    }
 
 
 

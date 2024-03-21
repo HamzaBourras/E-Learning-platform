@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 /********************** Authentification **********************/
 
 Route::post("/login", [AuthentificationController::class, "login"])->name("login");
-Route::post("/logout",[AuthentificationController::class, "logout"])->name("logout")->middleware("auth.token");
+Route::post("/logout", [AuthentificationController::class, "logout"])->name("logout")->middleware("auth.token");
 
 
 
@@ -98,11 +98,11 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
 
     //--------- - --- Tasks -----------------------
     Route::prefix("tasks/")->name("tasks.")->group(function () {
-        Route::get("index/{user_id}","indexTask")->where(["user_id" => "[0-9]+"])->name("indexTask");
-        Route::post("store/{user_id}","storeTask")->where(["user_id" => "[0-9]+"])->name("storeTask");
-        Route::put("edit/{user_id}/{id}","editTask")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("editTask");
-        Route::delete("destroy/{user_id}/{id}","destroyTask")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("destroyTask");
-        Route::get("show/{id}","showTaskSubmissions")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("showTaskSubmissions");
+        Route::get("index/{user_id}", "indexTask")->where(["user_id" => "[0-9]+"])->name("indexTask");
+        Route::post("store/{user_id}", "storeTask")->where(["user_id" => "[0-9]+"])->name("storeTask");
+        Route::put("edit/{user_id}/{id}", "editTask")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("editTask");
+        Route::delete("destroy/{user_id}/{id}", "destroyTask")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("destroyTask");
+        Route::get("show/{id}", "showTaskSubmissions")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("showTaskSubmissions");
     });
 
 
@@ -123,29 +123,30 @@ Route::prefix("auth/student")->controller(StudentController::class)->name("stude
 
     //--------------- professors -----------------------
     Route::prefix("professors/")->name("professor.")->group(function () {
-        Route::get("index/{user_id}","indexProfessor")->where(["user_id" => "[0-9]+"])->name("indexProfessor");
+        Route::get("index/{user_id}", "indexProfessor")->where(["user_id" => "[0-9]+"])->name("indexProfessor");
     });
 
     //--------------- coursess -----------------------
     Route::prefix("courses/")->name("course.")->group(function () {
-        Route::get("index/{user_id}","indexCourse")->where(["user_id" => "[0-9]+"])->name("indexCourse");
+        Route::get("index/{user_id}", "indexCourse")->where(["user_id" => "[0-9]+"])->name("indexCourse");
     });
 
     //--------------- quizzes -----------------------
     Route::prefix("quizzes/")->name("quize")->group(function () {
-        Route::get("index/{user_id}","indexQuiz")->where(["user_id" => "[0-9]+"])->name("indexQuiz");
-        Route::post("store/{user_id}/{quiz_id}","storeQuizNote")->where(["user_id" => "[0-9]+", "quiz_id" => "[0-9]+"])->name("storeQuizNote");
+        Route::get("index/{user_id}", "indexQuiz")->where(["user_id" => "[0-9]+"])->name("indexQuiz");
+        Route::post("store/{user_id}/{quiz_id}", "storeQuizNote")->where(["user_id" => "[0-9]+", "quiz_id" => "[0-9]+"])->name("storeQuizNote");
     });
 
     //--------------- Submissions -----------------------
-    Route::prefix("submissions/")->name("submission")->group(function (){
-        Route::get("indexTasks/{user_id}","indexStudentTasks")->where(["user_id" => "[0-9]+"])->name("indexStudentTasks");
-        Route::get("index/{user_id}/{id}","indexSubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("indexSubmission");
-        Route::post("store/{user_id}/{id}","storeSubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("storeSubmission");
-        Route::put("edit/{user_id}/{id}/{submission_id}","editSubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+", "submission_id" => "[0-9]+"])->name("editSubmission");
-        Route::delete("destroy/{user_id}/{id}/{submission_id}","destroySubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+", "submission_id" => "[0-9]+"])->name("destroySubmission");
+    Route::prefix("submissions/")->name("submission")->group(function () {
+        Route::get("indexTasks/{user_id}", "indexStudentTasks")->where(["user_id" => "[0-9]+"])->name("indexStudentTasks");
+        Route::get("index/{user_id}/{id}", "indexSubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("indexSubmission");
+        Route::post("store/{user_id}/{id}", "storeSubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("storeSubmission");
+        Route::put("edit/{user_id}/{id}/{submission_id}", "editSubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+", "submission_id" => "[0-9]+"])->name("editSubmission");
+        Route::delete("destroy/{user_id}/{id}/{submission_id}", "destroySubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+", "submission_id" => "[0-9]+"])->name("destroySubmission");
     });
 
 
+    //--------------- Grades -----------------------
+    Route::get("grades/index/{student_id}", "indexGrade")->where(["student_id" => "[0-9]+"])->name("indexGrade");
 });
-

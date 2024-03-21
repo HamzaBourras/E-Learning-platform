@@ -14,4 +14,8 @@ class Note extends Model
         "qcm_id",
         "note"
     ];
+
+    public function qcm () {
+        return $this->belongsTo(Qcm::class);
+    }
 }
