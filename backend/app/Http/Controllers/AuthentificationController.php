@@ -62,7 +62,6 @@ class AuthentificationController extends Controller
 
     }
 
-
     /******************** logout *****************/
 
     public function logout()

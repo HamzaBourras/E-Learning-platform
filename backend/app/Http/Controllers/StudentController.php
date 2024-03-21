@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SubmissionRequest;
-use App\Models\Submission;
 use Carbon\Carbon;
+use App\Models\Qcm;
 use App\Models\User;
+use App\Models\Submission;
 use Illuminate\Http\Request;
+use App\Http\Requests\QcmRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\SubmissionRequest;
 
 class StudentController extends Controller
 {
@@ -64,7 +66,9 @@ class StudentController extends Controller
     }
 
 
-    /************ return all quizzes of the student ******************/
+    /*************** Quizzes ***************/
+
+    /**** return all quizzes of the student ****/
     public function indexQuiz(int $user_id)
     {
         $allStudentQuiz = User::with("sector.qcms.questions.choices",)->where('id', $user_id)->first();  // all quizzes of the student
@@ -76,6 +80,7 @@ class StudentController extends Controller
             $formatQuizze = [
                 "id" => $quizze->id,
                 "quizName" => $quizze->title,
+                "noteTotale" => $quizze->noteTotale,
                 "sector" => $allStudentQuiz->sector->name,
                 "questions" => []
             ];
@@ -85,6 +90,7 @@ class StudentController extends Controller
                 $formatQuestion = [
                     "id" => $question->id,
                     "question" => $question->text,
+                    "note" => $question->note,
                     "answers" => []
                 ];
 
@@ -108,6 +114,8 @@ class StudentController extends Controller
     }
 
 
+
+
     /************ Submissions ******************/
 
     /**** return all tasks for the student ****/
@@ -124,7 +132,7 @@ class StudentController extends Controller
 
         $studentTasks = [];
 
-        foreach($studentTa->sector->tasks as $task) {
+        foreach ($studentTa->sector->tasks as $task) {
             $formatTask = [
                 "id" => $task->id,
                 "taskName" => $task->taskName,
@@ -142,7 +150,8 @@ class StudentController extends Controller
 
 
     /**** return the submissions for a task ****/
-    public function indexSubmission(int $user_id, int $id) {
+    public function indexSubmission(int $user_id, int $id)
+    {
         $taskSub = Submission::where(["user_id" => $user_id, "id" => $id])->first();
 
         $taskSubmission = [
@@ -157,7 +166,7 @@ class StudentController extends Controller
 
 
     /**** store a submission for a task ****/
-    public function storeSubmission(SubmissionRequest $request, int $user_id, int $id) 
+    public function storeSubmission(SubmissionRequest $request, int $user_id, int $id)
     {
         Submission::create([
             "task_id" => $id,
@@ -172,7 +181,7 @@ class StudentController extends Controller
 
 
     /**** edit a submission for a task ****/
-    public function editSubmission(SubmissionRequest $request, int $user_id, int $id, int $submission_id) 
+    public function editSubmission(SubmissionRequest $request, int $user_id, int $id, int $submission_id)
     {
         Submission::where(["user_id" => $user_id, "task_id" => $id, "id" => $submission_id])->update([
             "file" => $request->file
@@ -180,7 +189,7 @@ class StudentController extends Controller
 
         return response()->json([
             "message" => "submission updated successfully"
-        ]);  
+        ]);
     }
 
 
@@ -191,8 +200,6 @@ class StudentController extends Controller
 
         return response()->json([
             "message" => "submission deleted successfully"
-        ]);  
+        ]);
     }
-
-
 }

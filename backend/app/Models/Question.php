@@ -11,7 +11,8 @@ class Question extends Model
 
     protected $fillable = [
         "text",
-        "qcm_id"
+        "qcm_id",
+        "note"
     ];
 
     public function choices () {

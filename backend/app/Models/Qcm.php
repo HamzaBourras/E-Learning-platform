@@ -12,7 +12,8 @@ class Qcm extends Model
     protected $fillable = [
         "title",
         "user_id",
-        "sector_id"
+        "sector_id",
+        "noteTotale"
     ];
 
     public function sector () {

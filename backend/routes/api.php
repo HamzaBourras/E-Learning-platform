@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 /********************** Authentification **********************/
 
 Route::post("/login", [AuthentificationController::class, "login"])->name("login");
-Route::post("/logout",[AuthentificationController::class, "logout"])->name("logout");
+Route::post("/logout",[AuthentificationController::class, "logout"])->name("logout")->middleware("auth.token");
 
 
 
@@ -72,7 +72,7 @@ Route::prefix("auth/director/")->middleware("auth.token")->controller(DirectorCo
 
 /********************** Professor management *************************/
 
-Route::prefix("auth/professor/")->middleware("auth.token")->controller(ProfessorController::class)->name("professor.")->group(function () {
+Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("professor.")->group(function () {
 
     //--------- - --- courses -----------------------
     Route::prefix("courses/")->name("courses.")->group(function () {
@@ -134,6 +134,7 @@ Route::prefix("auth/student")->controller(StudentController::class)->name("stude
     //--------------- quizzes -----------------------
     Route::prefix("quizzes/")->name("quize")->group(function () {
         Route::get("index/{user_id}","indexQuiz")->where(["user_id" => "[0-9]+"])->name("indexQuiz");
+        Route::post("store/{user_id}/{quiz_id}","storeQuizNote")->where(["user_id" => "[0-9]+", "quiz_id" => "[0-9]+"])->name("storeQuizNote");
     });
 
     //--------------- Submissions -----------------------
@@ -141,7 +142,7 @@ Route::prefix("auth/student")->controller(StudentController::class)->name("stude
         Route::get("indexTasks/{user_id}","indexStudentTasks")->where(["user_id" => "[0-9]+"])->name("indexStudentTasks");
         Route::get("index/{user_id}/{id}","indexSubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("indexSubmission");
         Route::post("store/{user_id}/{id}","storeSubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("storeSubmission");
-        Route::edit("edit/{user_id}/{id}/{submission_id}","editSubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+", "submission_id" => "[0-9]+"])->name("editSubmission");
+        Route::put("edit/{user_id}/{id}/{submission_id}","editSubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+", "submission_id" => "[0-9]+"])->name("editSubmission");
         Route::delete("destroy/{user_id}/{id}/{submission_id}","destroySubmission")->where(["user_id" => "[0-9]+", "id" => "[0-9]+", "submission_id" => "[0-9]+"])->name("destroySubmission");
     });
 

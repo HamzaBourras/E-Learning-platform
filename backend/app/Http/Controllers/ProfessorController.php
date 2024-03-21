@@ -355,6 +355,7 @@ class ProfessorController extends Controller
             $formatQuizze = [
                 "id" => $quizze->id,
                 "quizName" => $quizze->title,
+                "noteTotale" => $quizze->noteTotale,
                 "sector" => $quizze->sector->name,
                 "questions" => []
             ];
@@ -363,6 +364,7 @@ class ProfessorController extends Controller
                 $formatQuestion = [
                     "id" => $question->id,
                     "question" => $question->text,
+                    "note" => $question->note,
                     "answers" => []
                 ];
 
@@ -389,17 +391,24 @@ class ProfessorController extends Controller
     /**** store a Quizze ****/
     public function storeQuizze(QcmRequest $request, int $user_id)
     {
-
         $sector_id = Sector::where('name', $request->sector)->first()->id;
+        $quizNoteTotale = 0;
+
+        foreach ($request->questions as $question) {
+            $quizNoteTotale += $question['note']; // Ajouter la note de la question à la note totale du Qcm
+        }
+
         $qcmCree = Qcm::create([
             "title" => $request->quizName,
             "user_id" => $user_id,
-            "sector_id" => $sector_id
+            "sector_id" => $sector_id,
+            "noteTotale" => $quizNoteTotale
         ]);
 
         foreach ($request->questions as $question) {
             $questionCree = Question::create([
                 "text" => $question['question'],
+                "note" => $question['note'],
                 "qcm_id" => $qcmCree->id
             ]);
 
@@ -412,6 +421,8 @@ class ProfessorController extends Controller
             }
         }
 
+
+
         return response()->json([
             "message" => "Quizze added successfully"
         ]);
@@ -423,15 +434,23 @@ class ProfessorController extends Controller
     {
 
         $sector_id = Sector::where('name', $request->sector)->first()->id;
+        $quizNoteTotale = 0;
+
+        foreach ($request->questions as $question) {
+            $quizNoteTotale += $question['note']; // Ajouter la note de la question à la note totale du Qcm
+        }
+
         Qcm::where(["user_id" => $user_id, "id" => $id])->update([
             "title" => $request->quizName,
-            "sector_id" => $sector_id
+            "sector_id" => $sector_id,
+            "noteTotale" => $quizNoteTotale
         ]);
 
 
         foreach ($request->questions as $question) {
             Question::where(["qcm_id" => $id, "id" => $question['id']])->update([
                 "text" => $question['question'],
+                "note" => $question['note']
             ]);
 
             // $questionModifie = Question::where(["qcm_id" => $id, "id" => $question->id])->first();

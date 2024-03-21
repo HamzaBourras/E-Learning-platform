@@ -26,6 +26,7 @@ class QcmRequest extends FormRequest
             "sector" => "required",
             "questions" => "required",
             "questions.*.question" => "required",
+            "questions.*.note" => "required",
             "questions.*.answers" => "required",
             "questions.*.answers.*.answer" => "required",
             "questions.*.answers.*.isCorrect" => "required",
