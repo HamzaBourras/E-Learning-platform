@@ -325,7 +325,8 @@ class ProfessorController extends Controller
         foreach ($taskSubms as $taskSubm) {
             $formatSubmission = [
                 "id" => $taskSubm->id,
-                "studentName" => $taskSubm->user->username,
+                "firstName" => $taskSubm->user->firstName,
+                "lastName" => $taskSubm->user->lastName,
                 "file" => $taskSubm->file ? Storage::url($taskSubm->file) : null,
             ];
             array_push($taskSubmissions, $formatSubmission);
@@ -484,8 +485,8 @@ class ProfessorController extends Controller
 
         foreach($quizNotes as $note) {
             $formatQuizStudent = [
-                "studentFirstName" => $note->user->firstName,
-                "studentLastName" => $note->user->lastName,
+                "firstName" => $note->user->firstName,
+                "lastName" => $note->user->lastName,
                 "studentNote" => $note->note
             ];
 
