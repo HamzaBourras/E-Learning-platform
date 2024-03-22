@@ -172,11 +172,12 @@ class StudentController extends Controller
         $currentD = Carbon::now();
         $currentDate = date('Y-m-d H:i:s', strtotime($currentD));
 
+
         $studentTa = User::with(['sector.tasks' => function ($query) use ($currentDate) {
             $query->where('deadline', '>=', $currentDate);
-        }])
-            ->where('id', $user_id)
-            ->first();
+        }])->where('id', $user_id)->first();
+
+        $submittedTasksIds = Submission::where("user_id", $user_id)->pluck("task_id")->toArray();
 
         $studentTasks = [];
 
@@ -185,14 +186,16 @@ class StudentController extends Controller
                 "id" => $task->id,
                 "taskName" => $task->taskName,
                 "description" => $task->description,
-                "deadline" => $task->deadline
+                "deadline" => $task->deadline,
+                "submitted" => in_array($task->id, $submittedTasksIds) ? true : false
             ];
 
             array_push($studentTasks, $formatTask);
         }
 
         return response()->json([
-            "data" => $studentTasks
+            "data" => $studentTasks,
+            "dd" => $submittedTasksIds
         ]);
     }
 
