@@ -102,7 +102,7 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
         Route::post("store/{user_id}", "storeTask")->where(["user_id" => "[0-9]+"])->name("storeTask");
         Route::put("edit/{user_id}/{id}", "editTask")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("editTask");
         Route::delete("destroy/{user_id}/{id}", "destroyTask")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("destroyTask");
-        Route::get("show/{id}", "showTaskSubmissions")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("showTaskSubmissions");
+        Route::get("show/{id}", "showTaskSubmissions")->where(["id" => "[0-9]+"])->name("showTaskSubmissions");
     });
 
 
@@ -112,6 +112,7 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
         Route::post("store/{user_id}", "storeQuizze")->where(["user_id" => "[0-9]+"])->name("storeQuizze");
         Route::put("edit/{user_id}/{id}", "editQuizze")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("editQuizze");
         Route::delete("destroy/{user_id}/{id}", "destroyQuizze")->where(["user_id" => "[0-9]+", "id" => "[0-9]+"])->name("destroyQuizze");
+        Route::get("show/{quiz_id}","showQuizStudents")->where(["id" => "[0-9]+"])->name("showQuizStudents");
     });
 });
 
