@@ -170,7 +170,15 @@ class StudentController extends Controller
 
         // selectioner les reponses corrects des étudiants
         for($i = 0; $i < count($allQuestions); $i++) {
+            usort($allQuestions[$i]['answers'], function ($a, $b) {
+                return $a['answersId'] <=> $b['answersId'];
+            });
+
             for($j = $i+1; $j < count($allQuestions); $j++) {
+                usort($allQuestions[$j]['answers'], function ($a, $b) {
+                    return $a['answersId'] <=> $b['answersId'];
+                });
+
                 if($allQuestions[$i] == $allQuestions[$j]) {
                     $reponsesCommuns[] = $allQuestions[$i];
                     break;
@@ -191,7 +199,7 @@ class StudentController extends Controller
         ]);
 
         return response()->json([
-            "message" => "quiz submitted successfully"
+            "message" => "quiz submitted successfully",
         ]);
     }
 
