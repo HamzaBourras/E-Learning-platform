@@ -74,11 +74,13 @@ class StudentController extends Controller
     public function indexQuiz(int $user_id)
     {
         $allStudentQuiz = User::with("sector.qcms.questions.choices",)->where('id', $user_id)->first();  // all quizzes of the student
-
+        $submittedQuizzesIds = Note::where("user_id", $user_id)->pluck("qcm_id")->toArray();
+        
         $studentQuizzes = [];
 
         foreach ($allStudentQuiz->sector->qcms as $quizze) {
-            //refactor quizze
+            if(!in_array($quizze->id, $submittedQuizzesIds)) {
+                //refactor quizze
             $formatQuizze = [
                 "id" => $quizze->id,
                 "quizName" => $quizze->title,
@@ -108,6 +110,8 @@ class StudentController extends Controller
                 array_push($formatQuizze['questions'], $formatQuestion);  // add the question in the table of questions 
             }
             array_push($studentQuizzes, $formatQuizze);  // add quizze in the table of professor quizzes
+        
+            }    
         }
 
         return response()->json([

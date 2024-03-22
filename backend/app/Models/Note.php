@@ -18,4 +18,8 @@ class Note extends Model
     public function qcm () {
         return $this->belongsTo(Qcm::class);
     }
+
+    public function user () {
+        return $this->belongsTo(User::class);
+    }
 }
