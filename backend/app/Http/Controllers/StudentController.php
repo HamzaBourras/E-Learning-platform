@@ -75,43 +75,43 @@ class StudentController extends Controller
     {
         $allStudentQuiz = User::with("sector.qcms.questions.choices",)->where('id', $user_id)->first();  // all quizzes of the student
         $submittedQuizzesIds = Note::where("user_id", $user_id)->pluck("qcm_id")->toArray();
-        
+
         $studentQuizzes = [];
 
         foreach ($allStudentQuiz->sector->qcms as $quizze) {
-            if(!in_array($quizze->id, $submittedQuizzesIds)) {
+            if (!in_array($quizze->id, $submittedQuizzesIds)) {
                 //refactor quizze
-            $formatQuizze = [
-                "id" => $quizze->id,
-                "quizName" => $quizze->title,
-                "noteTotale" => $quizze->noteTotale,
-                "sector" => $allStudentQuiz->sector->name,
-                "questions" => []
-            ];
-
-            foreach ($quizze->questions as $question) {
-                //refactor each question
-                $formatQuestion = [
-                    "id" => $question->id,
-                    "question" => $question->text,
-                    "note" => $question->note,
-                    "answers" => []
+                $formatQuizze = [
+                    "id" => $quizze->id,
+                    "quizName" => $quizze->title,
+                    "noteTotale" => $quizze->noteTotale,
+                    "sector" => $allStudentQuiz->sector->name,
+                    "questions" => []
                 ];
 
-                foreach ($question->choices as $choice) {
-                    //refactor each answer for the question
-                    $formatAnswer = [
-                        "id" => $choice->id,
-                        "answer" => $choice->text,
-                        "isCorrect" => false
+                foreach ($quizze->questions as $question) {
+                    //refactor each question
+                    $formatQuestion = [
+                        "id" => $question->id,
+                        "question" => $question->text,
+                        "note" => $question->note,
+                        "answers" => []
                     ];
-                    array_push($formatQuestion['answers'], $formatAnswer);  // add the answer in the table of answers of question
+
+                    foreach ($question->choices as $choice) {
+                        //refactor each answer for the question
+                        $formatAnswer = [
+                            "id" => $choice->id,
+                            "answer" => $choice->text,
+                            "isCorrect" => false
+                        ];
+                        array_push($formatQuestion['answers'], $formatAnswer);  // add the answer in the table of answers of question
+                    }
+                    array_push($formatQuizze['questions'], $formatQuestion);  // add the question in the table of questions 
                 }
-                array_push($formatQuizze['questions'], $formatQuestion);  // add the question in the table of questions 
+                array_push($studentQuizzes, $formatQuizze);  // add quizze in the table of professor quizzes
+
             }
-            array_push($studentQuizzes, $formatQuizze);  // add quizze in the table of professor quizzes
-        
-            }    
         }
 
         return response()->json([
@@ -127,68 +127,27 @@ class StudentController extends Controller
         $dataBaseQuiz = Qcm::with("questions.choices")->where("id", $quiz_id)->first();
 
         $studentNote = 0;
-        $allQuestions = [];
-        $reponsesCommuns = [];
 
-        // reformater les reponses des étudiants
-        foreach ($studentQuiz['questions'] as $studQuestion) {
-                $sFormatQues = [
-                    "questionId" => $studQuestion['id'],
-                    "questionNote" => $studQuestion['note'],
-                    "answers" => []
-                ];
-            foreach ($studQuestion['answers'] as $studAnswers) {
-                $sFormatAnsw = [
-                    "answersId" => $studAnswers['id'],
-                    "answerIsCorrect" => $studAnswers['isCorrect'],
-                ];
+        // parcourir les questions du quiz
+        foreach ($dataBaseQuiz->questions as $dbQuestion) {
+            // trouver la question correspondante dans les choix de l'étudiant
+            $studentQuestion = collect($studentQuiz['questions'])->firstWhere('id', $dbQuestion->id);
 
-                array_push($sFormatQues['answers'], $sFormatAnsw);
-            }
-            
-            $allQuestions[] = $sFormatQues;
-        }
-
-        // reformater les reponses qui est dans la base de données
-        foreach ($dataBaseQuiz['questions'] as $dataBaseQuestion) {
-                $dFormatQues = [
-                    "questionId" => $dataBaseQuestion['id'],
-                    "questionNote" => $dataBaseQuestion['note'],
-                    "answers" => []
-                ];
-            foreach ($dataBaseQuestion['choices'] as $dataBaseAnswers) {
-                $dFormatAnsw = [
-                    "answersId" => $dataBaseAnswers['id'],
-                    "answerIsCorrect" => $dataBaseAnswers['tr_fl']
-                ];
-
-                array_push($dFormatQues['answers'], $dFormatAnsw);
-            }
-            
-            $allQuestions[] = $dFormatQues;
-        }
-
-        // selectioner les reponses corrects des étudiants
-        for($i = 0; $i < count($allQuestions); $i++) {
-            usort($allQuestions[$i]['answers'], function ($a, $b) {
-                return $a['answersId'] <=> $b['answersId'];
-            });
-
-            for($j = $i+1; $j < count($allQuestions); $j++) {
-                usort($allQuestions[$j]['answers'], function ($a, $b) {
-                    return $a['answersId'] <=> $b['answersId'];
-                });
-
-                if($allQuestions[$i] == $allQuestions[$j]) {
-                    $reponsesCommuns[] = $allQuestions[$i];
-                    break;
+            if ($studentQuestion) {
+                $nbrChoiceCorrespendant = 0;
+                // vérifier les choix de l'étudiant
+                foreach ($dbQuestion->choices as $choice) {
+                    $studentChoice = collect($studentQuestion['answers'])->firstWhere('id', $choice->id);
+                    // calculer le nombre des choix correspondant
+                    if ($studentChoice['isCorrect'] == $choice->tr_fl) {
+                        $nbrChoiceCorrespendant++;
+                    }
+                }
+                    // vérifier si tous les choix sont correspendent
+                if ($nbrChoiceCorrespendant == count($dbQuestion->choices)) {
+                    $studentNote += $dbQuestion->note;
                 }
             }
-        }
-
-        // calculer la note d'étudiant
-        foreach ($reponsesCommuns as $reponse) {
-            $studentNote += $reponse['questionNote'];
         }
 
         // inserer la note dans la base de données
@@ -322,12 +281,13 @@ class StudentController extends Controller
 
     /*********** return all grades of the students ***********/
     /**** return all grades ****/
-    public function indexGrade (int $student_id) {
-        $allGrades = Note::with("qcm")->where("user_id",$student_id)->get();
+    public function indexGrade(int $student_id)
+    {
+        $allGrades = Note::with("qcm")->where("user_id", $student_id)->get();
 
         $studentGrades = [];
 
-        foreach($allGrades as $grade) {
+        foreach ($allGrades as $grade) {
             $formatGrade = [
                 "quizName" => strtoupper($grade->qcm->title),
                 "grade" => $grade->note
@@ -340,7 +300,4 @@ class StudentController extends Controller
             "data" => $studentGrades
         ]);
     }
-
-
-
 }
