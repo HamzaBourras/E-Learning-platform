@@ -7,6 +7,7 @@ use App\Models\Sector;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AuthentificationRequest;
+use App\Models\PersonalAccessToken;
 
 class AuthentificationController extends Controller
 {
@@ -61,9 +62,10 @@ class AuthentificationController extends Controller
 
 
     /******************** logout *****************/
-    public function logout()
+    public function logout(int $user_id)
     {
-        Auth::user()->tokens->delete();
+        
+        PersonalAccessToken::where("tokenable_id", $user_id)->delete();
 
         return response()->json([
             "message" => "logged out"

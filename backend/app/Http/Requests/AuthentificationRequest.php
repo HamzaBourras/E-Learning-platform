@@ -29,7 +29,7 @@ class AuthentificationRequest extends FormRequest
                 "password" => "required"
             ];
         }
-        elseif(strpos($url, 'api/auth/updateProfile') === true) {
+        elseif(strpos($url, 'api/auth/updateProfile') !== false) {
             return [
                 "firstName" => "required",
                 "lastName" => "required",
