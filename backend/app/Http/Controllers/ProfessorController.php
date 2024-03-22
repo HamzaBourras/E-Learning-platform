@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AnnouncementRequest;
+use App\Models\Qcm;
+use App\Models\Note;
+use App\Models\Task;
 use App\Models\User;
+use App\Models\Choice;
 use App\Models\Sector;
 use App\Models\Document;
+use App\Models\Question;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
-use App\Http\Requests\CourseRequest;
+use Illuminate\Support\Carbon;
 use App\Http\Requests\QcmRequest;
 use App\Http\Requests\TaskRequest;
-use App\Models\Announcement;
-use App\Models\Choice;
-use App\Models\Qcm;
-use App\Models\Question;
-use App\Models\Task;
+use App\Http\Requests\CourseRequest;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Carbon;
+use App\Http\Requests\AnnouncementRequest;
 
 class ProfessorController extends Controller
 {
@@ -474,4 +475,27 @@ class ProfessorController extends Controller
             "message" => "Quizze deleted successfully"
         ]);
     }
+
+    /**** return all student who passed the quiz ****/
+    public function showQuizStudents (int $quiz_id) {
+        $quizNotes = Note::with("user")->where("qcm_id", $quiz_id)->get();
+
+        $quizStudents = [];
+
+        foreach($quizNotes as $note) {
+            $formatQuizStudent = [
+                "studentFirstName" => $note->user->firstName,
+                "studentLastName" => $note->user->lastName,
+                "studentNote" => $note->note
+            ];
+
+            array_push($quizStudents, $formatQuizStudent);
+        }
+
+        return response()->json([
+            "data" => $quizStudents
+        ]);
+    }
+
+
 }
