@@ -21,13 +21,30 @@ class ProfessorRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            "firstName"=>"required",
-            "lastName"=>"required",
-            "username"=>"required",
-            "email"=>"required|email",
-            "department"=>"required",
-            "sectors"=>"required"
-        ];
+        $url = $this->url();
+        
+        if(strpos($url, 'api/auth/director/professor/store') !== false) {
+            return [
+                "firstName"=>"required",
+                "lastName"=>"required",
+                "username"=>"required",
+                "email"=>"required|email|unique:users",
+                "department"=>"required",
+                "sectors"=>"required"
+            ];
+        }
+
+        elseif(strpos($url, 'api/auth/director/professor/edit') !== false) {
+            return [
+                "firstName"=>"required",
+                "lastName"=>"required",
+                "username"=>"required",
+                "email"=>"required|email",
+                "department"=>"required",
+                "sectors"=>"required"
+            ];
+        }
+
+        return [];
     }
 }
