@@ -229,7 +229,7 @@ class StudentController extends Controller
     /**** return the submissions for a task ****/
     public function indexSubmission(int $user_id, int $id)
     {
-        $taskSub = Submission::where(["user_id" => $user_id, "id" => $id])->first();
+        $taskSub = Submission::where(["user_id" => $user_id, "task_id" => $id])->first();
 
         $taskSubmission = [
             "id" => $taskSub->id,
@@ -245,10 +245,17 @@ class StudentController extends Controller
     /**** store a submission for a task ****/
     public function storeSubmission(SubmissionRequest $request, int $user_id, int $id)
     {
+        $filename = null;
+
+        if ($request->hasFile('file')) {
+            $file = $request->validated(["file"]);
+            $filename = $file->store("submissions", "public");
+        }
+
         Submission::create([
             "task_id" => $id,
             "user_id" => $user_id,
-            "file" => $request->file
+            "file" => $filename
         ]);
 
         return response()->json([
@@ -260,8 +267,27 @@ class StudentController extends Controller
     /**** edit a submission for a task ****/
     public function editSubmission(SubmissionRequest $request, int $user_id, int $id, int $submission_id)
     {
+        $filename = null;
+
+        /** Tester sur le document **/
+        $oldFile = Submission::where('id', $id)->first();
+
+        // si le professeur a choisi un noveau document
+        if ($request->hasFile('file')) {
+            // supprimer l'ancien document du dossier storage/course
+            $oldFilename = $oldFile->file;
+            Storage::delete("public/" . $oldFilename);
+
+            $file = $request->validated(["file"]);
+            $filename = $file->store("courses", "public");
+        }
+        // si l'ancien document est le meme qu'au noveau c'est à dire le professeur n'a pas choisir un autre document
+        else {
+            $filename = $oldFile->file;
+        }
+
         Submission::where(["user_id" => $user_id, "task_id" => $id, "id" => $submission_id])->update([
-            "file" => $request->file
+            "file" => $filename
         ]);
 
         return response()->json([

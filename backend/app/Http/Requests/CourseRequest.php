@@ -21,12 +21,27 @@ class CourseRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            "courseName" => "required",
-            "sector" => "required",
-            "description" => "required",
-            "file" => "required",
-            
-        ];
+        $url = $this->url();
+
+        if (strpos($url, 'api/auth/professor/courses/store') !== false) {
+            return [
+                "courseName" => "required",
+                "sector" => "required",
+                "description" => "required",
+                "file" => "required",
+                
+            ];
+        }
+        
+        if (strpos($url, 'api/auth/professor/courses/edit') !== false) {
+            return [
+                "courseName" => "required",
+                "sector" => "required",
+                "description" => "required",
+                
+            ];
+        }
+
+
     }
 }

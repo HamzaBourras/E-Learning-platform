@@ -88,22 +88,19 @@ class ProfessorController extends Controller
 
         /** Tester sur le document **/
         $oldFile = Document::where('id', $id)->first();
-        if ($request->hasFile('file')) {
-            $newFile = $request->file;
 
-            // si l'ancien document est diffirent au nouveau
-            if ($oldFile->file != $newFile) {
-                // supprimer l'ancien document du dossier storage/course
-                $oldFilename = $oldFile->file;
-                Storage::delete("public/" . $oldFilename);
-                // inserer le nouveau document
-                $file = $request->validated(["file"]);
-                $filename = $file->store("courses", "public");
-            }
-            // si l'ancien document est le meme qu'au noveau
-            else {
-                $filename = $oldFile->file;
-            }
+        // si le professeur a choisi un noveau document
+        if ($request->hasFile('file')) {
+            // supprimer l'ancien document du dossier storage/course
+            $oldFilename = $oldFile->file;
+            Storage::delete("public/" . $oldFilename);
+
+            $file = $request->validated(["file"]);
+            $filename = $file->store("courses", "public");
+        }
+        // si l'ancien document est le meme qu'au noveau c'est à dire le professeur n'a pas choisir un autre document
+        else {
+            $filename = $oldFile->file;
         }
 
         Document::where(["id" => $id, "user_id" => $user_id])->update([
