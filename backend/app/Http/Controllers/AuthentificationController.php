@@ -11,8 +11,7 @@ use App\Http\Requests\AuthentificationRequest;
 class AuthentificationController extends Controller
 {
 
-    /************ login ************/
-
+    /******************* login *******************/
     public function login(AuthentificationRequest $request)
     {
 
@@ -58,18 +57,40 @@ class AuthentificationController extends Controller
             'token' => $token,
             'data' => $userAuth
         ]);
-
-
     }
 
+
     /******************** logout *****************/
-
     public function logout()
-{
-    Auth::user()->tokens->delete();
+    {
+        Auth::user()->tokens->delete();
 
-    return response()->json([
-        "message" => "logged out"
-    ]);
-}
+        return response()->json([
+            "message" => "logged out"
+        ]);
+    }
+
+
+    /******************** update profile ******************/
+    public function updateProfile(AuthentificationRequest $request, int $user_id)
+    {
+        $username = substr($request->firstName, 0, 1) . '.' . $request->lastName;
+
+        $user = User::find($user_id);
+        $user->username = strtolower($username);
+        $user->firstName = strtolower($request->firstName);
+        $user->lastName = strtolower($request->lastName);
+        $user->email = $request->email;
+        $user->password = $request->password; 
+
+        if ($request->has("bio")) {
+            $user->bio = $request->bio;
+        }
+
+        $user->save();
+
+        return response()->json([
+            "data" => "profile updated successfully"
+        ]);
+    }
 }

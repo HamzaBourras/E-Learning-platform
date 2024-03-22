@@ -24,10 +24,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 /********************** Authentification **********************/
-
 Route::post("/login", [AuthentificationController::class, "login"])->name("login");
 Route::post("/logout", [AuthentificationController::class, "logout"])->name("logout")->middleware("auth.token");
 
+
+/********************** UpdateProfile **********************/
+Route::get("/auth/updateProfile/{user_id}", [AuthentificationController::class, "updateProfile"])->name("updateProfile");
 
 
 /********************** Director management *************************/

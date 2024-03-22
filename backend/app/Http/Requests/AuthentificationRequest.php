@@ -21,9 +21,24 @@ class AuthentificationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            "username" => "required",
-            "password" => "required"
-        ];
+        $url = $this->url();
+
+        if(strpos($url, 'api/login') === true) {
+            return [
+                "username" => "required",
+                "password" => "required"
+            ];
+        }
+        elseif(strpos($url, 'api/auth/updateProfile') === true) {
+            return [
+                "firstName" => "required",
+                "lastName" => "required",
+                "password" => "required",
+                "passwordConfirmation" => "required|same:password",
+                "email" => "required"
+            ];
+        }
+
+        return [];
     }
 }

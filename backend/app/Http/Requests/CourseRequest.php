@@ -33,7 +33,7 @@ class CourseRequest extends FormRequest
             ];
         }
         
-        if (strpos($url, 'api/auth/professor/courses/edit') !== false) {
+        elseif (strpos($url, 'api/auth/professor/courses/edit') !== false) {
             return [
                 "courseName" => "required",
                 "sector" => "required",
@@ -41,6 +41,8 @@ class CourseRequest extends FormRequest
                 
             ];
         }
+
+        return [];
 
 
     }
