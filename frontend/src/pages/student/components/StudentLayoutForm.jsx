@@ -10,7 +10,7 @@ import { ModalHeader } from '@nextui-org/react';
 import StudentQuizForm from './StudentQuizForm';
 import { Navigate } from 'react-router-dom';
 import viewDocument from './../viewDocument';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleRenderAction } from "../../../state/features/Student/studentSlice";
 
 const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) => {
@@ -103,7 +103,7 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
                                                     {name == 'grade'? item['quizName'] : item[uncapitalize(name) + 'Name']}
                                                 </h1>
                                                 {name == 'grade' &&<h1 className='text-sm font-medium text-balance text-gray-500'>
-                                                    { item.grade }/20
+                                                    { item.grade }/{item.noteTotale}
                                                 </h1>}
 
                                                 {name != "quiz" && name != 'task' && name != 'grade' &&
