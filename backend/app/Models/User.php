@@ -91,4 +91,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Submission::class);
     }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
 }

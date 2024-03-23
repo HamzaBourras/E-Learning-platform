@@ -317,7 +317,7 @@ class ProfessorController extends Controller
     /**** return all submissions of the task ****/
     public function showTaskSubmissions(int $id)
     {
-        $task = Task::with("submissions.user")->where('id',$id)->first();
+        $task = Task::with("submissions.user")->where('id', $id)->first();
         $taskSubms = $task->submissions->sortByDesc('id');
 
         $taskSubmissions = [];
@@ -334,7 +334,7 @@ class ProfessorController extends Controller
 
         return response()->json([
             "data" => $taskSubmissions
-        ]); 
+        ]);
     }
 
 
@@ -478,12 +478,13 @@ class ProfessorController extends Controller
     }
 
     /**** return all student who passed the quiz ****/
-    public function showQuizStudents (int $quiz_id) {
+    public function showQuizStudents(int $quiz_id)
+    {
         $quizNotes = Note::with("user")->where("qcm_id", $quiz_id)->get();
 
         $quizStudents = [];
 
-        foreach($quizNotes as $note) {
+        foreach ($quizNotes as $note) {
             $formatQuizStudent = [
                 "firstName" => $note->user->firstName,
                 "lastName" => $note->user->lastName,
@@ -499,4 +500,45 @@ class ProfessorController extends Controller
     }
 
 
+    /******************************************** */
+
+    /***** Dashbord students statistics ********/
+
+    public function indexStudStatis(int $prof_id)
+    {
+        $allProfessorStudents = User::with("sectors.users.submissions", "sectors.users.notes")->where('id', $prof_id)->orderBy('id', 'desc')->first();
+
+        $studentsStatics = [];
+
+        foreach ($allProfessorStudents->sectors as $sector) {
+            foreach ($sector->users as $student) {
+                if ($student != []) {
+                    $format = [
+                        "assignments" => $student->submissions->count(),
+                        "quizzes" => $student->notes->count()
+                    ];
+                    $studentsStatics[$student->firstName . " " . $student->lastName] = $format;
+                }
+            }
+        }
+
+        // fonction pour trier les statistiques des étudiants
+        $compareStudents = function ($a, $b) {
+            $totalA = $a['assignments'] + $a['quizzes'];
+            $totalB = $b['assignments'] + $b['quizzes'];
+            return $totalB <=> $totalA;
+        };
+
+        // trier les étudiants
+        uasort($studentsStatics, $compareStudents);
+
+        // prend les 5 les plus actifs
+        $actifStudents = array_slice($studentsStatics, 0, 5, true);
+
+        $actifStudents = (object) $actifStudents;
+
+        return response()->json([
+            "data" => $actifStudents
+        ]);
+    }
 }

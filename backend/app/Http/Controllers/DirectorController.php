@@ -362,7 +362,7 @@ class DirectorController extends Controller
     {
         $allProfessors = User::with("qcms", "tasks", "documents")->where("role_id",2)->get();
 
-        $professorStatics = [];
+        $professorsStatics = [];
 
         foreach($allProfessors as $prof) {
             $format = [
@@ -370,7 +370,7 @@ class DirectorController extends Controller
                 "courses" => $prof->documents->count(),
                 "quizzes" => $prof->qcms->count()
             ];
-            $professorStatics[$prof->firstName." ".$prof->lastName] = $format;
+            $professorsStatics[$prof->firstName." ".$prof->lastName] = $format;
         }
 
         // fonction pour trier les statistiques des profs
@@ -381,10 +381,10 @@ class DirectorController extends Controller
         };
 
         // trier les profs
-        uasort($professorStatics, $compareProfessors);
+        uasort($professorsStatics, $compareProfessors);
 
         // prend les 5 les plus actifs
-        $actifProfessors = array_slice($professorStatics,0,5,true);
+        $actifProfessors = array_slice($professorsStatics,0,5,true);
 
         $actifProfessors = (Object) $actifProfessors;
 

@@ -80,6 +80,9 @@ Route::prefix("auth/director/")->controller(DirectorController::class)->name("di
 
 Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("professor.")->group(function () {
 
+    //--------- - --- Dashbord student statistics  -----------------------
+    Route::get("indexStudentsStatistics/{prof_id}","indexStudStatis")->name("indexStudStatis");
+
     //--------- - --- courses -----------------------
     Route::prefix("courses/")->name("courses.")->group(function () {
         Route::get("index/{user_id}", "indexCourse")->where(["user_id" => "[0-9]+"])->name("indexCourse");
