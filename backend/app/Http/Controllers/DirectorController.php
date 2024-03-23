@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use stdClass;
 use App\Models\User;
 use App\Models\Sector;
 use Nette\Utils\ArrayHash;
@@ -9,13 +10,21 @@ use App\Models\Departement;
 use App\Models\SectorsUsers;
 use Illuminate\Http\Request;
 use App\Http\Requests\SectorRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\infosProfileMail;
 use App\Http\Requests\StudentRequest;
 use App\Http\Requests\ProfessorRequest;
 use App\Http\Requests\DepartementRequest;
-use stdClass;
 
 class DirectorController extends Controller
 {
+    // fonction pour generer une chaine de caractère
+    public function generateRandomString($length = 5) {
+        $bytes = random_bytes($length);
+        return bin2hex($bytes);
+    }
+
+
     /*********** Professor ***************/
 
     /**** return All professors ****/
@@ -61,6 +70,10 @@ class DirectorController extends Controller
 
     public function storeProfessor(ProfessorRequest $request)
     {
+        
+        $randomString = $this->generateRandomString();
+        $password = $request->email.$randomString;
+
         // selectioné l'id du departement
         $departement_id = Departement::where('name', $request->department)->first()->id;
 
@@ -71,7 +84,7 @@ class DirectorController extends Controller
             "email" => $request->email,
             "role_id" => 2,
             "departement_id" => $departement_id,
-            "password" => $request->email
+            "password" => $password
         ]);
 
         // enregistré les ids des sectors selectioné
@@ -87,6 +100,9 @@ class DirectorController extends Controller
                 "sectors_id" => $sector_id
             ]);
         }
+
+        // envoyer un email à le professeur contient les informations d'authentification
+        Mail::to($request->email)->send(new infosProfileMail($request->username, $password, $request->firstName." ".$request->lastName));
 
         return response()->json([
             "message" => "Professor added successfully"
@@ -180,8 +196,11 @@ class DirectorController extends Controller
 
     public function storeStudent(StudentRequest $request)
     {
-        $sector_id = Sector::where('name', $request->sector)->first()->id;
+        
+        $randomString = $this->generateRandomString();
+        $password = $request->email.$randomString;
 
+        $sector_id = Sector::where('name', $request->sector)->first()->id;
         User::create([
             "firstName" => $request->firstName,
             "lastName" => $request->lastName,
@@ -189,8 +208,11 @@ class DirectorController extends Controller
             "email" => $request->email,
             "role_id" => 3,
             "sector_id" => $sector_id,
-            "password" => $request->email
+            "password" => $password
         ]);
+
+        // envoyer un email à l'étudiant contient les informations d'authentification
+        Mail::to($request->email)->send(new infosProfileMail($request->username, $password, $request->firstName." ".$request->lastName));
 
         return response()->json([
             "message" => "Student added successfully"

@@ -512,13 +512,12 @@ class ProfessorController extends Controller
 
         foreach ($allProfessorStudents->sectors as $sector) {
             foreach ($sector->users as $student) {
-                if ($student != []) {
                     $format = [
                         "assignments" => $student->submissions->count(),
                         "quizzes" => $student->notes->count()
                     ];
                     $studentsStatics[$student->firstName . " " . $student->lastName] = $format;
-                }
+                
             }
         }
 
