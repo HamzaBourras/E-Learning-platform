@@ -12,6 +12,7 @@ use App\Http\Requests\SectorRequest;
 use App\Http\Requests\StudentRequest;
 use App\Http\Requests\ProfessorRequest;
 use App\Http\Requests\DepartementRequest;
+use stdClass;
 
 class DirectorController extends Controller
 {
@@ -21,7 +22,7 @@ class DirectorController extends Controller
 
     public function indexProfessor()
     {
-        $profs =  User::with("sectors", "departement")->where('role_id', 2)->orderBy('id','desc')->get();
+        $profs =  User::with("sectors", "departement")->where('role_id', 2)->orderBy('id', 'desc')->get();
 
         $professors = [];
         // dd($profs[0]->departement->name);
@@ -64,8 +65,8 @@ class DirectorController extends Controller
         $departement_id = Departement::where('name', $request->department)->first()->id;
 
         $professorCree = User::create([
-            "firstName" =>$request->firstName,
-            "lastName" =>$request->lastName,
+            "firstName" => $request->firstName,
+            "lastName" => $request->lastName,
             "username" => $request->username,
             "email" => $request->email,
             "role_id" => 2,
@@ -75,7 +76,7 @@ class DirectorController extends Controller
 
         // enregistré les ids des sectors selectioné
         $sectors_id = [];
-        
+
         array_push($sectors_id, Sector::whereIn('name', $request->sectors)->pluck('id')->toArray());
         $sectors_id = $sectors_id[0];  // ici parsque $sectors_id c'est un tableau à l'interieur d'un tableau
 
@@ -99,9 +100,9 @@ class DirectorController extends Controller
         // selectioné l'id du departement
         $departement_id = Departement::where('name', $request->department)->first()->id;
 
-        User::where(['id'=>$id,"role_id"=>2])->update([
-            "firstName" =>$request->firstName,
-            "lastName" =>$request->lastName,
+        User::where(['id' => $id, "role_id" => 2])->update([
+            "firstName" => $request->firstName,
+            "lastName" => $request->lastName,
             "username" => $request->username,
             "email" => $request->email,
             "departement_id" => $departement_id
@@ -113,10 +114,10 @@ class DirectorController extends Controller
         array_push($sectors_id, Sector::whereIn('name', $request->sectors)->pluck('id')->toArray());
         $sectors_id = $sectors_id[0];  // ici parsque $sectors_id c'est un tableau à l'interieur d'un tableau
 
-        
+
         // supprimer les anciens sectors du prof
-        SectorsUsers::where('users_id',$id)->delete();
-        
+        SectorsUsers::where('users_id', $id)->delete();
+
         // inserer les ids des sectors et du professor dans la table de relation many to many
         foreach ($sectors_id as $sector_id) {
             SectorsUsers::create([
@@ -128,14 +129,14 @@ class DirectorController extends Controller
         return response()->json([
             "message" => "Professor updated successfully",
         ]);
-
     }
 
 
     /**** delete a professor ****/
 
-    public function destroyProfessor (int $id) {
-        User::where(['id'=>$id,"role_id"=>2])->delete();
+    public function destroyProfessor(int $id)
+    {
+        User::where(['id' => $id, "role_id" => 2])->delete();
 
         return response()->json([
             "message" => "Professor deleted successfully"
@@ -150,8 +151,9 @@ class DirectorController extends Controller
 
     /**** return All students ****/
 
-    public function indexStudent () {
-        $studs = User::with("sector","sector.departement")->where('role_id',3)->orderBy('id','desc')->get();
+    public function indexStudent()
+    {
+        $studs = User::with("sector", "sector.departement")->where('role_id', 3)->orderBy('id', 'desc')->get();
 
         $students = [];
 
@@ -167,7 +169,7 @@ class DirectorController extends Controller
                 "sector" => $stud->sector->name
             ];
 
-            array_push($students,$formatStudent);
+            array_push($students, $formatStudent);
         }
         return response()->json([
             "data" => $students
@@ -176,12 +178,13 @@ class DirectorController extends Controller
 
     /**** store a student ****/
 
-    public function storeStudent (StudentRequest $request) {
-        $sector_id = Sector::where('name',$request->sector)->first()->id;
+    public function storeStudent(StudentRequest $request)
+    {
+        $sector_id = Sector::where('name', $request->sector)->first()->id;
 
         User::create([
-            "firstName" =>$request->firstName,
-            "lastName" =>$request->lastName,
+            "firstName" => $request->firstName,
+            "lastName" => $request->lastName,
             "username" => $request->username,
             "email" => $request->email,
             "role_id" => 3,
@@ -196,12 +199,13 @@ class DirectorController extends Controller
 
     /**** edit a student ****/
 
-    public function editStudent (StudentRequest $request, int $id) {
-        $sector_id = Sector::where('name',$request->sector)->first()->id;
+    public function editStudent(StudentRequest $request, int $id)
+    {
+        $sector_id = Sector::where('name', $request->sector)->first()->id;
 
-        User::where(['id'=>$id,"role_id"=>3])->update([
-            "firstName" =>$request->firstName,
-            "lastName" =>$request->lastName,
+        User::where(['id' => $id, "role_id" => 3])->update([
+            "firstName" => $request->firstName,
+            "lastName" => $request->lastName,
             "username" => $request->username,
             "email" => $request->email,
             "sector_id" => $sector_id
@@ -214,8 +218,9 @@ class DirectorController extends Controller
 
     /**** delete a student ****/
 
-    public function destroyStudent (int $id) {
-        User::where(["id"=>$id, "role_id"=>3])->delete();
+    public function destroyStudent(int $id)
+    {
+        User::where(["id" => $id, "role_id" => 3])->delete();
 
         return response()->json([
             "message" => "Student deleted successfully"
@@ -230,8 +235,9 @@ class DirectorController extends Controller
 
     /**** return All departements ****/
 
-    public function indexDepartment () {
-        $departements = Departement::orderBy('id','desc')->get(['id','name as department']);
+    public function indexDepartment()
+    {
+        $departements = Departement::orderBy('id', 'desc')->get(['id', 'name as department']);
 
         return response()->json([
             "data" => $departements
@@ -240,7 +246,8 @@ class DirectorController extends Controller
 
     /**** store a departement ****/
 
-    public function storeDepartment (DepartementRequest $request) {
+    public function storeDepartment(DepartementRequest $request)
+    {
         Departement::create([
             "name" => $request->department
         ]);
@@ -252,8 +259,9 @@ class DirectorController extends Controller
 
     /**** edit a departement ****/
 
-    public function editDepartment (DepartementRequest $request, int $id) {
-        Departement::where('id',$id)->update([
+    public function editDepartment(DepartementRequest $request, int $id)
+    {
+        Departement::where('id', $id)->update([
             "name" => $request->department
         ]);
 
@@ -264,8 +272,9 @@ class DirectorController extends Controller
 
     /**** delete a departement ****/
 
-    public function destroyDepartment ( int $id) {
-        Departement::where('id',$id)->delete();
+    public function destroyDepartment(int $id)
+    {
+        Departement::where('id', $id)->delete();
 
         return response()->json([
             "message" => "Department deleted successfully"
@@ -280,19 +289,20 @@ class DirectorController extends Controller
 
     /**** return All sectors ****/
 
-    public function indexSector () {
-        $sects = Sector::with("departement")->orderBy('id','desc')->get();
+    public function indexSector()
+    {
+        $sects = Sector::with("departement")->orderBy('id', 'desc')->get();
 
         $sectors = [];
 
-        foreach($sects as $sect) {
+        foreach ($sects as $sect) {
             $formatSect = [
                 "id" => $sect->id,
                 "department" => $sect->departement->name,
                 "sector" => $sect->name
             ];
 
-            array_push($sectors,$formatSect);
+            array_push($sectors, $formatSect);
         }
 
         return response()->json([
@@ -302,9 +312,10 @@ class DirectorController extends Controller
 
     /**** store a sector ****/
 
-    public function storeSector (SectorRequest $request) {
-        $departement_id = Departement::where('name',$request->department)->first()->id;
-        
+    public function storeSector(SectorRequest $request)
+    {
+        $departement_id = Departement::where('name', $request->department)->first()->id;
+
         Sector::create([
             "name" => $request->sector,
             "departement_id" => $departement_id
@@ -317,10 +328,11 @@ class DirectorController extends Controller
 
     /**** edit a sector ****/
 
-    public function editSector (SectorRequest $request, int $id) {
-        $departement_id = Departement::where('name',$request->department)->first()->id;
+    public function editSector(SectorRequest $request, int $id)
+    {
+        $departement_id = Departement::where('name', $request->department)->first()->id;
 
-        Sector::where('id',$id)->update([
+        Sector::where('id', $id)->update([
             "name" => $request->sector,
             "departement_id" => $departement_id
         ]);
@@ -332,14 +344,53 @@ class DirectorController extends Controller
 
     /**** delete a sector ****/
 
-    public function destroySector ( int $id) {
-        Sector::where('id',$id)->delete();
+    public function destroySector(int $id)
+    {
+        Sector::where('id', $id)->delete();
 
         return response()->json([
             "message" => "Sector deleted successfully"
         ]);
     }
 
-}
 
-    
+    /******************************************** */
+
+    /***** Dashbord professors statistics ********/
+
+    public function indexProfStatis()
+    {
+        $allProfessors = User::with("qcms", "tasks", "documents")->where("role_id",2)->get();
+
+        $professorStatics = [];
+
+        foreach($allProfessors as $prof) {
+            $format = [
+                "assignments" => $prof->tasks->count(),
+                "courses" => $prof->documents->count(),
+                "quizzes" => $prof->qcms->count()
+            ];
+            $professorStatics[$prof->firstName." ".$prof->lastName] = $format;
+        }
+
+        // fonction pour trier les statistiques des profs
+        $compareProfessors = function ($a, $b) {
+            $totalA = $a['assignments'] + $a['courses'] + $a['quizzes'];
+            $totalB = $b['assignments'] + $b['courses'] + $b['quizzes'];
+            return $totalB <=> $totalA;
+        };
+
+        // trier les profs
+        uasort($professorStatics, $compareProfessors);
+
+        // prend les 5 les plus actifs
+        $actifProfessors = array_slice($professorStatics,0,5,true);
+
+        $actifProfessors = (Object) $actifProfessors;
+
+
+        return response()->json([
+            "data" => $actifProfessors
+        ]);
+    }
+}

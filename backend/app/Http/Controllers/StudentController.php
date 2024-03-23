@@ -195,7 +195,6 @@ class StudentController extends Controller
 
         return response()->json([
             "data" => $studentTasks,
-            "dd" => $submittedTasksIds
         ]);
     }
 

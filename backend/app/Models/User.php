@@ -25,7 +25,8 @@ class User extends Authenticatable
         "password",
         "role_id",
         "departement_id",
-        "sector_id"
+        "sector_id",
+        "bio"
     ];
 
     /**
@@ -73,6 +74,11 @@ class User extends Authenticatable
     public function tasks()
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
     }
 
     // if user is a student
