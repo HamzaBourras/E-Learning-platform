@@ -18,10 +18,11 @@ use App\Http\Controllers\StudentController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
+// ->middleware("auth.token")
 
 /********************** Authentification **********************/
 Route::post("/login", [AuthentificationController::class, "login"])->name("login");
@@ -29,12 +30,15 @@ Route::post("/logout/{user_id}", [AuthentificationController::class, "logout"])-
 
 
 /********************** UpdateProfile **********************/
-Route::get("/auth/updateProfile/{user_id}", [AuthentificationController::class, "updateProfile"])->name("updateProfile");
+Route::put("/auth/updateProfile/{user_id}", [AuthentificationController::class, "updateProfile"])->name("updateProfile");
 
 
 /********************** Director management *************************/
 
-Route::prefix("auth/director/")->middleware("auth.token")->controller(DirectorController::class)->name("director.")->group(function () {
+Route::prefix("auth/director/")->controller(DirectorController::class)->name("director.")->group(function () {
+
+    //--------- - --- Dashbord professors statistics  -----------------------
+    Route::get("indexProfessorsStatistics","indexProfStatis")->name("indexProfStatis");
 
     //--------- - --- professor -----------------------
     Route::prefix("professor/")->name("professor.")->group(function () {
