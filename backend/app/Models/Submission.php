@@ -9,6 +9,12 @@ class Submission extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "user_id",
+        "task_id",
+        "file"
+    ];
+
     
     public function user () {
         return $this->belongsTo(User::class);
