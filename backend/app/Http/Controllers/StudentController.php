@@ -293,14 +293,15 @@ class StudentController extends Controller
         foreach ($allGrades as $grade) {
             $formatGrade = [
                 "quizName" => strtoupper($grade->qcm->title),
-                "grade" => $grade->note
+                "grade" => $grade->note,
+                "noteTotale" => $grade->qcm->noteTotale
             ];
             array_push($studentGrades, $formatGrade);
         }
 
 
         return response()->json([
-            "data" => $studentGrades
+            "data" => $allGrades
         ]);
     }
 }
