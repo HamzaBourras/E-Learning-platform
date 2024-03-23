@@ -76,7 +76,7 @@ export const VIEW_SUBMITTED_STUDENT_TASKS = "http://127.0.0.1:8000/api/auth/prof
 // ****************************** STUDENT ****************************************************
 
 // -----------------------------SUBMISSIONS---------------------------------------------------
-export const ALL_SUBMISSIONS_API = "http://127.0.0.1:8000/api/auth/student/submissions/index"
+export const ALL_SUBMISSIONS_API = "http://127.0.0.1:8000/api/auth/student/submissions/indexTasks"
 export const STORE_SUBMISSION_API = "http://127.0.0.1:8000/api/auth/student/submissions/store"
 export const UPDATE_SUBMISSION_API = "http://127.0.0.1:8000/api/auth/student/submissions/edit"
 export const DELETE_SUBMISSION_API = "http://127.0.0.1:8000/api/auth/student/submissions/destroy"

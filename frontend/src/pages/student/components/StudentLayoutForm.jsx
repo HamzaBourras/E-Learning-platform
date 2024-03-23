@@ -15,6 +15,7 @@ import { handleRenderAction } from "../../../state/features/Student/studentSlice
 
 const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) => {
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+
     const [isGrid, setIsGrid] = useState(false);
     const [searchValue, setSearchValue] = useState('')
     const [selectedKey, setSelectedKey] = useState(null)
@@ -146,8 +147,8 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
                     size="2xl"
                     className="overflow-auto"
                     onClose={() => {
-                        dispatch(handleRenderAction())
                         onClose();
+                        dispatch(handleRenderAction())
                     }}
                     motionProps={{
                         variants: {
@@ -176,7 +177,7 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
                                 {(name === 'quiz' || name === 'task') && selectedKey && (
                                     <>
                                         <ModalBody>
-                                            <Component id={selectedKey} />
+                                            <Component id={selectedKey} onClose={onClose}/>
                                         </ModalBody>
                                     </>
                                 )}

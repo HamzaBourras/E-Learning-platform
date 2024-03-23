@@ -6,8 +6,8 @@ import StudentStructure from '../../components/sidebar/StudentStructure';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
-import { ALL_STUDENT_QUIZZES_API, MY_PROFESSORS_API, STUDENT_COURSES_API, STUDENT_GRADES_API } from './../../api/apis';
-import { saveCourses, saveGrades, saveMyProfessors, saveQuizzes } from "../../state/features/Student/studentSlice";
+import { ALL_STUDENT_QUIZZES_API, ALL_SUBMISSIONS_API, MY_PROFESSORS_API, STUDENT_COURSES_API, STUDENT_GRADES_API } from './../../api/apis';
+import { saveCourses, saveGrades, saveMyProfessors, saveQuizzes, saveTasks } from "../../state/features/Student/studentSlice";
 import LoadingPage from "../../components/LoadingPage";
 
 const StudentLayout = () => {
@@ -16,13 +16,15 @@ const StudentLayout = () => {
 
     const dispatch = useDispatch()
     // indecator of modification in data
-    const reRender = useSelector((state) => state.student.reRenderAction);
+    const reRender = useSelector((state) => state.student.renderAction);
 
     // fetch data and store them in redux store
     const { data: myProfessorsData, isLoading: myProfessorsLoading } = useFetch(`${MY_PROFESSORS_API}/${user.id}`, reRender)
     const { data: studentCoursesData, isLoading:studentCourseLoading  } = useFetch(`${STUDENT_COURSES_API}/${user.id}`, reRender)
     const { data: studentQuizzesData, isLoading:studentQuizzesLoading  } = useFetch(`${ALL_STUDENT_QUIZZES_API}/${user.id}`, reRender)
     const { data: studentGradesData, isLoading:studentGradesLoading  } = useFetch(`${STUDENT_GRADES_API}/${user.id}`, reRender)
+
+    const { data: studentTasksData, isLoading:studentTasksLoading  } = useFetch(`${ALL_SUBMISSIONS_API}/${user.id}`, reRender)
 
     useEffect(() => {
         // save professors in redux store
@@ -42,8 +44,12 @@ const StudentLayout = () => {
             dispatch(saveGrades(studentGradesData))
         }
 
+        if (studentTasksData) {
+            dispatch(saveTasks(studentTasksData))
+        }
 
-    }, [myProfessorsData, studentCoursesData, studentQuizzesData, studentGradesData ,reRender, dispatch])
+
+    }, [myProfessorsData, studentCoursesData, studentQuizzesData, studentTasksData ,studentGradesData ,reRender, dispatch])
 
 
     if (user.role !== 'student') {
