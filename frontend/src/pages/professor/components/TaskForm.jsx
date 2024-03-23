@@ -2,14 +2,15 @@
 /* eslint-disable no-unused-vars */
 import { Button, Input, ModalBody, ModalFooter, ModalHeader, Select, SelectItem, Spinner, Textarea } from "@nextui-org/react"
 import { getArrayById } from "../../../utils/utils";
-import { tasks } from "../../../json/data";
 import useForm from "../../../hooks/useForm";
 import { STORE_TASK_API, UPDATE_TASK_API } from "../../../api/apis";
 import Alert from "../../../components/Alert";
+import { useSelector } from "react-redux";
 
 const TaskForm = ({ id }) => {
 
     const user = JSON.parse(localStorage.getItem('user'));
+    const tasks = useSelector((state)=> state.professor.tasks)
 
     // -------------------API------------------------
     let apiKey = id ? `${UPDATE_TASK_API}/${user.id}/${id}` : `${STORE_TASK_API}/${user.id}`

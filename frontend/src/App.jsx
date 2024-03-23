@@ -37,6 +37,7 @@ import StudentProfile from './pages/student/StudentProfile';
 import StudentGrades from './pages/student/StudentGrades';
 import StudentQuizzes from './pages/student/StudentQuizzes';
 import ProfessorMeeting from './pages/professor/ProfessorMeeting';
+import ResultComponent from './pages/professor/components/ResultComponent';
 
 
 
@@ -64,6 +65,7 @@ const App = () => {
             <Route path='dashboard' element={<ProfessorDashboard />} />
             <Route path='courses' element={<ManageCourses />} />
             <Route path='my-students' element={<ManageMyStudents />} />
+            <Route path='result/:name/:id' element={<ResultComponent />} />
             <Route path='announcements' element={<ManageAnnouncements />} />
             <Route path='quizzes' element={<ManageQuizzes />} />
             <Route path='tasks' element={<ManageSubmissions />} />

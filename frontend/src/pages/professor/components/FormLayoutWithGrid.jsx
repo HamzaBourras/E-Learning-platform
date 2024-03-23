@@ -6,15 +6,17 @@ import grid from '../../../assets/icons/gridSQ.svg'
 import list from '../../../assets/icons/grid_list.svg'
 import remove from '../../../assets/icons/delete.svg'
 import edit from '../../../assets/icons/edit.svg'
+import view from '../../../assets/icons/eye.svg'
 
 import { PlusIcon } from '../../../components/PlusIcon';
 import { getArrayById, uncapitalize } from "../../../utils/utils";
 import { useDispatch } from "react-redux";
 import { handleRenderAction } from "../../../state/features/Professor/professorSlice";
 import useForm from "../../../hooks/useForm";
-import { DELETE_ANNOUNCEMENT_API, DELETE_COURSE_API, DELETE_QUIZ_API } from "../../../api/apis";
+import { DELETE_ANNOUNCEMENT_API, DELETE_COURSE_API, DELETE_QUIZ_API, DELETE_TASK_API } from "../../../api/apis";
 import Alert from "../../../components/Alert";
 import CardImage from "../../../components/CardImage";
+import { Navigate, useNavigate } from "react-router";
 
 
 const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
@@ -59,12 +61,19 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                 setApiKey(`${DELETE_QUIZ_API}/${user.id}/${id}`)
                 break;
             case "task":
-                // setApiKey(`${DELETE_QUIZ_API}/${user.id}/${id}`)
+                setApiKey(`${DELETE_TASK_API}/${user.id}/${id}`)
                 break;
 
             default:
                 break;
         }
+    }
+
+    const navigate = useNavigate()
+    const showResult = (id) => {
+        return navigate(`/auth/professor/result/${uncapitalize(name)}/${id}`, {
+            replace: true,
+        })
     }
 
 
@@ -194,6 +203,19 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                                 <div className={`flex items-center ${isGrid ? 'flex-col space-y-1 h-full' : ''} w-full`}>
                                     <h1 className='text-sm font-medium text-balance flex-1 text-gray-500'>{item[uncapitalize(name) + 'Name']}</h1>
                                     <div className="space-x-1 hidden group-hover:flex group-hover:animate-appearance-in group-hover:transform group-hover:transition-all group-hover:delay-500 transition duration-400 ease-in-out">
+                                        {(name == "Task" || name == "Quiz") &&
+                                            <Button
+                                            variant="solid"
+                                            isIconOnly
+                                            color="primary"
+                                            size="sm"
+                                            onClick={() => showResult(item.id)}
+                                        >
+                                            <img
+                                                src={view}
+                                                className="size-4 invert"
+                                            />
+                                        </Button>}
                                         <Button
                                             variant="solid"
                                             isIconOnly

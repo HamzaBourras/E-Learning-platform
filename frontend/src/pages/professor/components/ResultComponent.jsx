@@ -1,0 +1,64 @@
+/* eslint-disable no-unsafe-optional-chaining */
+import { Navigate, useParams } from 'react-router-dom';
+import { VIEW_SUBMITTED_STUDENT_QUIZ, VIEW_SUBMITTED_STUDENT_TASKS } from './../../../api/apis';
+import useFetch from './../../../hooks/useFetch';
+import LoadingPage from './../../../components/LoadingPage';
+import Alert from '../../../components/Alert';
+import { Avatar } from '@nextui-org/react';
+import BackIcon from '../../../assets/icons/back.svg'
+
+const ResultComponent = () => {
+
+    const userRole = JSON.parse(localStorage.getItem('user')).role
+    const { name, id } = useParams();
+    let apiKey = ""
+    switch (name) {
+        case 'task':
+            apiKey = `${VIEW_SUBMITTED_STUDENT_TASKS}/${id}`
+            break;
+
+        case 'quiz':
+            apiKey = `${VIEW_SUBMITTED_STUDENT_QUIZ}/${id}`
+            break;
+
+        default:
+            break;
+    }
+
+    const { data, isLoading } = useFetch(apiKey)
+
+    if (userRole != "professor") {
+        return <Navigate to={`/auth/${userRole}`} replace />;
+    }
+
+    return (
+        <div className='w-full'>
+
+            {isLoading && <LoadingPage />}
+
+            <h1 className='text-lg font-semibold mb-3'>All students who submitted this {name}</h1>
+            {
+                data ? (data?.data).map((student, index) => (
+                    <div
+                        key={index}
+                        className='w-full flex'
+                    >
+                        <div className={`flex flex-col justify-center items-center border mx-1 px-2 py-2 rounded hover:bg-gray-50 hover:cursor-pointer`}>
+                            <Avatar />
+                            <h1 className='text-sm font-medium text-balance text-gray-500'>{student.firstName}</h1>
+                            <h1 className='text-sm font-medium text-balance text-gray-500'>{student.lastName}</h1>
+                            <h1 className='text-sm font-medium text-balance text-gray-100 bg-blue-500 px-5 rounded'>{student.studentNote}</h1>
+                        </div>
+                    </div>
+                )):(
+                    <div>
+                        No one has submitted this {name} yet !
+                    </div>
+                )
+            }
+
+        </div>
+    );
+};
+
+export default ResultComponent;

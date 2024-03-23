@@ -1,30 +1,30 @@
 
 import { Divider } from '@nextui-org/react';
-import { NotificationComponent } from './../../components/NotificationComponent';
 import ProgressComponent from '../../components/ProgressComponent';
 import DoneHW from '../../assets/images/done.png'
 import Assignment from '../../assets/images/assignment.png'
 import WelcomeBanner from './../../components/WelcomeBanner';
-import { announcements, categories, courses, teachers } from '../../json/data';
+import { categories } from '../../json/data';
 import Card from './components/Card';
 import courseImage from '../../assets/images/file.png'
 import RadarChart from './../../components/RadarChart';
 import CardImage from './../../components/CardImage';
+import { useSelector } from 'react-redux';
 
 
 const StudentDashboard = () => {
     const authUser = JSON.parse(localStorage.getItem('user'));
-    const someProfessors = teachers.slice(0, 5)
-    const someNotifications = announcements.slice(0, 5)
-    const someCourses = courses.slice(3, 6)
+    const myProfessors = useSelector((state)=>state.student.myProfessors)
+    const courses = useSelector((state)=>state.student.courses)
 
+    const someCourses = courses.slice(0,3)
     const grades = [60, 95, 85, 91, 33, 78]
     
 
     return (
         <div>
             <WelcomeBanner user={authUser.firstName}>
-                <NotificationComponent notifications={someNotifications} />
+                {/* <NotificationComponent notifications={someNotifications} /> */}
             </WelcomeBanner>
             <Divider />
             <div className='grid xs:sm:grid-cols-1 md:lg:grid-cols-12 py-1 gap-3'>
@@ -48,11 +48,10 @@ const StudentDashboard = () => {
 
                     <h1 className='title'>My Professors</h1>
                     {
-                        someProfessors.map(professor => (
+                        myProfessors.map(professor => (
                             <Card
                                 key={professor.id}
-                                title={`${professor.firstname}, ${professor.lastname}`}
-                                image="https://i.pravatar.cc/150?u=a04258114e29026302d"
+                                title={`${professor.firstname} ${professor.lastname}`}
                                 email={professor.email}
                             />
                         ))

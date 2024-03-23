@@ -37,7 +37,8 @@ const Sidebar = ({ tabs, user }) => {
     }
 
     const auth = JSON.parse(localStorage.getItem('user'))
-    const { isLoading, handleSubmit } = useForm({}, LOGOUT_API, 'post', false, true)
+    const apiKey = `${LOGOUT_API}`
+    const { isLoading, handleSubmit } = useForm({}, apiKey, 'post', false, true)
 
     const handleLogout = () => {
         handleSubmit();

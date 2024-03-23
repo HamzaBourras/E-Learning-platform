@@ -17,12 +17,9 @@ const QuizCreator = ({ id }) => {
 
     // -------------------------------DATA----------------------------------
 
-
-    const quizzes = useSelector((state)=> state.professor.quizzes);
+    const quizzes = useSelector((state) => state.professor.quizzes);
 
     const Quiz = getArrayById(quizzes, 'id', id)[0];
-
-    console.log(id);
 
     const initialState = {
         quizName: id ? Quiz['quizName'] : '',
@@ -34,7 +31,11 @@ const QuizCreator = ({ id }) => {
 
 
     const handleAddQuestion = () => {
-        handleChange('questions', [...inputs.questions, { question: '', answers: [] }]);
+        handleChange('questions', [...inputs.questions, {
+            question: '',
+            note: '',
+            answers: []
+        }]);
     };
 
     const handleAddAnswer = (questionIndex) => {
@@ -43,11 +44,15 @@ const QuizCreator = ({ id }) => {
         handleChange('questions', questions)
     }
 
-    const handleQuestionChange = (e, questionIndex) => {
-        const updateQuestions = [...inputs.questions];
-        updateQuestions[questionIndex].question = e.target.value;
-
-        handleChange('questions', updateQuestions)
+    // handle change of questions
+    const handleQuestionChange = (e, questionIndex, field) => {
+        const updatedQuestions = inputs.questions.map((question, index) => {
+            if (index === questionIndex) {
+                return { ...question, [field]: e.target.value };
+            }
+            return question;
+        });
+        handleChange('questions', updatedQuestions);
     }
 
     const handleAnswerChange = (e, questionIndex, answerIndex) => {
@@ -87,34 +92,46 @@ const QuizCreator = ({ id }) => {
                         onChange={(e) => handleChange('quizName', e.target.value)}
                     />
                     <Select
-                    items={user.sectors}
-                    label="Sector"
-                    variant='bordered'
-                    defaultSelectedKeys={inputs['sector'] !== "" ? [inputs['sector']] : undefined}
-                    errorMessage={errors['sector']}
-                    onChange={(e) => handleChange('sector', e.target.value)}
-                >
-                    {(user.sectors).map((sector) => (
-                        <SelectItem key={sector} >{sector}</SelectItem>
-                    ))}
-                </Select>
+                        items={user.sectors}
+                        label="Sector"
+                        variant='bordered'
+                        defaultSelectedKeys={inputs['sector'] !== "" ? [inputs['sector']] : undefined}
+                        errorMessage={errors['sector']}
+                        onChange={(e) => handleChange('sector', e.target.value)}
+                    >
+                        {(user.sectors).map((sector) => (
+                            <SelectItem key={sector} >{sector}</SelectItem>
+                        ))}
+                    </Select>
                     <Divider />
                     {inputs.questions.map((q, questionIndex) => (
                         <div key={questionIndex} className='space-y-2'>
-                            <Input
-                                type='text'
-                                variant='bordered'
-                                label={`Question ${questionIndex + 1}`}
-                                value={q.question}
-                                onChange={(e) => handleQuestionChange(e, questionIndex)}
-                            />
+                            <div className='grid grid-cols-6 space-x-0.5'>
+                                <Input
+                                    className='col-span-5'
+                                    type='text'
+                                    variant='bordered'
+                                    label={`Question ${questionIndex + 1}`}
+                                    value={q.question}
+                                    onChange={(e) => handleQuestionChange(e, questionIndex, 'question')}
+                                />
+                                {/* grade of question */}
+                                <Input
+                                    className=''
+                                    type='number'
+                                    variant='bordered'
+                                    label={`Note`}
+                                    value={q.note}
+                                    onChange={(e) => handleQuestionChange(e, questionIndex, 'note')}
+                                />
+                            </div>
                             {q.answers.map((a, answerIndex) => (
                                 <div key={answerIndex} className='ml-2 flex items-center relative'>
                                     <Checkbox
                                         color='default'
                                         size="lg"
                                         isSelected={a.isCorrect}
-                                        
+
                                         onChange={(e) => handleCheckboxChange(e, questionIndex, answerIndex)}
                                     />
                                     <Input
@@ -147,7 +164,7 @@ const QuizCreator = ({ id }) => {
                             type='submit'
                             className='bg-foreground text-background'
                             onClick={handleSubmit} disabled={isLoading}>
-                            {isLoading ? (<div className='flex items-center gap-1'><Spinner size='sm' color="default" /> {id ? 'updating ...' : 'creating ...'} </div>) :  id ? 'Update' : 'Submit' }
+                            {isLoading ? (<div className='flex items-center gap-1'><Spinner size='sm' color="default" /> {id ? 'updating ...' : 'creating ...'} </div>) : id ? 'Update' : 'Submit'}
                         </Button>
                     </div>
                 </form>

@@ -6,6 +6,7 @@ const initialState = {
     courses: [],
     announcements:[],
     quizzes: [],
+    tasks: [],
     renderAction: false
 
 }
@@ -34,12 +35,24 @@ export const professorSlice = createSlice({
             state.quizzes = action.payload
         },
 
+        saveTasks: (state, action) => {
+            state.tasks = action.payload
+        },
+
         handleRenderAction: (state) => {
             state.renderAction = !state.renderAction
         }
     }
 })
 
-export const {saveProfessor, saveAnnouncements, saveCourses, saveQuizzes, saveMyStudents, handleRenderAction } = professorSlice.actions;
+export const {
+            saveProfessor,
+            saveTasks,
+            saveAnnouncements, 
+            saveCourses, 
+            saveQuizzes, 
+            saveMyStudents, 
+            handleRenderAction 
+        } = professorSlice.actions;
 
 export default createSlice.reducer

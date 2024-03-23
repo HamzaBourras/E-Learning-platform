@@ -1,8 +1,12 @@
-import { categories, grades } from "../../json/data"
+import { categories } from "../../json/data"
 import gradeImage from '../../assets/images/grades.png'
 import result from '../../assets/images/result.png'
 import StudentLayoutForm from './components/StudentLayoutForm';
+import { useSelector } from "react-redux";
 const StudentGrades = () => {
+
+    const grades = useSelector((state)=>state.student.grades).data
+    
     return (
         <div>
             <StudentLayoutForm 

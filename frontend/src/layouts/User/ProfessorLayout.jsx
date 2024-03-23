@@ -4,10 +4,10 @@ import { Navigate, Outlet } from 'react-router-dom'
 import ProfessorStructure from '../../components/sidebar/ProfessorStructure';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { ALL_ANNOUNCEMENTS_API, ALL_COURSES_API, ALL_QUIZZES_API, PROFESSOR_STUDENTS_API } from "../../api/apis";
+import { ALL_ANNOUNCEMENTS_API, ALL_COURSES_API, ALL_QUIZZES_API, ALL_TASKS_API, PROFESSOR_STUDENTS_API } from "../../api/apis";
 import useFetch from "../../hooks/useFetch";
 import LoadingPage from "../../components/LoadingPage";
-import { saveAnnouncements, saveCourses, saveMyStudents, saveQuizzes } from "../../state/features/Professor/professorSlice";
+import { saveAnnouncements, saveCourses, saveMyStudents, saveQuizzes, saveTasks } from "../../state/features/Professor/professorSlice";
 import Alert from './../../components/Alert';
 
 
@@ -22,6 +22,7 @@ const ProfessorLayout = () => {
     const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useFetch(`${ALL_COURSES_API}/${user.id}`, reRender, true);
     const { data: announcementsData, isLoading: announcementsLoading, error: announcementsError } = useFetch(`${ALL_ANNOUNCEMENTS_API}/${user.id}`, reRender);
     const { data: quizzesData, isLoading: quizzesLoading, error: quizzesError } = useFetch(`${ALL_QUIZZES_API}/${user.id}`, reRender);
+    const { data: taskData, isLoading: taskLoading, error: taskError } = useFetch(`${ALL_TASKS_API}/${user.id}`, reRender);
 
 
     useEffect(() => {
@@ -41,11 +42,15 @@ const ProfessorLayout = () => {
             dispatch(saveQuizzes(quizzesData.data));
         }
 
-    }, [studentsData, reRender, coursesData, dispatch, announcementsData, quizzesData]);
+        if (taskData) {
+            dispatch(saveTasks(taskData.data));
+        }
+
+    }, [studentsData, reRender, coursesData, dispatch, announcementsData, quizzesData, taskData]);
 
 
     if ((user.role) !== 'professor') {
-        return <Navigate to={`/auth/${user}`} replace />;
+        return <Navigate to={`/auth/${user.role}`} replace />;
     }
 
     return (

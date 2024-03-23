@@ -10,6 +10,8 @@ import { ModalHeader } from '@nextui-org/react';
 import StudentQuizForm from './StudentQuizForm';
 import { Navigate } from 'react-router-dom';
 import viewDocument from './../viewDocument';
+import { useDispatch } from "react-redux";
+import { handleRenderAction } from "../../../state/features/Student/studentSlice";
 
 const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) => {
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -19,11 +21,13 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
     const [d, setD] = useState(data)
 
     const handleClick = (id) => {
-        if (name == "quiz" || name=="task") {
+        if (name == "quiz" || name == "task") {
             setSelectedKey(id)
             onOpen()
         }
     }
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (searchValue.trim() !== '') {
@@ -47,12 +51,6 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
             setD(data);
         }
     }, [data, name, searchValue]);
-
-    const handleViewDocument = () =>{
-        
-    }
-
-
 
 
     return (
@@ -100,26 +98,34 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
                                         >
                                             <img src={image} className='w-12' />
                                             <div className="flex justify-between w-full">
-                                                <h1 className='text-sm font-medium text-balance flex-1 text-gray-500'>{item[uncapitalize(name) + 'Name']}</h1>
+                                                <h1 className='text-sm font-medium text-balance flex-1 text-gray-500'>
+                                                    {name == 'grade'? item['quizName'] : item[uncapitalize(name) + 'Name']}
+                                                </h1>
+                                                {name == 'grade' &&<h1 className='text-sm font-medium text-balance text-gray-500'>
+                                                    { item.grade }/20
+                                                </h1>}
 
-                                                {name != "quiz" && name != 'task' &&
-                                                    <div className="space-x-1">
-                                                        <button 
+                                                {name != "quiz" && name != 'task' && name != 'grade' &&
+                                                    <div className="space-x-1 flex">
+                                                        {/* <button 
                                                             className="bg-blue-600 hover:bg-blue-800 p-2 rounded">
                                                             <img
                                                                 src={viewIcon}
                                                                 alt=""
                                                                 className="size-3 invert"
                                                             />
-                                                        </button>
+                                                        </button> */}
 
-                                                        <button className="bg-blue-600 hover:bg-blue-800 p-2 rounded">
+                                                        <a
+                                                            href={`http://localhost:8000${item.file}`}
+                                                            download
+                                                            className="bg-blue-600 hover:bg-blue-800 p-2 rounded">
                                                             <img
                                                                 src={downloadIcon}
                                                                 alt=""
                                                                 className="size-3 invert"
                                                             />
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 }
                                             </div>
@@ -129,7 +135,7 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
                             </div>
                         )))
                         :
-                        <h1 className="w-full col-span-2 mx-4 mt-4 text-gray-600">No {name == "quiz" ? "Quizzes" : `${title}s`} available at the moment</h1>
+                        <h1 className="w-full col-span-2 mx-4 mt-4 text-gray-600">No {name == "quiz" ? "Quizzes" : `${title}`} available at the moment</h1>
                 }
 
                 <Modal
@@ -139,6 +145,10 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
                     onOpenChange={onOpenChange}
                     size="2xl"
                     className="overflow-auto"
+                    onClose={() => {
+                        dispatch(handleRenderAction())
+                        onClose();
+                    }}
                     motionProps={{
                         variants: {
                             enter: {
@@ -163,7 +173,7 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
                     <ModalContent>
                         {(onClose) => (
                             <>
-                                {(name === 'quiz' || name==='task') && selectedKey && (
+                                {(name === 'quiz' || name === 'task') && selectedKey && (
                                     <>
                                         <ModalBody>
                                             <Component id={selectedKey} />
