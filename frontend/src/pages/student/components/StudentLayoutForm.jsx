@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Button, Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, Spinner, Tab, Tabs, useDisclosure } from "@nextui-org/react"
+import { Button, Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, Spinner, Tab, Tabs, spacer, useDisclosure } from "@nextui-org/react"
 import CardImage from "../../../components/CardImage"
 import { useEffect, useState } from "react";
 import { getArrayById, uncapitalize } from "../../../utils/utils";
@@ -16,7 +16,7 @@ import { handleRenderAction } from "../../../state/features/Student/studentSlice
 const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) => {
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
-    const [isGrid, setIsGrid] = useState(false);
+    const [isGrid, setIsGrid] = useState(true);
     const [searchValue, setSearchValue] = useState('')
     const [selectedKey, setSelectedKey] = useState(null)
     const [d, setD] = useState(data)
@@ -60,29 +60,19 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
                 <CardImage image={imageLogo} title={title} />
             </div>
 
-            <div>
-                <div className="w-64 my-0.5">
-                    <Input
-                        className=""
-                        variant="bordered"
-                        label={`Search in ${title}`}
-                        value={searchValue}
-                        onChange={(e) => setSearchValue(e.target.value)}
-                    />
-                </div>
-                <Divider className="mb-2" />
+            <div className="w-full h-full grid md:grid-cols-3 lg:grid-cols-4 xs:grid-cols-2 gap-4">
                 {
                     d && d.length > 0 ?
                         (d.map((item, index) => (
                             <div key={index}
-                                className={`grid ${isGrid ? 'xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7' : ''} gap-2`}
+                                className={`size-32 w-full`}
                             >
                                 {
                                     (item.grades) ? (
                                         (item.grades).map((grade, index) => (
                                             <div
                                                 key={index}
-                                                className={`flex group animate-appearance-in p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border`}
+                                                className={`flex group animate-appearance-in p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border border-gray-300`}
                                             >
                                                 <img src={image} className='w-12' />
                                                 <div className={`flex justify-between w-full`}>
@@ -94,33 +84,35 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
                                     ) : (
                                         <div
                                             key={item.id}
-                                            className={`flex group animate-appearance-in my-1 p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border`}
+                                            className={`flex group animate-appearance-in my-1 p-3 ${isGrid ? 'flex-col justify-center items-center text-center' : 'items-center'} hover:cursor-pointer hover:bg-gray-50 rounded-md border border-gray-300`}
                                             onClick={() => handleClick(item.id)}
                                         >
                                             <img src={image} className='w-12' />
-                                            <div className="flex justify-between w-full">
+                                            <div className="flex flex-col space-y-3 w-full">
                                                 <h1 className='text-sm font-medium text-balance flex-1 text-gray-500'>
                                                     {name == 'grade'? item['quizName'] : item[uncapitalize(name) + 'Name']}
                                                 </h1>
-                                                {name == 'grade' &&<h1 className='text-sm font-medium text-balance text-gray-500'>
+
+                                                {/* for grades */}
+                                                {name == 'grade' &&<h1 className='text-sm font-medium text-balance border text-blue-500 border-blue-600 px-2 py-1 rounded-md'>
                                                     { item.grade }/{item.noteTotale}
                                                 </h1>}
 
-                                                {name != "quiz" && name != 'task' && name != 'grade' &&
-                                                    <div className="space-x-1 flex">
-                                                        {/* <button 
-                                                            className="bg-blue-600 hover:bg-blue-800 p-2 rounded">
-                                                            <img
-                                                                src={viewIcon}
-                                                                alt=""
-                                                                className="size-3 invert"
-                                                            />
-                                                        </button> */}
+                                                {/* for tasks */}
+                                                {name == 'task' &&<h1 className='text-sm font-medium text-balance text-gray-900'>
+                                                    { (item.submitted) ? (
+                                                        <span className="border text-green-500 border-green-600 px-2 py-1 rounded-md">Submitted</span>
+                                                    ) : (
+                                                        <span className="border text-red-500 border-red-600 bg-opacity- px-2 py-1 rounded-md">Unsubmitted</span>
+                                                    ) }
+                                                </h1>}
 
+                                                {name != "quiz" && name != 'task' && name != 'grade' &&
+                                                    <div className="space-x-1 flex justify-center">
                                                         <a
                                                             href={`http://localhost:8000${item.file}`}
                                                             download
-                                                            className="bg-blue-600 hover:bg-blue-800 p-2 rounded">
+                                                            className="bg-blue-600 px-4 hover:bg-blue-800 p-2 rounded flex items-center space-x-1">
                                                             <img
                                                                 src={downloadIcon}
                                                                 alt=""

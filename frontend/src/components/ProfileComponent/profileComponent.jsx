@@ -1,17 +1,20 @@
 /* eslint-disable react/prop-types */
 import { Avatar, Divider, Input, Textarea, Badge, Button, Spinner } from '@nextui-org/react'
 import useForm from '../../hooks/useForm'
+import { UPDATE_PROFILE_API } from '../../api/apis';
+import Alert from '../Alert';
 
 const Profile = () => {
     const authUser = JSON.parse(localStorage.getItem('user'));
-    const apiKey = 'http://127.0.0.1:8000/api/posts/store';
+
+    const apiKey = `${UPDATE_PROFILE_API}/${authUser.id}`;
     const initialState = {
         'firstname': authUser.firstName,
         'lastname': authUser.lastName,
         'email': authUser.email,
+        'password': '',
+        'passwordConfirmation': '',
         'bio': authUser.bio,
-        'role': authUser.role,
-        'image': authUser.image
     }
 
     let color = ''
@@ -30,7 +33,7 @@ const Profile = () => {
             break;
     }
 
-    const { inputs, errors, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey);
+    const { inputs, errors, isLoading, handleChange, handleSubmit, message } = useForm(initialState, apiKey, 'put', false, true);
 
     return (
         <div className='px-1 space-y-3'>
@@ -44,42 +47,31 @@ const Profile = () => {
                     <Badge
                         content={authUser.role}
                         color={color}
-                        className="font-semibold px-2"
+                        className="font-semibold px-2 py-0.5"
                         shape="rectangle"
                         size="sm"
                         variant="flat"
-                        
+
                     />
 
                     <form onSubmit={handleSubmit}>
-                        <div className='flex flex-col items-center'>
-                            <label htmlFor="fileInput" className="cursor-pointer relative inline-block">
-                                <Avatar
-                                    isBordered
-                                    color={color}
-                                    name={inputs['lastName']}
-                                    className='md:lg:w-32 md:lg:h-32 xs:sm:w-20 xs:sm:h-20 my-2'
-                                    src={inputs['image']}
-                                />
-                                {isLoading &&
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <Spinner color='default' />
-                                    </div>
-                                }
-                            </label>
-                            <input
-                                type="file"
-                                id="fileInput"
-                                className="hidden"
-                                onChange={(e) => { handleChange('image', e.target.files[0].name) }}
+                        <div className='flex flex-col items-center mt-2'>
+                            <Avatar
+                                isBordered
+                                color={color}
+                                name={`${(authUser.firstName).charAt(0).toUpperCase()}`}
+                                className='md:lg:w-32 md:lg:h-32 xs:sm:w-20 xs:sm:h-20 my-2 text-4xl'
                             />
+
                             <span className='text-sm font-medium my-2'>Edit profile</span>
 
                         </div>
 
 
+                        {message && <Alert color='success' message={message} />}
                         <div className='grid grid-cols-2 gap-2 md:lg:mx-72'>
                             <Divider className='col-span-2 mb-3' />
+
 
                             <Input variant="bordered"
                                 label="Firstname"
@@ -106,12 +98,17 @@ const Profile = () => {
                             <Input variant="bordered"
                                 label="Password"
                                 type='password'
-                                is
+                                value={inputs['password']}
+                                errorMessage={errors['password']}
+                                onChange={(e) => handleChange('password', e.target.value)}
                             />
 
                             <Input variant="bordered"
                                 label="Password Confirmation"
                                 type='password'
+                                value={inputs['passwordConfirmation']}
+                                errorMessage={errors['passwordConfirmation']}
+                                onChange={(e) => handleChange('passwordConfirmation', e.target.value)}
                             />
 
                             <Textarea
@@ -126,9 +123,9 @@ const Profile = () => {
                             </Textarea>
                             <Button
                                 type='submit'
-                                className='bg-foreground text-background'
+                                className="bg-foreground text-background mt-1"
                             >
-                                Update
+                                {isLoading ? (<div className='flex items-center gap-1'><Spinner color="default" /> Updating...</div>) : 'Update'}
                             </Button>
                         </div>
                     </form>

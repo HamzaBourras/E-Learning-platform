@@ -1,11 +1,9 @@
 // import { students, courses } from '../../json/data'
-import { countData } from '../../utils/utils'
 import StduentImage from '../../assets/images/student-logo.png'
 import CourseImage from '../../assets/images/folder-Logo.png'
 import QuizImage from '../../assets/images/quizLogo.png'
 import BarChart from '../../components/BarChart'
-import DoughnutChart from '../../components/DoughnutChart'
-import { sortArray } from './../../utils/utils';
+import { countData, sortArray } from './../../utils/utils';
 import ProgressComponent from './../../components/ProgressComponent';
 import { COLORS } from './../../../constants/COLORS';
 import WelcomeBanner from './../../components/WelcomeBanner';
@@ -16,9 +14,8 @@ const ProfessorDashboard = () => {
     const authUser = JSON.parse(localStorage.getItem('user'));
     const students = useSelector((state) => state.professor.myStudents)
     const courses = useSelector((state) => state.professor.courses)
+    const quizzes = useSelector((state)=> state.professor.quizzes)
 
-    const numberOfStudents = countData(students)
-    const numberOfCourses = countData(courses)
 
     const studentsData = {
         student1: { assignments: 10, quizzes: 15, courses: 8 },
@@ -31,20 +28,16 @@ const ProfessorDashboard = () => {
     const sortedCourses = sortArray(courses, 'desc');
     const topCourses = sortedCourses.slice(0, 3)
 
-    const labels = topCourses.map(course => course.courseName);
-    const downloads = topCourses.map(download => download.downloads);
-
-
 
     return (
         <div className="space-y-3">
             <WelcomeBanner user={authUser.firstName} />
 
             <div className="grid xs:sm:grid-cols-2 md:lg:grid-cols-2 gap-4 h-fit">
-                <ProgressComponent name="Students" image={StduentImage} number={numberOfStudents} maxNumber={40} />
-                <ProgressComponent name="Courses" image={CourseImage} number={numberOfCourses} maxNumber={numberOfCourses} />
+                <ProgressComponent name="Students" image={StduentImage} number={countData(students)} maxNumber={60} />
+                <ProgressComponent name="Courses" image={CourseImage} number={countData(courses)} maxNumber={20} />
                 <div className="col-span-2">
-                    <ProgressComponent name="Quizzes" image={QuizImage} number={numberOfCourses} maxNumber={3} />
+                    <ProgressComponent name="Quizzes" image={QuizImage} number={countData(quizzes)} maxNumber={80} />
                 </div>
             </div>
 

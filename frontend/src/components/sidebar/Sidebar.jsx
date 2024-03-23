@@ -97,11 +97,10 @@ const Sidebar = ({ tabs, user }) => {
                             <Avatar
                                 isBordered
                                 as="button"
-                                className="transition-transform"
+                                className="transition-transform text-white text-md"
                                 color={color}
-                                name="Jason Hughes"
+                                name={`${(auth.firstName).charAt(0).toUpperCase()}`}
                                 size="sm"
-                                src="https://i.pravatar.cc/150?u=a04258114e29026302d"
                             />
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Profile Actions" variant="flat">
