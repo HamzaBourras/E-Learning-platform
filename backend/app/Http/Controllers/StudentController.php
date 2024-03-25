@@ -282,7 +282,6 @@ class StudentController extends Controller
 
 
     /*********** return all grades of the students ***********/
-    /**** return all grades ****/
     public function indexGrade(int $student_id)
     {
         $allGrades = Note::with("qcm")->where("user_id", $student_id)->get();
@@ -303,4 +302,29 @@ class StudentController extends Controller
             "data" => $studentGrades
         ]);
     }
+
+
+    /********************* return all announcements of the student *************************/
+    public function indexAnnouncement (int $student_id)
+    {
+        $student = User::with("sector.announcements.user")->where("id", $student_id)->first();
+        $studentAnnounc = $student->sector->announcements()->orderBy('id','desc')->get();
+
+        $studentAnnouncements = [];
+
+        foreach($studentAnnounc as $announcement) {
+            $format = [
+                "id" => $announcement->id,
+                "announcement" => $announcement->announcement,
+                "professorName" => $announcement->user->firstName." ".$announcement->user->lastName
+            ];
+            array_push($studentAnnouncements, $format);
+        }
+
+        return response()->json([
+            "data" => $studentAnnouncements
+        ]);
+    }
+
+
 }

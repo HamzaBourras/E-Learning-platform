@@ -159,4 +159,9 @@ Route::prefix("auth/student")->controller(StudentController::class)->name("stude
 
     //--------------- Grades -----------------------
     Route::get("grades/index/{student_id}", "indexGrade")->where(["student_id" => "[0-9]+"])->name("indexGrade");
+
+
+    //--------------- Announcement -----------------------
+    Route::get("announcements/index/{student_id}","indexAnnouncement")->where(["student_id" => "[0-9]+"])->name("indexAnnouncement");
+
 });

@@ -18,4 +18,8 @@ class Announcement extends Model
     public function sector () {
         return $this->belongsTo(Sector::class);
     }
+
+    public function user () {
+        return $this->belongsTo(User::class);
+    }
 }

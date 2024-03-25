@@ -42,4 +42,8 @@ class Sector extends Model
     public function qcms () {
         return $this->hasMany(Qcm::class);
     }
+
+    public function announcements () {
+        return $this->hasMany(Announcement::class);
+    }
 }
