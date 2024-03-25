@@ -27,6 +27,7 @@ use App\Http\Controllers\StudentController;
 /********************** Authentification **********************/
 Route::post("/login", [AuthentificationController::class, "login"])->name("login");
 Route::post("/logout/{user_id}", [AuthentificationController::class, "logout"])->name("logout");
+Route::get("/forgotPassword", [AuthentificationController::class, "forgotPassword"]);
 
 
 /********************** UpdateProfile **********************/
