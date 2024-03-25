@@ -25,10 +25,10 @@ class ProfessorController extends Controller
     /********************************** Course *************************************/
 
     /**** return All courses ****/
-    public function indexCourse(int $user_id)
+    public function indexCourse(int $professor_id)
     {
 
-        $cous = Document::with("sector", "user")->where(["user_id" => $user_id])->orderBy('id', 'desc')->get();
+        $cous = Document::with("sector", "user")->where(["user_id" => $professor_id])->orderBy('id', 'desc')->get();
 
         $courses = [];
 
@@ -52,7 +52,7 @@ class ProfessorController extends Controller
 
 
     /**** store a course ****/
-    public function storeCourse(CourseRequest $request, int $user_id)
+    public function storeCourse(CourseRequest $request, int $professor_id)
     {
 
         $sector_id = Sector::where('name', $request->sector)->first()->id;
@@ -68,7 +68,7 @@ class ProfessorController extends Controller
         Document::create([
             "title" => $request->courseName,
             "sector_id" => $sector_id,
-            "user_id" => $user_id,
+            "user_id" => $professor_id,
             "description" => $request->description,
             "file" => $filename
         ]);
@@ -80,7 +80,7 @@ class ProfessorController extends Controller
 
 
     /**** edit a course ****/
-    public function editCourse(CourseRequest $request, int $user_id, int $id)
+    public function editCourse(CourseRequest $request, int $professor_id, int $course_id)
     {
 
         $sector_id = Sector::where('name', $request->sector)->first()->id;
@@ -88,7 +88,7 @@ class ProfessorController extends Controller
         $filename = null;
 
         /** Tester sur le document **/
-        $oldFile = Document::where('id', $id)->first();
+        $oldFile = Document::where('id', $course_id)->first();
 
         // si le professeur a choisi un noveau document
         if ($request->hasFile('file')) {
@@ -104,7 +104,7 @@ class ProfessorController extends Controller
             $filename = $oldFile->file;
         }
 
-        Document::where(["id" => $id, "user_id" => $user_id])->update([
+        Document::where(["id" => $course_id, "user_id" => $professor_id])->update([
             "title" => $request->courseName,
             "sector_id" => $sector_id,
             "description" => $request->description,
@@ -118,9 +118,9 @@ class ProfessorController extends Controller
 
 
     /**** delete a course ****/
-    public function destroyCourse(int $user_id, int $id)
+    public function destroyCourse(int $professor_id, int $course_id)
     {
-        Document::where(["id" => $id, "user_id" => $user_id])->delete();
+        Document::where(["id" => $course_id, "user_id" => $professor_id])->delete();
 
         return response()->json([
             "message" => "course deleted successfully"
@@ -132,11 +132,11 @@ class ProfessorController extends Controller
     /***************************************** Student ***************/
 
     /**** return All students of professor ****/
-    public function indexStudent(int $user_id)
+    public function indexStudent(int $professor_id)
     {
 
         // selectioné le prof avec ses filières
-        $user = User::with("sectors", "sectors.departement")->where('id', $user_id)->orderBy('id', 'desc')->first();
+        $user = User::with("sectors", "sectors.departement")->where('id', $professor_id)->orderBy('id', 'desc')->first();
 
         $profStudents = [];
 
@@ -168,10 +168,10 @@ class ProfessorController extends Controller
     /************************************* Announcement ************************************/
 
     /**** return All Announcements ****/
-    public function indexAnnouncement(int $user_id)
+    public function indexAnnouncement(int $professor_id)
     {
 
-        $allAnnouncements = Announcement::where('user_id', $user_id)->with("sector")->orderBy('id', 'desc')->get();
+        $allAnnouncements = Announcement::where('user_id', $professor_id)->with("sector")->orderBy('id', 'desc')->get();
 
         $announcements = [];
 
@@ -192,7 +192,7 @@ class ProfessorController extends Controller
 
 
     /**** store an Announcement ****/
-    public function storeAnnouncement(AnnouncementRequest $request, int $user_id)
+    public function storeAnnouncement(AnnouncementRequest $request, int $professor_id)
     {
 
         $sector_id = Sector::where('name', $request->sector)->first()->id;
@@ -200,7 +200,7 @@ class ProfessorController extends Controller
         Announcement::create([
             "announcement" => $request->announcementName,
             "sector_id" => $sector_id,
-            "user_id" => $user_id
+            "user_id" => $professor_id
         ]);
 
         return response()->json([
@@ -209,11 +209,11 @@ class ProfessorController extends Controller
     }
 
     /**** edit an Announcement ****/
-    public function editAnnouncement(AnnouncementRequest $request, int $user_id, int $id)
+    public function editAnnouncement(AnnouncementRequest $request, int $professor_id, int $announcement_id)
     {
         $sector_id = Sector::where('name', $request->sector)->first()->id;
 
-        Announcement::where(["id" => $id, "user_id" => $user_id])->update([
+        Announcement::where(["id" => $announcement_id, "user_id" => $professor_id])->update([
             "announcement" => $request->announcementName,
             "sector_id" => $sector_id,
         ]);
@@ -224,9 +224,9 @@ class ProfessorController extends Controller
     }
 
     /**** delete an Announcement ****/
-    public function destroyAnnouncement(int $user_id, int $id)
+    public function destroyAnnouncement(int $professor_id, int $announcement_id)
     {
-        Announcement::where(["id" => $id, "user_id" => $user_id])->delete();
+        Announcement::where(["id" => $announcement_id, "user_id" => $professor_id])->delete();
 
         return response()->json([
             "message" => "Announcement deleted successfully"
@@ -238,10 +238,10 @@ class ProfessorController extends Controller
     /************************************* Tasks *************************************/
 
     /**** return all tasks ****/
-    public function indexTask(int $user_id)
+    public function indexTask(int $professor_id)
     {
 
-        $alltasks = Task::with("sector")->where('user_id', $user_id)->orderBy('id', 'desc')->get();
+        $alltasks = Task::with("sector")->where('user_id', $professor_id)->orderBy('id', 'desc')->get();
 
         $profTasks = [];
         $dateActuel = Carbon::now();
@@ -268,13 +268,13 @@ class ProfessorController extends Controller
 
 
     /**** store a task  *****/
-    public function storeTask(TaskRequest $request, int $user_id)
+    public function storeTask(TaskRequest $request, int $professor_id)
     {
         $sector_id = Sector::where('name', $request->sector)->first()->id;
 
         Task::create([
             "taskName" => $request->taskName,
-            "user_id" => $user_id,
+            "user_id" => $professor_id,
             "sector_id" => $sector_id,
             "description" => $request->description,
             "deadline" => $request->deadline
@@ -287,11 +287,11 @@ class ProfessorController extends Controller
 
 
     /**** edit a task ****/
-    public function editTask(TaskRequest $request, int $user_id, int $id)
+    public function editTask(TaskRequest $request, int $professor_id, int $task_id)
     {
         $sector_id = Sector::where('name', $request->sector)->first()->id;
 
-        Task::where(["id" => $id, "user_id" => $user_id])->update([
+        Task::where(["id" => $task_id, "user_id" => $professor_id])->update([
             "taskName" => $request->taskName,
             "sector_id" => $sector_id,
             "description" => $request->description,
@@ -305,9 +305,9 @@ class ProfessorController extends Controller
 
 
     /**** delete a task ****/
-    public function destroyTask(int $user_id, int $id)
+    public function destroyTask(int $professor_id, int $task_id)
     {
-        Task::where(["id" => $id, "user_id" => $user_id])->delete();
+        Task::where(["id" => $task_id, "user_id" => $professor_id])->delete();
 
         return response()->json([
             "message" => "Task deleted successfully",
@@ -315,9 +315,9 @@ class ProfessorController extends Controller
     }
 
     /**** return all submissions of the task ****/
-    public function showTaskSubmissions(int $id)
+    public function showTaskSubmissions(int $task_id)
     {
-        $task = Task::with("submissions.user")->where('id', $id)->first();
+        $task = Task::with("submissions.user")->where('id', $task_id)->first();
         $taskSubms = $task->submissions->sortByDesc('id');
 
         $taskSubmissions = [];
@@ -342,10 +342,10 @@ class ProfessorController extends Controller
     /************************************* Quizzes *************************************/
 
     /**** return All Quizzes ****/
-    public function indexQuizze(int $user_id)
+    public function indexQuizze(int $professor_id)
     {
         // get all quizzes for professor with question and choices
-        $allQuizzes = Qcm::with("sector", "questions", "questions.choices")->where('user_id', $user_id)->orderBy('id', 'desc')->get();
+        $allQuizzes = Qcm::with("sector", "questions", "questions.choices")->where('user_id', $professor_id)->orderBy('id', 'desc')->get();
 
         $professorQuizzes = [];
 
@@ -388,7 +388,7 @@ class ProfessorController extends Controller
 
 
     /**** store a Quizze ****/
-    public function storeQuizze(QcmRequest $request, int $user_id)
+    public function storeQuizze(QcmRequest $request, int $professor_id)
     {
         $sector_id = Sector::where('name', $request->sector)->first()->id;
         $quizNoteTotale = 0;
@@ -399,7 +399,7 @@ class ProfessorController extends Controller
 
         $qcmCree = Qcm::create([
             "title" => $request->quizName,
-            "user_id" => $user_id,
+            "user_id" => $professor_id,
             "sector_id" => $sector_id,
             "noteTotale" => $quizNoteTotale
         ]);
@@ -429,7 +429,7 @@ class ProfessorController extends Controller
 
 
     /**** edit a Quizze ****/
-    public function editQuizze(QcmRequest $request, int $user_id, int $id)
+    public function editQuizze(QcmRequest $request, int $professor_id, int $quiz_id)
     {
 
         $sector_id = Sector::where('name', $request->sector)->first()->id;
@@ -439,7 +439,7 @@ class ProfessorController extends Controller
             $quizNoteTotale += $question['note']; // Ajouter la note de la question à la note totale du Qcm
         }
 
-        Qcm::where(["user_id" => $user_id, "id" => $id])->update([
+        Qcm::where(["user_id" => $professor_id, "id" => $quiz_id])->update([
             "title" => $request->quizName,
             "sector_id" => $sector_id,
             "noteTotale" => $quizNoteTotale
@@ -447,7 +447,7 @@ class ProfessorController extends Controller
 
 
         foreach ($request->questions as $question) {
-            Question::where(["qcm_id" => $id, "id" => $question['id']])->update([
+            Question::where(["qcm_id" => $quiz_id, "id" => $question['id']])->update([
                 "text" => $question['question'],
                 "note" => $question['note']
             ]);
@@ -468,16 +468,16 @@ class ProfessorController extends Controller
     }
 
     /**** delete a Quizze ****/
-    public function destroyQuizze(int $user_id, int $id)
+    public function destroyQuizze(int $professor_id, int $quiz_id)
     {
-        Qcm::where(["user_id" => $user_id, "id" => $id])->delete();
+        Qcm::where(["user_id" => $professor_id, "id" => $quiz_id])->delete();
 
         return response()->json([
             "message" => "Quizze deleted successfully"
         ]);
     }
 
-    /**** return all student who passed the quiz ****/
+    /**** return all students who passed the quiz with their note ****/
     public function showQuizStudents(int $quiz_id)
     {
         $quizNotes = Note::with("user")->where("qcm_id", $quiz_id)->get();
@@ -504,9 +504,9 @@ class ProfessorController extends Controller
 
     /***** Dashbord students statistics ********/
 
-    public function indexStudStatis(int $prof_id)
+    public function indexStudStatis(int $professor_id)
     {
-        $allProfessorStudents = User::with("sectors.users.submissions", "sectors.users.notes")->where('id', $prof_id)->orderBy('id', 'desc')->first();
+        $allProfessorStudents = User::with("sectors.users.submissions", "sectors.users.notes")->where('id', $professor_id)->orderBy('id', 'desc')->first();
 
         $studentsStatics = [];
 

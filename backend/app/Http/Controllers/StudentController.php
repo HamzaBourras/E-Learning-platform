@@ -16,9 +16,9 @@ class StudentController extends Controller
 {
 
     /************ return all professors of the student ******************/
-    public function indexProfessor(int $user_id)
+    public function indexProfessor(int $student_id)
     {
-        $studentProf = User::with("sector.user")->where('id', $user_id)->first();  //all professor for student
+        $studentProf = User::with("sector.user")->where('id', $student_id)->first();  //all professor for student
 
         $allProfessors = $studentProf->sector->user->sortByDesc('id');
 
@@ -43,9 +43,9 @@ class StudentController extends Controller
 
 
     /************ return all courses of the student ******************/
-    public function indexCourse(int $user_id)
+    public function indexCourse(int $student_id)
     {
-        $studentCour = User::with("sector.documents")->where('id', $user_id)->first();
+        $studentCour = User::with("sector.documents")->where('id', $student_id)->first();
 
         $latestCourses = $studentCour->sector->documents->sortByDesc('id');
 
@@ -71,10 +71,10 @@ class StudentController extends Controller
     /*************** Quizzes ***************/
 
     /**** return all quizzes of the student ****/
-    public function indexQuiz(int $user_id)
+    public function indexQuiz(int $student_id)
     {
-        $allStudentQuiz = User::with("sector.qcms.questions.choices",)->where('id', $user_id)->first();  // all quizzes of the student
-        $submittedQuizzesIds = Note::where("user_id", $user_id)->pluck("qcm_id")->toArray();
+        $allStudentQuiz = User::with("sector.qcms.questions.choices",)->where('id', $student_id)->first();  // all quizzes of the student
+        $submittedQuizzesIds = Note::where("user_id", $student_id)->pluck("qcm_id")->toArray();
 
         $studentQuizzes = [];
 
@@ -121,7 +121,7 @@ class StudentController extends Controller
 
 
     /**** calcul note for a qcm ****/
-    public function storeQuizNote(QcmRequest $request, int $user_id, int $quiz_id)
+    public function storeQuizNote(QcmRequest $request, int $student_id, int $quiz_id)
     {
         $studentQuiz = $request->all();
         $dataBaseQuiz = Qcm::with("questions.choices")->where("id", $quiz_id)->first();
@@ -152,7 +152,7 @@ class StudentController extends Controller
 
         // inserer la note dans la base de données
         Note::create([
-            "user_id" => $user_id,
+            "user_id" => $student_id,
             "qcm_id" => $quiz_id,
             "note" => $studentNote
         ]);
@@ -167,7 +167,7 @@ class StudentController extends Controller
     /************ Submissions ******************/
 
     /**** return all tasks for the student ****/
-    public function indexStudentTasks(int $user_id)
+    public function indexStudentTasks(int $student_id)
     {
         $currentD = Carbon::now();
         $currentDate = date('Y-m-d H:i:s', strtotime($currentD));
@@ -175,9 +175,9 @@ class StudentController extends Controller
 
         $studentTa = User::with(['sector.tasks' => function ($query) use ($currentDate) {
             $query->where('deadline', '>=', $currentDate);
-        }])->where('id', $user_id)->first();
+        }])->where('id', $student_id)->first();
 
-        $submittedTasksIds = Submission::where("user_id", $user_id)->pluck("task_id")->toArray();
+        $submittedTasksIds = Submission::where("user_id", $student_id)->pluck("task_id")->toArray();
 
         $studentTasks = [];
 
@@ -200,9 +200,9 @@ class StudentController extends Controller
 
 
     /**** return the submissions for a task ****/
-    public function indexSubmission(int $user_id, int $id)
+    public function indexSubmission(int $student_id, int $task_id)
     {
-        $taskSub = Submission::where(["user_id" => $user_id, "task_id" => $id])->first();
+        $taskSub = Submission::where(["user_id" => $student_id, "task_id" => $task_id])->first();
 
         $taskSubmission = [
             "id" => $taskSub->id,
@@ -216,7 +216,7 @@ class StudentController extends Controller
 
 
     /**** store a submission for a task ****/
-    public function storeSubmission(SubmissionRequest $request, int $user_id, int $id)
+    public function storeSubmission(SubmissionRequest $request, int $student_id, int $task_id)
     {
         $filename = null;
 
@@ -226,8 +226,8 @@ class StudentController extends Controller
         }
 
         Submission::create([
-            "task_id" => $id,
-            "user_id" => $user_id,
+            "task_id" => $task_id,
+            "user_id" => $student_id,
             "file" => $filename
         ]);
 
@@ -238,12 +238,12 @@ class StudentController extends Controller
 
 
     /**** edit a submission for a task ****/
-    public function editSubmission(SubmissionRequest $request, int $user_id, int $id, int $submission_id)
+    public function editSubmission(SubmissionRequest $request, int $student_id, int $task_id, int $submission_id)
     {
         $filename = null;
 
         /** Tester sur le document **/
-        $oldFile = Submission::where('id', $id)->first();
+        $oldFile = Submission::where('id', $task_id)->first();
 
         // si le professeur a choisi un noveau document
         if ($request->hasFile('file')) {
@@ -259,7 +259,7 @@ class StudentController extends Controller
             $filename = $oldFile->file;
         }
 
-        Submission::where(["user_id" => $user_id, "task_id" => $id, "id" => $submission_id])->update([
+        Submission::where(["user_id" => $student_id, "task_id" => $task_id, "id" => $submission_id])->update([
             "file" => $filename
         ]);
 
@@ -270,9 +270,9 @@ class StudentController extends Controller
 
 
     /**** destroy a submission for a task ****/
-    public function destroySubmission(SubmissionRequest $request, int $user_id, int $id, int $submission_id)
+    public function destroySubmission( int $student_id, int $task_id, int $submission_id)
     {
-        Submission::where(["user_id" => $user_id, "task_id" => $id, "id" => $submission_id])->delete();
+        Submission::where(["user_id" => $student_id, "task_id" => $task_id, "id" => $submission_id])->delete();
 
         return response()->json([
             "message" => "submission deleted successfully"
