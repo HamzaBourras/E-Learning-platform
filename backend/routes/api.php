@@ -44,8 +44,8 @@ Route::prefix("auth/director/")->controller(DirectorController::class)->name("di
     Route::prefix("professor/")->name("professor.")->group(function () {
         Route::get("index", "indexProfessor")->name("indexProfessor");
         Route::post("store", "storeProfessor")->name("storeProfessor");
-        Route::put("edit/{id}", "editProfessor")->where(["id" => "[0-9]+"])->name("editProfessor");
-        Route::delete("destroy/{id}", "destroyProfessor")->where(["id" => "[0-9]+"])->name("destroyProfessor");
+        Route::put("edit/{professor_id}", "editProfessor")->where(["professor_id" => "[0-9]+"])->name("editProfessor");
+        Route::delete("destroy/{professor_id}", "destroyProfessor")->where(["professor_id" => "[0-9]+"])->name("destroyProfessor");
     });
 
     //--------- - --- student -----------------------

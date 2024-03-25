@@ -111,12 +111,12 @@ class DirectorController extends Controller
 
     /**** edit a professor ****/
 
-    public function editProfessor(ProfessorRequest $request, int $id)
+    public function editProfessor(ProfessorRequest $request, int $professor_id)
     {
         // selectioné l'id du departement
         $departement_id = Departement::where('name', $request->department)->first()->id;
 
-        User::where(['id' => $id, "role_id" => 2])->update([
+        User::where(['id' => $professor_id, "role_id" => 2])->update([
             "firstName" => $request->firstName,
             "lastName" => $request->lastName,
             "username" => $request->username,
@@ -132,12 +132,12 @@ class DirectorController extends Controller
 
 
         // supprimer les anciens sectors du prof
-        SectorsUsers::where('users_id', $id)->delete();
+        SectorsUsers::where('users_id', $professor_id)->delete();
 
         // inserer les ids des sectors et du professor dans la table de relation many to many
         foreach ($sectors_id as $sector_id) {
             SectorsUsers::create([
-                "users_id" => $id,
+                "users_id" => $professor_id,
                 "sectors_id" => $sector_id
             ]);
         }
