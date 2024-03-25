@@ -26,7 +26,7 @@ class SubmissionRequest extends FormRequest
 
         if (strpos($url, 'api/auth/student/submissions/store') !== false) {
             return [
-                "file" => "required",
+                "file" => "required|mimes:pdf",
             ];
         }
         

@@ -23,19 +23,19 @@ class AuthentificationRequest extends FormRequest
     {
         $url = $this->url();
 
-        if(strpos($url, 'api/login') === true) {
+        if(strpos($url, 'api/login') !== false) {
             return [
                 "username" => "required",
-                "password" => "required"
+                "password" => "required|min:8"
             ];
         }
         elseif(strpos($url, 'api/auth/updateProfile') !== false) {
             return [
                 "firstName" => "required",
                 "lastName" => "required",
-                "password" => "required",
+                "password" => "required|min:8",
                 "passwordConfirmation" => "required|same:password",
-                "email" => "required"
+                "email" => "required|email"
             ];
         }
 
