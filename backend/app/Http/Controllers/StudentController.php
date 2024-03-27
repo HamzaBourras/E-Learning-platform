@@ -79,7 +79,6 @@ class StudentController extends Controller
         $studentQuizzes = [];
 
         foreach ($allStudentQuiz->sector->qcms as $quizze) {
-            if (!in_array($quizze->id, $submittedQuizzesIds)) {
                 //refactor quizze
                 $formatQuizze = [
                     "id" => $quizze->id,
@@ -112,7 +111,7 @@ class StudentController extends Controller
                 }
                 array_push($studentQuizzes, $formatQuizze);  // add quizze in the table of professor quizzes
 
-            }
+            
         }
 
         return response()->json([
