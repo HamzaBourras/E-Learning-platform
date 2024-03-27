@@ -85,6 +85,7 @@ class StudentController extends Controller
                     "id" => $quizze->id,
                     "quizName" => $quizze->title,
                     "noteTotale" => $quizze->noteTotale,
+                    "isDone" => !in_array($quizze->id, $submittedQuizzesIds) ? true : false,
                     "sector" => $allStudentQuiz->sector->name,
                     "questions" => []
                 ];

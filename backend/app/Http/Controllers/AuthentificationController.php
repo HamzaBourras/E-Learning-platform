@@ -92,14 +92,21 @@ class AuthentificationController extends Controller
         $user->email = $request->email;
         $user->password = $request->password; 
 
-        if ($request->has("bio")) {
-            $user->bio = $request->bio;
-        }
-
         $user->save();
 
+        $userAuth = [
+            "id" => $user->id,
+            "firstName" => $user->firstName,
+            "lastName" => $user->lastName,
+            "username" => $user->username,
+            "email" => $user->email,
+            "role" => $user->role->name,
+            "sectors" => []
+        ];
+
         return response()->json([
-            "data" => "profile updated successfully"
+            "data" => $userAuth,
+            "message" => "profile updated successfully"
         ]);
     }
 

@@ -33,8 +33,6 @@ class AuthentificationRequest extends FormRequest
             return [
                 "firstName" => "required",
                 "lastName" => "required",
-                "password" => "required|min:8",
-                "passwordConfirmation" => "required|same:password",
                 "email" => "required|email"
             ];
         }
