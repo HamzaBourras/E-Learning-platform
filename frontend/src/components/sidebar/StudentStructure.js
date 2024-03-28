@@ -36,12 +36,6 @@ const Tabs = [
         icon: submission,
         path: "/auth/student/submissions"
     },
-    {
-        id: 8,
-        name: "Meetings",
-        icon: meeting,
-        path: "/auth/student/meetings"
-    },
 
 
 ];

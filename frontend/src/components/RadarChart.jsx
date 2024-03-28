@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Chart from "react-apexcharts";
 
-const RadarChart = ({ data, tabs }) => {
+const RadarChart = ({ data}) => {
     const [chartData, setChartData] = useState({
         options: {
             chart: {
@@ -15,10 +15,11 @@ const RadarChart = ({ data, tabs }) => {
                 }
             },
             xaxis: {
-                categories: tabs.map(tab => tab.title),
+                categories: data.map(tab => tab.quizName),
                 labels: {
                     style: {
-                        fontSize: "12px"
+                        fontSize: "15px",
+                        
                     }
                 }
 
@@ -53,7 +54,7 @@ const RadarChart = ({ data, tabs }) => {
         series: [
             {
                 name: "Grades",
-                data: data
+                data: data.map(grade => grade.noteTotale)
             }
         ],
         fill: {
@@ -61,7 +62,7 @@ const RadarChart = ({ data, tabs }) => {
             colors: []
         },
         markers: {
-            size: 15,
+            size: 10,
             hover: {
                 size: 100
             }
@@ -69,13 +70,13 @@ const RadarChart = ({ data, tabs }) => {
     });
 
     return (
-        <div className="-mt-16">
+        <div className="">
             <Chart
                 options={chartData.options}
                 series={chartData.series}
                 type="radar"
-                width="500"
-                height="500"
+                width={500}
+                height={500}
             />
         </div>
     );

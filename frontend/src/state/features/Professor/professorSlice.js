@@ -7,6 +7,7 @@ const initialState = {
     announcements:[],
     quizzes: [],
     tasks: [],
+    staticstics: [],
     renderAction: false
 
 }
@@ -39,6 +40,10 @@ export const professorSlice = createSlice({
             state.tasks = action.payload
         },
 
+        saveStaticstics: (state, action) => {
+            state.staticstics = action.payload
+        },
+
         handleRenderAction: (state) => {
             state.renderAction = !state.renderAction
         }
@@ -51,7 +56,8 @@ export const {
             saveAnnouncements, 
             saveCourses, 
             saveQuizzes, 
-            saveMyStudents, 
+            saveMyStudents,
+            saveStaticstics,
             handleRenderAction 
         } = professorSlice.actions;
 

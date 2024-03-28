@@ -2,41 +2,53 @@
 import { Divider } from '@nextui-org/react';
 import ProgressComponent from '../../components/ProgressComponent';
 import DoneHW from '../../assets/images/done.png'
-import Assignment from '../../assets/images/assignment.png'
+import taskImage from '../../assets/images/assignment.png'
 import WelcomeBanner from './../../components/WelcomeBanner';
-import { categories } from '../../json/data';
 import Card from './components/Card';
 import courseImage from '../../assets/images/file.png'
 import RadarChart from './../../components/RadarChart';
-import CardImage from './../../components/CardImage';
+import CardImage from './../../components/CardImage'
 import { useSelector } from 'react-redux';
+import { NotificationComponent } from './../../components/NotificationComponent';
+import { countData, getArrayById } from './../../utils/utils';
 
 
 const StudentDashboard = () => {
     const authUser = JSON.parse(localStorage.getItem('user'));
-    const myProfessors = useSelector((state)=>state.student.myProfessors)
-    const courses = useSelector((state)=>state.student.courses)
+    const myProfessors = useSelector((state) => state.student.myProfessors)
+    const courses = useSelector((state) => state.student.courses)
 
-    const someCourses = courses.slice(0,3)
-    const grades = [60, 95, 85, 91, 33, 78]
-    
+    const someCourses = courses.slice(0, 3)
+
+    const announcements = useSelector((state) => state.student.announcements)
+    const latestAnnoucements = announcements.slice(0, 4)
+
+    const tasks = useSelector((state) => state.student.tasks)
+    const doneTasks = getArrayById(tasks, 'submitted', true)
+    const quizzes = useSelector((state) => state.student.quizzes)
+
+    const doneQuizzs = getArrayById(quizzes, 'isDone', 'true')
+    const grades = useSelector((state) => state.student.grades)
 
     return (
         <div>
             <WelcomeBanner user={authUser.firstName}>
-                {/* <NotificationComponent notifications={someNotifications} /> */}
+                <NotificationComponent notifications={latestAnnoucements} />
             </WelcomeBanner>
             <Divider />
             <div className='grid xs:sm:grid-cols-1 md:lg:grid-cols-12 py-1 gap-3'>
                 <div className="col-span-9 space-y-3">
                     <h1 className='title'>Summary Report</h1>
                     <div className="grid xs:sm:grid-cols-2 md:lg:grid-cols-2 gap-4 h-fit">
-                        <ProgressComponent name="Done Homeworks" image={DoneHW} number={12} maxNumber={40} />
-                        <ProgressComponent name="Assignments" image={Assignment} number={6} maxNumber={40} color="warning" />
+                        <ProgressComponent name="Done Quizzes" image={DoneHW} number={countData(doneQuizzs)} maxNumber={countData(quizzes)} />
+                        <ProgressComponent name="Done Tasks" image={taskImage} number={countData(doneTasks)} maxNumber={countData(tasks)} />
+                        <div className="col-span-2">
+                            <ProgressComponent name="Total Courses" image={courseImage} number={countData(courses)} maxNumber={countData(courses)} />
+                        </div>
                     </div>
                     <div className='flex flex-col items-center'>
                         <h1 className='title self-start'>Grades Report</h1>
-                        <RadarChart data={grades} tabs={categories}/>
+                        <RadarChart data={grades}/>
 
                     </div>
 

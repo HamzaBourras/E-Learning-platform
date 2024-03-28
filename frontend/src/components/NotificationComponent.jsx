@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Badge, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import { NotificationIcon } from './NotificationIcon';
@@ -5,6 +6,7 @@ import { useState } from 'react';
 export const NotificationComponent = ({ notifications }) => {
 
     const [notificationCounter, setNotificationCounter] = useState(notifications.length)
+
     return (
         <div>
             <div>
@@ -44,10 +46,10 @@ export const NotificationComponent = ({ notifications }) => {
                                     key={notification.id}
                                     isReadOnly
                                 >
-                                    <div className='flex flex-col px-3 rounded'>
-                                        <span className='font-medium text-sm'>Professor: <p className='inline text-gray-600'>{notification.professor}</p></span>
-                                        <p className='w-'>
-                                            {notification.announcementName}
+                                    <div className='flex flex-col px-3 rounded group'>
+                                        <span className='font-medium text-sm text-blue-600'>Professor: <p className='inline text-black font-normal'>{notification.professorName}</p></span>
+                                        <p className='line-clamp-1 group-hover:line-clamp-none w-52 text-pretty'>
+                                            {notification.announcement}
                                         </p>
                                     </div>
                                 </DropdownItem>

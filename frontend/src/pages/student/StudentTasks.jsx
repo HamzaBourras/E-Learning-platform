@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 
 const Tasks = () => {
 
-    const tasks = useSelector((state)=> state.student.tasks).data
+    const tasks = useSelector((state)=> state.student.tasks)
     return (
         <div>
             <StudentLayoutForm 

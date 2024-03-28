@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/prop-types */
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png'
 import { Divider, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@nextui-org/react";
 import classNames from 'classnames';
@@ -44,6 +44,13 @@ const Sidebar = ({ tabs, user }) => {
         handleSubmit();
         localStorage.clear()
         return window.location.reload()
+    }
+
+    const navigate = useNavigate()
+    const handleClickProfile = () => {
+        navigate(`/auth/${auth.role}/profile`, {
+            replace: true
+        })
     }
 
 
@@ -112,8 +119,12 @@ const Sidebar = ({ tabs, user }) => {
                                 <p className="font-semibold">Signed in as</p>
                                 <p className="font-semibold">{auth && auth.email}</p>
                             </DropdownItem>
-                            <DropdownItem key="profile" textValue="My Profile">
-                                <Link to={`/auth/${auth.role}/profile`} replace>My Profile</Link>
+                            <DropdownItem 
+                                key="profile"  
+                                textValue="My Profile"
+                                onClick={handleClickProfile}
+                            >
+                                My Profile
                             </DropdownItem>
                             <DropdownItem
                                 onClick={handleLogout}

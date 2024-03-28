@@ -24,6 +24,10 @@ export const studentSlice = createSlice({
             state.myProfessors = action.payload
         },
 
+        saveAnnouncements: (state, action) => {
+            state.announcements = action.payload
+        },
+
         saveCourses: (state, action) => {
             state.courses = action.payload
         },
@@ -46,6 +50,14 @@ export const studentSlice = createSlice({
     }
 })
 
-export const {saveMyProfessors, saveAnnouncements, saveTasks ,saveCourses, saveQuizzes, handleRenderAction, saveGrades } = studentSlice.actions;
+export const {
+        saveMyProfessors, 
+        saveAnnouncements, 
+        saveTasks, 
+        saveCourses, 
+        saveQuizzes, 
+        handleRenderAction, 
+        saveGrades, 
+    } = studentSlice.actions;
 
 export default createSlice.reducer

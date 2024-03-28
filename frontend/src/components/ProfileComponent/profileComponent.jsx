@@ -9,8 +9,8 @@ const Profile = () => {
 
     const apiKey = `${UPDATE_PROFILE_API}/${authUser.id}`;
     const initialState = {
-        'firstname': authUser.firstName,
-        'lastname': authUser.lastName,
+        'firstName': authUser.firstName,
+        'lastName': authUser.lastName,
         'email': authUser.email,
         'password': '',
         'passwordConfirmation': '',
@@ -33,7 +33,12 @@ const Profile = () => {
             break;
     }
 
-    const { inputs, errors, isLoading, handleChange, handleSubmit, message } = useForm(initialState, apiKey, 'put', false, true);
+    const { inputs, errors, data, isLoading, handleChange, handleSubmit, message } = useForm(initialState, apiKey, 'put', false, true);
+
+    if (data) {
+        localStorage.setItem('user', JSON.stringify(data.data.data));
+    }
+
 
     return (
         <div className='px-1 space-y-3'>
@@ -75,16 +80,23 @@ const Profile = () => {
 
                             <Input variant="bordered"
                                 label="Firstname"
-                                value={inputs['firstname']}
-                                errorMessage={errors['firstname']}
-                                onChange={(e) => handleChange('firstname', e.target.value)}
+                                value={inputs['firstName']}
+                                errorMessage={errors['firstName']}
+                                onChange={(e) => {
+                                    handleChange('firstName', e.target.value)
+                                    // handleChange('username', generateUsername(e.target.value, inputs['lastName']))
+                                }
+                                }
                             />
 
                             <Input variant="bordered"
                                 label="Lastname"
-                                value={inputs['lastname']}
-                                errorMessage={errors['lastname']}
-                                onChange={(e) => handleChange('lastname', e.target.value)}
+                                value={inputs['lastName']}
+                                errorMessage={errors['lastName']}
+                                onChange={(e) => {
+                                    handleChange('lastName', e.target.value)
+                                    // handleChange('username', generateUsername(inputs['firstName'], e.target.value))
+                                }}
                             />
 
                             <Input variant="bordered"

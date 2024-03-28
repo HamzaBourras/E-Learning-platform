@@ -12,6 +12,7 @@ import SectorImage from '../../assets/images/sector.png'
 import { useSelector } from "react-redux";
 import { COLORS } from './../../../constants/COLORS';
 import WelcomeBanner from './../../components/WelcomeBanner';
+import ColumnChart from './../../components/ColumnChart';
 
 
 
@@ -46,14 +47,10 @@ const DirectorDashboard = () => {
     // const recentStudents = getRecentlyAddedData(students, "id", 3);
 
 
-    const professorData = {
-        professor1: { assignments: 10, quizzes: 5, courses: 8 },
-        professor2: { assignments: 5, quizzes: 12, courses: 6 },
-        professor3: { assignments: 2, quizzes: 5, courses: 13 },
-        professor4: { assignments: 2, quizzes: 5, courses: 4 },
-        professor5: { assignments: 5, quizzes: 8, courses: 13 },
-    };
-    
+    const staticstics = useSelector((state)=> state.director.staticstics)
+
+    const professorData = staticstics ;
+
     // --- -- - -- - - - - - - -- - -- - -- - - - - - - - - -- - - - -  -- - - - - - - - - - - - - -- - -- -  - -
     return (
         <div className="space-y-3">
@@ -73,8 +70,9 @@ const DirectorDashboard = () => {
             </div>
 
             <div>
-                <h1>Active Professors</h1>
+                <h1 className="font-medium">Active Professors</h1>
                 <BarChart data={professorData} labels={['assignments', 'quizzes', 'courses']} colors={COLORS} />
+                {/* <ColumnChart /> */}
             </div>
             {/* <div className="space-y-2">
                 <h1>Recentaly added students</h1>

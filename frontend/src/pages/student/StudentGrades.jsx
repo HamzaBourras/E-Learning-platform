@@ -5,7 +5,7 @@ import StudentLayoutForm from './components/StudentLayoutForm';
 import { useSelector } from "react-redux";
 const StudentGrades = () => {
 
-    const grades = useSelector((state)=>state.student.grades).data
+    const grades = useSelector((state)=>state.student.grades)
     
     return (
         <div>

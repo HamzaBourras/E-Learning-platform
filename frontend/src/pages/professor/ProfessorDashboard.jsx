@@ -3,7 +3,7 @@ import StduentImage from '../../assets/images/student-logo.png'
 import CourseImage from '../../assets/images/folder-Logo.png'
 import QuizImage from '../../assets/images/quizLogo.png'
 import BarChart from '../../components/BarChart'
-import { countData, sortArray } from './../../utils/utils';
+import { countData } from './../../utils/utils';
 import ProgressComponent from './../../components/ProgressComponent';
 import { COLORS } from './../../../constants/COLORS';
 import WelcomeBanner from './../../components/WelcomeBanner';
@@ -16,18 +16,9 @@ const ProfessorDashboard = () => {
     const courses = useSelector((state) => state.professor.courses)
     const quizzes = useSelector((state)=> state.professor.quizzes)
 
+    const staticstics = useSelector((state)=> state.professor.staticstics)
 
-    const studentsData = {
-        student1: { assignments: 10, quizzes: 15, courses: 8 },
-        student2: { assignments: 20, quizzes: 5, courses: 12 },
-        student3: { assignments: 4, quizzes: 5, courses: 5 },
-        student4: { assignments: 2, quizzes: 4, courses: 4 },
-        student5: { assignments: 8, quizzes: 5, courses: 8 },
-    }
-
-    const sortedCourses = sortArray(courses, 'desc');
-    const topCourses = sortedCourses.slice(0, 3)
-
+    const studentsData = staticstics
 
     return (
         <div className="space-y-3">
@@ -45,7 +36,7 @@ const ProfessorDashboard = () => {
 
                 <div className='boreder w-full space-y-2'>
                     <h1 className='font-medium text-gray-500'>Active Students</h1>
-                    <BarChart data={studentsData} labels={['assignments', 'quizzes', 'courses']} colors={COLORS} />
+                    <BarChart data={studentsData} labels={['assignments', 'quizzes']} colors={COLORS} />
                 </div>
 
                 {/* <div className='boreder w-full space-y-2 flex flex-col items-center'>

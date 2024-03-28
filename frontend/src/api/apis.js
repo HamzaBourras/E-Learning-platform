@@ -2,7 +2,9 @@
 export const LOGIN_API = "http://127.0.0.1:8000/api/login"
 export const LOGOUT_API = "http://127.0.0.1:8000/api/logout"
 export const UPDATE_PROFILE_API = "http://127.0.0.1:8000/api/auth/updateProfile"
+
 // ****************************** DIRECTOR ****************************************************
+export const GET_STATISTICS_API = "http://127.0.0.1:8000/api/auth/director/indexProfessorsStatistics"
 
 //------------PROFESSORS-------------------------------------
 export const ALL_PROFESSORS_API = "http://127.0.0.1:8000/api/auth/director/professor/index";
@@ -38,6 +40,9 @@ export const DELETE_DEPARTMENT_API = "http://127.0.0.1:8000/api/auth/director/de
 
 
 // ****************************** PROFESSOR ****************************************************
+
+export const GET_PROFESSOR_STATISTICS_API = "http://127.0.0.1:8000/api/auth/professor/indexStudentsStatistics"
+
 
 // --------------------------COURSE------------------------------------------------------
 export const ALL_COURSES_API = "http://127.0.0.1:8000/api/auth/professor/courses/index";
@@ -81,6 +86,8 @@ export const STORE_SUBMISSION_API = "http://127.0.0.1:8000/api/auth/student/subm
 export const UPDATE_SUBMISSION_API = "http://127.0.0.1:8000/api/auth/student/submissions/edit"
 export const DELETE_SUBMISSION_API = "http://127.0.0.1:8000/api/auth/student/submissions/destroy"
 
+export const GET_SUBMISSION_API = "http://127.0.0.1:8000/api/auth/student/submissions/index"
+
 // -----------------------------MyProfessors---------------------------------------------------
 export const MY_PROFESSORS_API = "http://127.0.0.1:8000/api/auth/student/professors/index"
 
@@ -89,6 +96,9 @@ export const STUDENT_COURSES_API = "http://127.0.0.1:8000/api/auth/student/cours
 
 // -----------------------------GRADES---------------------------------------------------
 export const STUDENT_GRADES_API = "http://127.0.0.1:8000/api/auth/student/grades/index"
+
+// -----------------------------GRADES---------------------------------------------------
+export const STUDENT_ANNOUNCEMENTS_API = "http://127.0.0.1:8000/api/auth/student/announcements/index"
 
 // -----------------------------QUIZZES---------------------------------------------------
 export const ALL_STUDENT_QUIZZES_API = "http://127.0.0.1:8000/api/auth/student/quizzes/index"

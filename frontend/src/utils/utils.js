@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
 export function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str ? str.charAt(0).toUpperCase() + str.slice(1) : null
 }
 
 export const uncapitalize = (str) => {
-    return str.toLowerCase()
+    return str ? str.toLowerCase() : null
 }
 
 export const getArrayById = (array, colName, id) => {
-    return id ? array.filter((item) => item[colName] == id) : array;
+    return array? id ? array.filter((item) => item[colName] == id) : array : []
 };
 
 export const generateUsername = (firstname, lastname) => {
@@ -17,10 +17,13 @@ export const generateUsername = (firstname, lastname) => {
 
 export const countData = (array) => {
     let counter = 0;
-    array.forEach(i => {
-        counter++
-    });
-    return counter
+    if (array) {
+        array.forEach(i => {
+            counter++
+        });
+        return counter
+    }
+    return 0
 }
 
 export const getRecentlyAddedData = (array, comparison, number) => {
@@ -30,7 +33,7 @@ export const getRecentlyAddedData = (array, comparison, number) => {
     return recentData;
 }
 
-export const sortArray = (array, method="asc") => {
+export const sortArray = (array, method = "asc") => {
     const sortedArray = array.slice()
     switch (method) {
         case 'asc':

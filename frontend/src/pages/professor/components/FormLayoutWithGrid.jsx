@@ -203,19 +203,44 @@ const FormLayoutWithGrid = ({ data, image, imageLogo, Component, name }) => {
                                 <div className={`flex items-center ${isGrid ? 'flex-col space-y-1 h-full' : ''} w-full`}>
                                     <h1 className='text-sm font-medium text-balance flex-1 text-gray-500'>{item[uncapitalize(name) + 'Name']}</h1>
                                     <div className="space-x-1 hidden group-hover:flex group-hover:animate-appearance-in group-hover:transform group-hover:transition-all group-hover:delay-500 transition duration-400 ease-in-out">
-                                        {(name == "Task" || name == "Quiz") &&
-                                            <Button
-                                            variant="solid"
-                                            isIconOnly
-                                            color="primary"
-                                            size="sm"
-                                            onClick={() => showResult(item.id)}
-                                        >
-                                            <img
-                                                src={view}
-                                                className="size-4 invert"
-                                            />
-                                        </Button>}
+                                        {(name === "Task" || name === "Quiz" || name === "Course") && (
+                                            name === "Course" ? (
+                                                <Button
+                                                    variant="solid"
+                                                    isIconOnly
+                                                    color="primary"
+                                                    size="sm"
+                                                >
+                                                    <a
+                                                        href={`http://localhost:8000${item.file}`}
+                                                        download
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                    >
+                                                        <img
+                                                            src={view}
+                                                            className="size-4 invert"
+                                                            alt="Download"
+                                                        />
+                                                    </a>
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    variant="solid"
+                                                    isIconOnly
+                                                    color="primary"
+                                                    size="sm"
+                                                    onClick={() => showResult(item.id)}
+                                                >
+                                                    <img
+                                                        src={view}
+                                                        className="size-4 invert"
+                                                        alt="View"
+                                                    />
+                                                </Button>
+                                            )
+                                        )}
+
                                         <Button
                                             variant="solid"
                                             isIconOnly

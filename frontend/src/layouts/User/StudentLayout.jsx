@@ -6,8 +6,8 @@ import StudentStructure from '../../components/sidebar/StudentStructure';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
-import { ALL_STUDENT_QUIZZES_API, ALL_SUBMISSIONS_API, MY_PROFESSORS_API, STUDENT_COURSES_API, STUDENT_GRADES_API } from './../../api/apis';
-import { saveCourses, saveGrades, saveMyProfessors, saveQuizzes, saveTasks } from "../../state/features/Student/studentSlice";
+import { ALL_STUDENT_QUIZZES_API, ALL_SUBMISSIONS_API, MY_PROFESSORS_API, STUDENT_ANNOUNCEMENTS_API, STUDENT_COURSES_API, STUDENT_GRADES_API } from './../../api/apis';
+import { saveAnnouncements, saveCourses, saveGrades, saveMyProfessors, saveQuizzes, saveTasks } from "../../state/features/Student/studentSlice";
 import LoadingPage from "../../components/LoadingPage";
 
 const StudentLayout = () => {
@@ -25,7 +25,8 @@ const StudentLayout = () => {
     const { data: studentGradesData, isLoading:studentGradesLoading  } = useFetch(`${STUDENT_GRADES_API}/${user.id}`, reRender)
 
     const { data: studentTasksData, isLoading:studentTasksLoading  } = useFetch(`${ALL_SUBMISSIONS_API}/${user.id}`, reRender)
-
+    const { data: studentAnnouncementsData, isLoading:studentAnnouncementssLoading  } = useFetch(`${STUDENT_ANNOUNCEMENTS_API}/${user.id}`, reRender)
+    
     useEffect(() => {
         // save professors in redux store
         if (myProfessorsData) {
@@ -41,15 +42,19 @@ const StudentLayout = () => {
         }
 
         if (studentGradesData) {
-            dispatch(saveGrades(studentGradesData))
+            dispatch(saveGrades(studentGradesData.data))
         }
 
         if (studentTasksData) {
-            dispatch(saveTasks(studentTasksData))
+            dispatch(saveTasks(studentTasksData.data))
+        }
+
+        if (studentAnnouncementsData) {
+            dispatch(saveAnnouncements(studentAnnouncementsData.data))
         }
 
 
-    }, [myProfessorsData, studentCoursesData, studentQuizzesData, studentTasksData ,studentGradesData ,reRender, dispatch])
+    }, [myProfessorsData, studentCoursesData, studentQuizzesData, studentAnnouncementsData , studentTasksData ,studentGradesData ,reRender, dispatch])
 
 
     if (user.role !== 'student') {
