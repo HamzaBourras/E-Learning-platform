@@ -407,7 +407,7 @@ class ProfessorController extends Controller
         foreach ($request->questions as $question) {
             $questionCree = Question::create([
                 "text" => $question['question'],
-                "note" => $question['note'],
+                "note" => intval($question['note']),
                 "qcm_id" => $qcmCree->id
             ]);
 
