@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from 'axios'
 
-const useForm = (initialState = {}, api, method, hasFile = false, isAuth = false) => {
+const useForm = (initialState = {}, api, method, hasFile = false, isAuth = false, logout = false) => {
 
     const [inputs, setInputs] = useState(initialState)
     const [errors, setErrors] = useState({})
@@ -55,7 +55,11 @@ const useForm = (initialState = {}, api, method, hasFile = false, isAuth = false
             if (response.status === 200) {
                 setMessage(response.data.message);
                 setData(response);
-                console.log(response);
+
+                if (logout && response) {
+                    localStorage.clear()
+                    window.location.reload()
+                }
             }
 
         } catch (error) {

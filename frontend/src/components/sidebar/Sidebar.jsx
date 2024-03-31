@@ -37,13 +37,13 @@ const Sidebar = ({ tabs, user }) => {
     }
 
     const auth = JSON.parse(localStorage.getItem('user'))
-    const apiKey = `${LOGOUT_API}`
-    const { isLoading, handleSubmit } = useForm({}, apiKey, 'post', false, true)
+    const userId = auth.id
+
+    const apiKey = `${LOGOUT_API}/${userId}`
+    const { isLoading ,handleSubmit } = useForm({}, apiKey, 'post', false, true, true)
 
     const handleLogout = () => {
         handleSubmit();
-        localStorage.clear()
-        return window.location.reload()
     }
 
     const navigate = useNavigate()
@@ -52,7 +52,6 @@ const Sidebar = ({ tabs, user }) => {
             replace: true
         })
     }
-
 
     return (
         <nav className='fixed flex flex-col gap-3 items-center h-dvh xs:sm:w-20 md:lg:w-52 border-r-1 z-50'>

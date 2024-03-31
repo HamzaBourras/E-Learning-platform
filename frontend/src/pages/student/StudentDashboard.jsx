@@ -30,6 +30,9 @@ const StudentDashboard = () => {
     const doneQuizzs = getArrayById(quizzes, 'isDone', 'true')
     const grades = useSelector((state) => state.student.grades)
 
+
+    console.log(announcements);
+
     return (
         <div>
             <WelcomeBanner user={authUser.firstName}>
@@ -51,8 +54,6 @@ const StudentDashboard = () => {
                         <RadarChart data={grades}/>
 
                     </div>
-
-
 
                 </div>
 

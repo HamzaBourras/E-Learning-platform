@@ -32,7 +32,7 @@ const ProfessorForm = ({ id }) => {
     const { inputs, errors, message, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, method,false, true);
     const sectorsBelongToDepartment = getArrayById(sectors, 'department', inputs['department']);
 
-    console.log(inputs);
+    
     return (
         <div className='px-1 space-y-2'>
             {message && <Alert color="" message={message} />}
