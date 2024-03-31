@@ -104,6 +104,23 @@ class AuthentificationController extends Controller
             "sectors" => []
         ];
 
+        $sectors = [];
+
+        // if user is a professor
+        if ($user->role_id == 2) {
+            $allSectors = $user->sectors()->get();
+            foreach ($allSectors as $sector) {
+                array_push($sectors, $sector->name);
+            }
+        }
+        //if user is a student
+        elseif ($user->role_id == 3) {
+            $sector = $user->sector()->first();
+            array_push($sectors, $sector->name);
+        }
+
+        $userAuth['sectors'] = $sectors;  // add sectors in userAuth
+
         return response()->json([
             "data" => $userAuth,
             "message" => "profile updated successfully"
