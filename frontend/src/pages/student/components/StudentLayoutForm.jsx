@@ -60,7 +60,7 @@ const StudentLayoutForm = ({ data, imageLogo, image, title, name, Component }) =
                 <CardImage image={imageLogo} title={title} />
             </div>
 
-            <div className="w-full h-full grid md:grid-cols-3 lg:grid-cols-4 xs:grid-cols-2 gap-4">
+            <div className="w-full grid md:grid-cols-3 lg:grid-cols-4 xs:grid-cols-2 gap-4">
                 {
                     d && d.length > 0 ?
                         (d.map((item, index) => (
