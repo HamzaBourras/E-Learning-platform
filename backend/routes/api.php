@@ -22,11 +22,11 @@ use App\Http\Controllers\StudentController;
 //     return $request->user();
 // });
 
-// ->middleware("auth.token")
+
 
 /********************** Authentification **********************/
 Route::post("/login", [AuthentificationController::class, "login"])->name("login");
-Route::post("/logout/{user_id}", [AuthentificationController::class, "logout"])->name("logout");
+Route::post("/logout/{user_id}", [AuthentificationController::class, "logout"])->name("logout")->middleware("auth.token");
 Route::get("/forgotPassword", [AuthentificationController::class, "forgotPassword"]);
 
 
@@ -36,7 +36,7 @@ Route::put("/auth/updateProfile/{user_id}", [AuthentificationController::class, 
 
 /********************** Director management *************************/
 
-Route::prefix("auth/director/")->controller(DirectorController::class)->name("director.")->group(function () {
+Route::prefix("auth/director/")->controller(DirectorController::class)->middleware("auth.token")->name("director.")->group(function () {
 
     //--------- - --- Dashbord professors statistics  -----------------------
     Route::get("indexProfessorsStatistics","indexProfStatis")->name("indexProfStatis");
@@ -79,7 +79,7 @@ Route::prefix("auth/director/")->controller(DirectorController::class)->name("di
 
 /********************** Professor management *************************/
 
-Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("professor.")->group(function () {
+Route::prefix("auth/professor/")->controller(ProfessorController::class)->middleware("auth.token")->name("professor.")->group(function () {
 
     //--------- - --- Dashbord student statistics  -----------------------
     Route::get("indexStudentsStatistics/{professor_id}","indexStudStatis")->where(["professor_id" => "[0-9]+"])->name("indexStudStatis");
@@ -130,7 +130,7 @@ Route::prefix("auth/professor/")->controller(ProfessorController::class)->name("
 
 /********************** Student management *************************/
 
-Route::prefix("auth/student")->controller(StudentController::class)->name("student.")->group(function () {
+Route::prefix("auth/student")->controller(StudentController::class)->middleware("auth.token")->name("student.")->group(function () {
 
     //--------------- professors -----------------------
     Route::prefix("professors/")->name("professor.")->group(function () {
