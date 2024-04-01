@@ -120,6 +120,9 @@ class ProfessorController extends Controller
     /**** delete a course ****/
     public function destroyCourse(int $professor_id, int $course_id)
     {
+        $oldFile = Document::where('id', $course_id)->first();
+        Storage::delete("public/" . $oldFile->file);
+
         Document::where(["id" => $course_id, "user_id" => $professor_id])->delete();
 
         return response()->json([
@@ -254,7 +257,6 @@ class ProfessorController extends Controller
                 "taskName" => $task->taskName,
                 "description" => $task->description,
                 "sector" => $task->sector->name,
-                "differenceDateActuel" => $dateActuel->diff($dateDeadline)->days,  // le nombre de jours entre le deadline et la dateactuel
                 "deadline" => $task->deadline,
             ];
 
