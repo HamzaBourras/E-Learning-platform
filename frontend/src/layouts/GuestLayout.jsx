@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom'
 import Logo from '../assets/images/logo.png'
 import { Button, Input, Spinner } from '@nextui-org/react';
 import useForm from './../hooks/useForm';
-import { LOGIN_API } from '../api/apis';
+import { FORGET_PASSWORD_API, LOGIN_API } from '../api/apis';
 import Background from '../assets/images/bg.png'
 import { EyeFilledIcon } from './../components/EyeFilledIcon';
 import { EyeSlashFilledIcon } from './../components/EyeSlashFilledicon';
@@ -35,22 +35,6 @@ const GuestLayout = () => {
         return <Navigate to={`/auth/${data.data.data.role}`} replace />;
     }
 
-    // - -- - - - -- -- - -save data to redux-      - - - - - - -- 
-    // const dispatch = useDispatch();
-    // useEffect(()=>{
-    //     // if (data && !data['data']['message']) {
-    //     //     dispatch(saveProfessor(data['data']))
-
-    //     // }
-
-    // }, [data,dispatch])
-
-
-    // const user = useSelector((state) => state.professor.user);
-    // if (user && Object.keys(user).length > 0) {
-    //     // return <Navigate to="/auth" replace />
-    //     console.log(user);
-    // }
 
     return (
         <main className="w-full h-screen flex flex-col items-center justify-center px-4">
@@ -111,8 +95,15 @@ const GuestLayout = () => {
                     >
                         {isLoading ? (<div className='flex items-center gap-1'><Spinner color="default" /> Please wait ...</div>) : 'Sign In'}
                     </Button>
-                    <div className="text-center">
-                        <p className="hover:text-indigo-600">Forgot password?</p>
+                    <div className="text-center group">
+                        <a
+                            href={FORGET_PASSWORD_API}
+                            rel="noreferrer"
+                            target='_blank'
+                            className="group-hover:text-indigo-600 group-hover:cursor-pointer"
+                        >
+                            Forgot password?
+                        </a>
                     </div>
                 </form>
             </div>

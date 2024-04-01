@@ -3,6 +3,8 @@ export const LOGIN_API = "http://127.0.0.1:8000/api/login"
 export const LOGOUT_API = "http://127.0.0.1:8000/api/logout"
 export const UPDATE_PROFILE_API = "http://127.0.0.1:8000/api/auth/updateProfile"
 
+export const FORGET_PASSWORD_API = "http://127.0.0.1:8000/api/forgotPassword"
+
 // ****************************** DIRECTOR ****************************************************
 export const GET_STATISTICS_API = "http://127.0.0.1:8000/api/auth/director/indexProfessorsStatistics"
 
