@@ -25,13 +25,18 @@ const StudentTaskForm = ({ id }) => {
 
     const { data, isLoading: getSubmissionLoading } = useFetch(`${GET_SUBMISSION_API}/${user.id}/${task.id}`)
 
-    let method = 'post'
-
-    const [action, setAction] = useState("store")
     const [isDisabled, setIsDisabled] = useState(true)
-    const [apiKey, setApiKey] = useState(null)
+    const apiKey = `${STORE_SUBMISSION_API}/${user.id}/${id}`
 
-    const [hasFileCheck, setHasFileCheck] = useState(true)
+    let method = 'post'
+    const formattedDeadline = new Date(task.deadline).toLocaleString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    });
 
     useEffect(() => {
         if (!task.submitted) {
@@ -44,64 +49,23 @@ const StudentTaskForm = ({ id }) => {
         'file': null,
     }
 
-
-    useEffect(() => {
-        let newAction;
-        let newApiKey;
-
-        switch (action) {
-            case "edit":
-                newAction = "edit";
-                setIsDisabled(false);
-                newApiKey = `${UPDATE_SUBMISSION_API}/${user.id}/${id}/${data.data.id}`;
-                setAction(newAction);
-                setApiKey(newApiKey)
-                break;
-
-            case "delete":
-                setAction('delete');
-                break;
-
-            case "store":
-                newAction = "store";
-                newApiKey = `${STORE_SUBMISSION_API}/${user.id}/${id}`
-                setAction(newAction);
-                setApiKey(newApiKey)
-                break;
-
-            default:
-                // Handle default case
-                break;
-        }
-
-
-    }, [action, id, user.id]);
-
-    
-    useEffect(() => {
-        if (action === 'delete') {
-            setHasFileCheck(false);
-            setApiKey(`${DELETE_SUBMISSION_API}/${user.id}/${id}/${data.data.id}`)
-            method = 'delete'
-            console.log(apiKey);
-        }
-    }, [action, apiKey]);
-
-
-
-    const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey, method, hasFileCheck, true)
+    const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey, method, true, true)
 
     return (
         <div className='h-full flex flex-col'>
             {message && <Alert color='success' message={message} />}
-            <ModalHeader className='text-2xl -mb-3'>
-                <span className='underline'>{task && task.taskName}</span>
+            <ModalHeader className='gap-3 flex items-center justify-between'>
+                <div className='space-x-2'>
+                    <span className='text-gray-600'>{task && task.taskName}</span>
+                    {task.submitted ? (<span className='text-green-500 text-medium border border-green-600 px-2 rounded-md font-normal'>submitted</span>) : (<span className='text-red-500 text-medium border border-red-600 px-2 rounded-md font-normal'>Unsubmitted</span>)}
+                </div>
+                <div>
+                    <span className='text-red-500 text-sm'>{formattedDeadline}</span>
+                </div>
             </ModalHeader>
             <form onSubmit={handleSubmit}>
                 <ModalBody className='flex-1'>
                     <span className='font-semibold text-black'>Description: <p className='text-xs font-normal text-gray-700'>{task.description}</p> </span>
-                    <span className='text-red-500'><span className='font-semibold text-black'>Deadline: </span>{task.deadline}</span>
-                    <span className='text-red-500'><span className='font-semibold text-black'>Status: </span>{task.submitted ? (<span className='text-green-500 font-semibold'>Submitted</span>) : (<span className='text-red-500 font-semibold'>Unsubmitted</span>)}</span>
 
                     <div className='flex items-center gap-1'>
 
@@ -135,8 +99,10 @@ const StudentTaskForm = ({ id }) => {
                                                 />)
                                         }
                                     </a>
-                                    <Button
-                                        onClick={() => setAction("edit")}
+                                    {/* <Button
+                                        onClick={() => {
+                                            setAction('edit')
+                                        }}
                                         variant="solid"
                                         isIconOnly
                                         color="warning"
@@ -153,8 +119,7 @@ const StudentTaskForm = ({ id }) => {
                                     </Button>
                                     <Button
                                         onClick={() => {
-                                            setAction("delete")
-                                            handleSubmit()
+                                            setAction('delete')
                                             }}
                                         variant="solid"
                                         isIconOnly
@@ -168,7 +133,7 @@ const StudentTaskForm = ({ id }) => {
                                                     className="size-4 invert"
                                                 />)
                                         }
-                                    </Button>
+                                    </Button> */}
                                 </div>
                             </div>
                         }
@@ -176,14 +141,16 @@ const StudentTaskForm = ({ id }) => {
 
                 </ModalBody>
 
-                <ModalFooter>
-                    <Button
-                        type='submit'
-                        className="bg-foreground text-background mt-1"
-                    >
-                        {(isLoading && action != 'delete') ? (<div className='flex items-center gap-1'><Spinner color="default" /> Submiting...</div>) : 'Submit'}
-                    </Button>
-                </ModalFooter>
+                {
+                    !task.submitted &&
+                    <ModalFooter>
+                        <Button
+                            type='submit'
+                            className="bg-foreground text-background mt-1"
+                        >
+                            {(isLoading) ? (<div className='flex items-center gap-1'><Spinner color="default" /> Submiting...</div>) : 'Submit'}
+                        </Button>
+                    </ModalFooter>}
             </form>
         </div>
     )
