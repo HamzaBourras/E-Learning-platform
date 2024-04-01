@@ -9,7 +9,7 @@ import Background from '../assets/images/bg.png'
 import { EyeFilledIcon } from './../components/EyeFilledIcon';
 import { EyeSlashFilledIcon } from './../components/EyeSlashFilledicon';
 import Alert from './../components/Alert';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const GuestLayout = () => {
     if (localStorage.getItem('token') && localStorage.getItem('user')) {
@@ -26,6 +26,20 @@ const GuestLayout = () => {
         'username': '',
         'password': ''
     }
+
+    const [restMessage, setResetMessage] = useState('');
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        const messageParam = searchParams.get('message');
+        setResetMessage(messageParam || '');
+        const timeout = setTimeout(() => {
+            setResetMessage('');
+            window.history.pushState({}, '', window.location.pathname);
+        }, 3000);
+
+        return () => clearTimeout(timeout);
+    }, []);
 
     const { inputs, errors, data, isLoading, handleChange, handleSubmit } = useForm(initialState, apiKey, "post")
 
@@ -45,6 +59,7 @@ const GuestLayout = () => {
                     <div className="mt-5 space-y-2">
                         <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Log in to your account</h3>
                         {(data && data['data']['message']) && <Alert message={data['data']['message']} color="danger" />}
+                        {(restMessage != '') && <Alert message={restMessage} color="success" />}
                     </div>
                 </div>
                 <form
