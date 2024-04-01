@@ -21,14 +21,12 @@ class SubmissionRequest extends FormRequest
      */
     public function rules(): array
     {
-        
-        $url = $this->url();
 
-        if (strpos($url, 'api/auth/student/submissions/store') !== false) {
+        
             return [
-                "file" => "required|mimes:pdf",
+                "file" => "required|max:300",
             ];
-        }
+        
         
     }
 }

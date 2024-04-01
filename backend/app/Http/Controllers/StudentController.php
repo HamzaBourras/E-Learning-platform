@@ -79,39 +79,39 @@ class StudentController extends Controller
         $studentQuizzes = [];
 
         foreach ($allStudentQuiz->sector->qcms as $quizze) {
-                //refactor quizze
-                $formatQuizze = [
-                    "id" => $quizze->id,
-                    "quizName" => $quizze->title,
-                    "noteTotale" => $quizze->noteTotale,
-                    "isDone" => in_array($quizze->id, $submittedQuizzesIds) ? "true" : "false",
-                    "sector" => $allStudentQuiz->sector->name,
-                    "questions" => []
+            //refactor quizze
+            $formatQuizze = [
+                "id" => $quizze->id,
+                "quizName" => $quizze->title,
+                "noteTotale" => $quizze->noteTotale,
+                "isDone" => in_array($quizze->id, $submittedQuizzesIds) ? "true" : "false",
+                "sector" => $allStudentQuiz->sector->name,
+                "questions" => []
+            ];
+
+            foreach ($quizze->questions as $question) {
+                //refactor each question
+                $formatQuestion = [
+                    "id" => $question->id,
+                    "question" => $question->text,
+                    "note" => $question->note,
+                    "answers" => []
                 ];
 
-                foreach ($quizze->questions as $question) {
-                    //refactor each question
-                    $formatQuestion = [
-                        "id" => $question->id,
-                        "question" => $question->text,
-                        "note" => $question->note,
-                        "answers" => []
+                foreach ($question->choices as $choice) {
+                    //refactor each answer for the question
+                    $formatAnswer = [
+                        "id" => $choice->id,
+                        "answer" => $choice->text,
+                        "isCorrect" => false
                     ];
-
-                    foreach ($question->choices as $choice) {
-                        //refactor each answer for the question
-                        $formatAnswer = [
-                            "id" => $choice->id,
-                            "answer" => $choice->text,
-                            "isCorrect" => false
-                        ];
-                        array_push($formatQuestion['answers'], $formatAnswer);  // add the answer in the table of answers of question
-                    }
-                    array_push($formatQuizze['questions'], $formatQuestion);  // add the question in the table of questions 
+                    array_push($formatQuestion['answers'], $formatAnswer);  // add the answer in the table of answers of question
                 }
-                array_push($studentQuizzes, $formatQuizze);  // add quizze in the table of professor quizzes
+                array_push($formatQuizze['questions'], $formatQuestion);  // add the question in the table of questions 
+            }
+            array_push($studentQuizzes, $formatQuizze);  // add quizze in the table of professor quizzes
 
-            
+
         }
 
         return response()->json([
@@ -143,7 +143,7 @@ class StudentController extends Controller
                         $nbrChoiceCorrespendant++;
                     }
                 }
-                    // vérifier si tous les choix sont correspendent
+                // vérifier si tous les choix sont correspendent
                 if ($nbrChoiceCorrespendant == count($dbQuestion->choices)) {
                     $studentNote += $dbQuestion->note;
                 }
@@ -240,24 +240,15 @@ class StudentController extends Controller
     /**** edit a submission for a task ****/
     public function editSubmission(SubmissionRequest $request, int $student_id, int $task_id, int $submission_id)
     {
-        $filename = null;
 
-        /** Tester sur le document **/
+        // supprimer l'ancien document du dossier storage/course
         $oldFile = Submission::where('id', $task_id)->first();
+        $oldFilename = $oldFile->file;
+        Storage::delete("public/" . $oldFilename);
 
-        // si le professeur a choisi un noveau document
-        if ($request->hasFile('file')) {
-            // supprimer l'ancien document du dossier storage/course
-            $oldFilename = $oldFile->file;
-            Storage::delete("public/" . $oldFilename);
-
-            $file = $request->validated(["file"]);
-            $filename = $file->store("courses", "public");
-        }
-        // si l'ancien document est le meme qu'au noveau c'est à dire le professeur n'a pas choisir un autre document
-        else {
-            $filename = $oldFile->file;
-        }
+        // enregistrer le nouveau document 
+        $file = $request->validated(["file"]);
+        $filename = $file->store("courses", "public");
 
         Submission::where(["user_id" => $student_id, "task_id" => $task_id, "id" => $submission_id])->update([
             "file" => $filename
@@ -270,8 +261,11 @@ class StudentController extends Controller
 
 
     /**** destroy a submission for a task ****/
-    public function destroySubmission( int $student_id, int $task_id, int $submission_id)
+    public function destroySubmission(int $student_id, int $task_id, int $submission_id)
     {
+        $oldFile = Submission::where('id', $submission_id)->first();
+        Storage::delete("public/" . $oldFile->file);
+
         Submission::where(["user_id" => $student_id, "task_id" => $task_id, "id" => $submission_id])->delete();
 
         return response()->json([
@@ -305,18 +299,18 @@ class StudentController extends Controller
 
 
     /********************* return all announcements of the student *************************/
-    public function indexAnnouncement (int $student_id)
+    public function indexAnnouncement(int $student_id)
     {
         $student = User::with("sector.announcements.user")->where("id", $student_id)->first();
-        $studentAnnounc = $student->sector->announcements()->orderBy('id','desc')->get();
+        $studentAnnounc = $student->sector->announcements()->orderBy('id', 'desc')->get();
 
         $studentAnnouncements = [];
 
-        foreach($studentAnnounc as $announcement) {
+        foreach ($studentAnnounc as $announcement) {
             $format = [
                 "id" => $announcement->id,
                 "announcement" => $announcement->announcement,
-                "professorName" => $announcement->user->firstName." ".$announcement->user->lastName
+                "professorName" => $announcement->user->firstName . " " . $announcement->user->lastName
             ];
             array_push($studentAnnouncements, $format);
         }
@@ -325,6 +319,4 @@ class StudentController extends Controller
             "data" => $studentAnnouncements
         ]);
     }
-
-
 }

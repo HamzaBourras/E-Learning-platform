@@ -91,8 +91,10 @@ class AuthentificationController extends Controller
         $user->firstName = strtolower($request->firstName);
         $user->lastName = strtolower($request->lastName);
         $user->email = $request->email;
-        $user->bio = $request->bio;
-        // $user->password = $request->password; 
+        
+        if($request->bio) {
+            $user->bio = $request->bio;
+        }
 
         if ($request->password) {
             $user->password = $request->password; 

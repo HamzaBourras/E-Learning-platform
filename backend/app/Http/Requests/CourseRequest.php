@@ -28,7 +28,7 @@ class CourseRequest extends FormRequest
                 "courseName" => "required",
                 "sector" => "required",
                 "description" => "required",
-                "file" => "required|mimes:pdf",
+                "file" => "required|max:300",
                 
             ];
         }
