@@ -51,7 +51,17 @@ const StudentDashboard = () => {
                     </div>
                     <div className='flex flex-col items-center'>
                         <h1 className='title self-start'>Grades Report</h1>
-                        <RadarChart data={grades}/>
+                        {
+                            grades.length > 0 ? (<RadarChart data={grades} />) :
+                                (
+                                    <h1
+                                        className='mt-5 border text-gray-800 border-blue-400 bg-blue-50 py-3 px-3 rounded-md '
+                                    >
+                                        Your grade statistics will be shown after you pass a quiz
+                                    </h1>
+                                )
+                        }
+
 
                     </div>
 

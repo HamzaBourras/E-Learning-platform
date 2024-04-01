@@ -35,9 +35,10 @@ const Profile = () => {
 
     const { inputs, errors, data, isLoading, handleChange, handleSubmit, message } = useForm(initialState, apiKey, 'put', false, true);
 
+    
     if (data) {
-        // localStorage.setItem('user', JSON.stringify(data.data.data));
-        console.log(data);
+        localStorage.setItem('user', JSON.stringify(data.data.data));
+        // console.log(data);
     }
 
 

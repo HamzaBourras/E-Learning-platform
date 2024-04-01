@@ -2,11 +2,7 @@
 /* eslint-disable react/prop-types */
 import { Badge, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import { NotificationIcon } from './NotificationIcon';
-import { useState } from 'react';
 export const NotificationComponent = ({ notifications }) => {
-
-    const [notificationCounter, setNotificationCounter] = useState(notifications.length)
-
     return (
         <div>
             <div>
@@ -25,12 +21,16 @@ export const NotificationComponent = ({ notifications }) => {
                             variant=""
                             className="relative"
                         >
-                            <Badge
-                                content={notificationCounter}
+                            {
+                                (notifications.length) > 0 ? 
+                                (<Badge
+                                content={notifications.length}
                                 shape="rectangle"
                                 color="danger"
                                 className='absolute left-1 -top-2'
-                            />
+                                />):
+                                <></>
+                            }
                             <NotificationIcon />
                         </Button>
 

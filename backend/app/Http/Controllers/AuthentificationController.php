@@ -38,6 +38,7 @@ class AuthentificationController extends Controller
             "lastName" => $user->lastName,
             "username" => $user->username,
             "email" => $user->email,
+            "bio" => $user->bio,
             "role" => $user->role->name,
             "sectors" => []
         ];
@@ -90,7 +91,12 @@ class AuthentificationController extends Controller
         $user->firstName = strtolower($request->firstName);
         $user->lastName = strtolower($request->lastName);
         $user->email = $request->email;
-        $user->password = $request->password; 
+        $user->bio = $request->bio;
+        // $user->password = $request->password; 
+
+        if ($request->password) {
+            $user->password = $request->password; 
+        }
 
         $user->save();
 
@@ -101,6 +107,7 @@ class AuthentificationController extends Controller
             "username" => $user->username,
             "email" => $user->email,
             "role" => $user->role->name,
+            "bio" => $user->bio,
             "sectors" => []
         ];
 

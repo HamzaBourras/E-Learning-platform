@@ -25,10 +25,13 @@ const StudentTaskForm = ({ id }) => {
 
     const { data, isLoading: getSubmissionLoading } = useFetch(`${GET_SUBMISSION_API}/${user.id}/${task.id}`)
 
+    let method = 'post'
 
     const [action, setAction] = useState("store")
     const [isDisabled, setIsDisabled] = useState(true)
+    const [apiKey, setApiKey] = useState(null)
 
+    const [hasFileCheck, setHasFileCheck] = useState(true)
 
     useEffect(() => {
         if (!task.submitted) {
@@ -40,7 +43,6 @@ const StudentTaskForm = ({ id }) => {
     const initialState = {
         'file': null,
     }
-    let apiKey = `${STORE_SUBMISSION_API}/${user.id}/${id}`
 
 
     useEffect(() => {
@@ -53,22 +55,19 @@ const StudentTaskForm = ({ id }) => {
                 setIsDisabled(false);
                 newApiKey = `${UPDATE_SUBMISSION_API}/${user.id}/${id}/${data.data.id}`;
                 setAction(newAction);
-                apiKey = newApiKey;
+                setApiKey(newApiKey)
                 break;
 
             case "delete":
-                newAction = "delete";
-                newApiKey = `${DELETE_SUBMISSION_API}/${user.id}/${id}/${data.data.id}`;
-                setAction(newAction);
-                apiKey = newApiKey;
+                setAction('delete');
                 break;
 
-            // case "store":
-            //     newAction = "store";
-            //     newApiKey = `${STORE_SUBMISSION_API}/${user.id}/${id}`;
-            //     setAction(newAction);
-            //     apiKey = newApiKey;
-            //     break;
+            case "store":
+                newAction = "store";
+                newApiKey = `${STORE_SUBMISSION_API}/${user.id}/${id}`
+                setAction(newAction);
+                setApiKey(newApiKey)
+                break;
 
             default:
                 // Handle default case
@@ -78,10 +77,19 @@ const StudentTaskForm = ({ id }) => {
 
     }, [action, id, user.id]);
 
-    console.log(apiKey);
+    
+    useEffect(() => {
+        if (action === 'delete') {
+            setHasFileCheck(false);
+            setApiKey(`${DELETE_SUBMISSION_API}/${user.id}/${id}/${data.data.id}`)
+            method = 'delete'
+            console.log(apiKey);
+        }
+    }, [action, apiKey]);
 
 
-    const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey, 'post', true, true)
+
+    const { inputs, errors, isLoading, message, handleChange, handleSubmit } = useForm(initialState, apiKey, method, hasFileCheck, true)
 
     return (
         <div className='h-full flex flex-col'>
@@ -144,14 +152,17 @@ const StudentTaskForm = ({ id }) => {
 
                                     </Button>
                                     <Button
-                                        onClick={() => setAction("delete")}
+                                        onClick={() => {
+                                            setAction("delete")
+                                            handleSubmit()
+                                            }}
                                         variant="solid"
                                         isIconOnly
                                         color="danger"
                                         size="sm"
                                     >
                                         {
-                                            getSubmissionLoading ? (<Spinner size='sm' color='current' />) :
+                                            (getSubmissionLoading || (action == 'delete' && isLoading)) ? (<Spinner size='sm' color='current' />) :
                                                 (<img
                                                     src={remove}
                                                     className="size-4 invert"
@@ -170,7 +181,7 @@ const StudentTaskForm = ({ id }) => {
                         type='submit'
                         className="bg-foreground text-background mt-1"
                     >
-                        {isLoading ? (<div className='flex items-center gap-1'><Spinner color="default" /> Submiting...</div>) : 'Submit'}
+                        {(isLoading && action != 'delete') ? (<div className='flex items-center gap-1'><Spinner color="default" /> Submiting...</div>) : 'Submit'}
                     </Button>
                 </ModalFooter>
             </form>
