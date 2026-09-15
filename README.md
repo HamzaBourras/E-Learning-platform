@@ -1,22 +1,22 @@
 # 🎓 E-Learning Platform
 
-A comprehensive and interactive Learning Management System (LMS) designed to facilitate education management. The platform provides a decoupled architecture with a dynamic frontend and a robust API backend, offering dedicated spaces for directors, professors, and students[cite: 6].
+A comprehensive and interactive Learning Management System (LMS) designed to facilitate education management. The platform provides a decoupled architecture with a dynamic frontend and a robust API backend, offering dedicated spaces for directors, professors, and students.
 
 ## 🏗️ Architecture & Tech Stack
 
 This project is divided into two main parts:
 
 ### 💻 Frontend (`/frontend`)
-* **Framework:** ReactJS built with Vite for fast, modern web development[cite: 6].
-* **Styling:** Tailwind CSS for a highly responsive and custom UI[cite: 6].
-* **HTTP Client:** Axios configured for seamless API communication[cite: 6].
-* **Features:** Dedicated dashboards for Students, Professors, and Directors, course visualization, and interactive quiz/task interfaces[cite: 6].
+* **Framework:** ReactJS built with Vite for fast, modern web development.
+* **Styling:** Tailwind CSS for a highly responsive and custom UI.
+* **HTTP Client:** Axios configured for seamless API communication.
+* **Features:** Dedicated dashboards for Students, Professors, and Directors, course visualization, and interactive quiz/task interfaces.
 
 ### ⚙️ Backend (`/backend`)
-* **Framework:** Laravel (PHP)[cite: 6].
-* **Authentication:** Laravel Sanctum for secure, token-based API authentication[cite: 6].
-* **Database:** Relational database (MySQL) managed via Laravel Migrations and Eloquent ORM[cite: 6].
-* **Core Modules:** Management of Users (Roles, Departments, Sectors), Courses, Documents, QCMs (Quizzes/Questions/Choices), Tasks, and Submissions[cite: 6].
+* **Framework:** Laravel (PHP).
+* **Authentication:** Laravel Sanctum for secure, token-based API authentication.
+* **Database:** Relational database (MySQL) managed via Laravel Migrations and Eloquent ORM.
+* **Core Modules:** Management of Users (Roles, Departments, Sectors), Courses, Documents, QCMs (Quizzes/Questions/Choices), Tasks, and Submissions.
 
 ---
 
